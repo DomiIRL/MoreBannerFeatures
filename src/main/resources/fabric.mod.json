@@ -10,8 +10,8 @@
 	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/more-banner-features",
-		"sources": "https://github.com/KxmischesDomi/MoreBannerFeatures",
-		"issues": "https://github.com/KxmischesDomi/MoreBannerFeatures/issues"
+		"sources": "https://github.com/DomiIRL/MoreBannerFeatures",
+		"issues": "https://github.com/DomiIRL/MoreBannerFeatures/issues"
 	},
 
 	"license": "ARR",
@@ -19,10 +19,10 @@
 
 	"entrypoints": {
 		"main": [
-			"de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures"
+			"dev.svrt.domiirl.morebannerfeatures.MoreBannerFeatures"
 		],
 		"modmenu": [
-			"de.kxmischesdomi.morebannerfeatures.MoreBannerFeaturesModMenu"
+			"dev.svrt.domiirl.morebannerfeatures.MoreBannerFeaturesModMenu"
 		]
 	},
 	"mixins": [
@@ -30,7 +30,7 @@
 	],
 
 	"depends": {
-		"minecraft": "1.20.x"
+		"minecraft": "1.21.6"
 	},
 	"suggests": {
 		"trinkets": "*",

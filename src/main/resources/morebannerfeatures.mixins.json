@@ -1,12 +1,11 @@
 {
 	"required": true,
-	"minVersion": "0.8",
-	"package": "de.kxmischesdomi.morebannerfeatures.mixin",
-	"compatibilityLevel": "JAVA_17",
+	"package": "dev.svrt.domiirl.morebannerfeatures.mixin",
+	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"banner.BannerBlockMixin",
 		"banner.StandingAndWallBlockItemMixin",
-		"boat.BoatMixin",
+		"boat.AbstractBoatMixin",
 		"horse.AbstractChestedHorseMixin",
 		"horse.AbstractHorseMixin",
 		"horse.HorseInventoryMenuMixin",
@@ -17,21 +16,6 @@
 		"strider.StriderMixin",
 		"trader.TraderLLamaEntityMixin",
 		"villager.VillagerEntityMixin"
-	],
-	"client": [
-		"banner.BannerRendererMixin",
-		"boat.BoatRendererMixin",
-		"fox.FoxHeldItemLayerMixin",
-		"horse.AbstractHorseRendererMixin",
-		"horse.HorseInventoryScreenMixin",
-		"item.BlockEntityWithoutLevelRendererMixin",
-		"llama.LlamaRendererMixin",
-		"pig.PigRendererMixin",
-		"player.CapeLayerMixin",
-		"player.PlayerRendererMixin",
-		"strider.StriderEntityRendererMixin",
-		"camel.CamelMixin",
-		"camel.CamelRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
