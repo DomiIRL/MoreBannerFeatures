@@ -15,7 +15,8 @@
 		"player.CapeLayerMixin",
 		"player.PlayerRendererMixin",
 		"player.PlayerRenderStateMixin",
-		"strider.StriderEntityRendererMixin"
+		"strider.StriderEntityRendererMixin",
+		"strider.StriderRenderStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

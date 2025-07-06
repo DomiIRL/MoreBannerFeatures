@@ -1,14 +1,17 @@
 package dev.svrt.domiirl.morebannerfeatures.mixin.player;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.morebannerfeatures.accessor.BannerRenderState;
 import dev.svrt.domiirl.morebannerfeatures.core.accessor.Bannerable;
 import dev.svrt.domiirl.morebannerfeatures.renderer.BannerCapeFeatureRenderer;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.world.entity.EquipmentSlot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,11 +33,10 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 		addLayer(new BannerCapeFeatureRenderer(this, ctx.getModelSet(), ctx.getEquipmentAssets()));
 	}
 
-	@Inject(method = "extractRenderState(Lnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;F)V", at = @At("TAIL"))
+	@Inject(method = "extractRenderState(Lnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;F)V", at = @At("HEAD"))
 	public void extractRenderState(AbstractClientPlayer player, PlayerRenderState renderState, float f, CallbackInfo ci) {
 		if (renderState instanceof BannerRenderState bannerRenderState && player instanceof Bannerable bannerable) {
 			bannerRenderState.setBannerItem(bannerable.getBannerItem());
 		}
 	}
-
 }

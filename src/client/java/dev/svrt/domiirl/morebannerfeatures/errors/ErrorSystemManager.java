@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 
+import java.net.URI;
+
 /**
  * @author KxmischesDomi | https://github.com/domiirl
  * @since 1.1.0
@@ -22,7 +24,7 @@ public class ErrorSystemManager {
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
 				MutableComponent text = Component.translatable("mbf.message.error");
-				Style style = text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/7BSqZa9r3P"));
+				Style style = text.getStyle().withClickEvent(new ClickEvent.OpenUrl(URI.create("https://discord.gg/7BSqZa9r3P")));
 				text.setStyle(style);
 				player.displayClientMessage(text, false);
 			}

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PigRenderer.class)
 public abstract class PigRendererMixin extends MobRenderer<Pig, PigRenderState, PigModel> {
 
-	public PigRendererMixin(Context context, PigModel<Pig> entityModel, float f) {
+	public PigRendererMixin(Context context, PigModel entityModel, float f) {
 		super(context, entityModel, f);
 	}
 

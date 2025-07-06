@@ -7,6 +7,7 @@ import net.minecraft.client.model.CamelModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.CamelRenderState;
 import net.minecraft.world.entity.animal.camel.Camel;
 
 /**
@@ -14,15 +15,14 @@ import net.minecraft.world.entity.animal.camel.Camel;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class CamelBannerFeatureRenderer extends RenderLayer<Camel, CamelModel<Camel>> {
+public class CamelBannerFeatureRenderer extends RenderLayer<CamelRenderState, CamelModel> {
 
-	public CamelBannerFeatureRenderer(RenderLayerParent<Camel, CamelModel<Camel>> context) {
-		super(context);
+	public CamelBannerFeatureRenderer(RenderLayerParent<CamelRenderState, CamelModel> renderLayerParent) {
+		super(renderLayerParent);
 	}
 
 	@Override
-	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Camel entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-		HorseBaseBannerFeatureRenderer.renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, CamelRenderState entityRenderState, float limbAngle, float limbDistance) {
+		HorseBaseBannerFeatureRenderer.renderSideBanner(matrices, vertexConsumers, light, entityRenderState);
 	}
-
 }

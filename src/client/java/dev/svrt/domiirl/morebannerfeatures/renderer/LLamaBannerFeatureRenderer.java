@@ -7,6 +7,7 @@ import net.minecraft.client.model.LlamaModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.LlamaRenderState;
 import net.minecraft.world.entity.animal.horse.Llama;
 
 /**
@@ -14,15 +15,15 @@ import net.minecraft.world.entity.animal.horse.Llama;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class LLamaBannerFeatureRenderer extends RenderLayer<Llama, LlamaModel<Llama>> {
+public class LLamaBannerFeatureRenderer extends RenderLayer<LlamaRenderState, LlamaModel> {
 
-	public LLamaBannerFeatureRenderer(RenderLayerParent<Llama, LlamaModel<Llama>> context) {
-		super(context);
+	public LLamaBannerFeatureRenderer(RenderLayerParent<LlamaRenderState, LlamaModel> renderLayerParent) {
+		super(renderLayerParent);
 	}
 
 	@Override
-	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Llama entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-		HorseBaseBannerFeatureRenderer.renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, LlamaRenderState entity, float limbAngle, float limbDistance) {
+		HorseBaseBannerFeatureRenderer.renderSideBanner(matrices, vertexConsumers, light, entity);
 	}
 
 }

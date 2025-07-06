@@ -26,8 +26,13 @@
 		]
 	},
 	"mixins": [
-		"morebannerfeatures.mixins.json"
+		"morebannerfeatures.mixins.json",
+		{
+			"config": "morebannerfeatures.client.mixins.json",
+			"environment": "client"
+		}
 	],
+	"accessWidener": "morebannerfeatures.accesswidener",
 
 	"depends": {
 		"minecraft": "1.21.6"

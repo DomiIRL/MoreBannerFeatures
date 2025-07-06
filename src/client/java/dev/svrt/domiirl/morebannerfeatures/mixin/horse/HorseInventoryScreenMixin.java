@@ -6,6 +6,7 @@ import dev.svrt.domiirl.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -17,7 +18,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 /**
  * @author KxmischesDomi | https://github.com/domiirl
@@ -26,30 +26,22 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(HorseInventoryScreen.class)
 public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<HorseInventoryMenu> {
 
-	private static final ResourceLocation SLOT_BACKGROUND = new ResourceLocation(MoreBannerFeatures.MOD_ID, "textures/gui/background.png");
-	private static final ResourceLocation SLOT_ICON = new ResourceLocation(MoreBannerFeatures.MOD_ID, "textures/gui/banner.png");
-
 	@Shadow @Final private AbstractHorse horse;
+
+	@Shadow protected abstract void drawSlot(GuiGraphics guiGraphics, int i, int j);
 
 	public HorseInventoryScreenMixin(HorseInventoryMenu handler, Inventory inventory, Component title) {
 		super(handler, inventory, title);
 	}
 
-	@Inject(method = "renderBg", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void drawBackground(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci, int k, int l) {
-
+	@Inject(method = "renderBg", at = @At(value = "TAIL"))
+	public void drawBackground(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci) {
 
 		if (this.horse instanceof Bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {
-			// TODO: TEST CHANGES
 			int localI = (this.width - this.imageWidth) / 2;
 			int localJ = (this.height - this.imageHeight) / 2;
 
-			guiGraphics.blit(SLOT_BACKGROUND, localI + 7, localJ + 35 + 18, 0, 0, 18, 18, 18, 18);
-
-			if (((Bannerable) this.horse).getBannerItem().isEmpty()) {
-				guiGraphics.blit(SLOT_ICON, localI + 7, localJ + 35 + 18, 0, 0, 18, 18, 18, 18);
-			}
-
+			drawSlot(guiGraphics, localI + 7, localJ + 53);
 		}
 
 	}

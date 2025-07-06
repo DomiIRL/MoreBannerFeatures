@@ -87,7 +87,9 @@ public abstract class PigMixin extends Animal implements SideBannerable {
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
-		output.storeNullable("Banner", ItemStack.CODEC, getBannerItem());
+		if (!getBannerItem().isEmpty()) {
+			output.storeNullable("Banner", ItemStack.CODEC, getBannerItem());
+		}
 	}
 
 

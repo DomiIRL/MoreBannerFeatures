@@ -78,6 +78,9 @@ public abstract class AbstractHorseMixin extends Animal implements SideBannerabl
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
-		output.storeNullable("Banner", ItemStack.CODEC, this.inventory.getItem(getSlot()));
+		ItemStack item = this.inventory.getItem(getSlot());
+		if (!item.isEmpty()) {
+			output.storeNullable("Banner", ItemStack.CODEC, item);
+		}
 	}
 }

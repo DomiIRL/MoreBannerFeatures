@@ -2,7 +2,6 @@ package dev.svrt.domiirl.morebannerfeatures.mixin.strider;
 
 import dev.svrt.domiirl.morebannerfeatures.core.accessor.Bannerable;
 import dev.svrt.domiirl.morebannerfeatures.core.config.MBFOptions;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -12,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ItemBasedSteering;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Strider;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,7 +34,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Strider.class)
 public abstract class StriderMixin extends Animal implements Bannerable {
 
-	@Shadow @Final private ItemBasedSteering steering;
 	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(Strider.class, EntityDataSerializers.ITEM_STACK);
 
 	protected StriderMixin(EntityType<? extends Animal> entityType, Level world) {
@@ -69,9 +64,11 @@ public abstract class StriderMixin extends Animal implements Bannerable {
 	}
 
 	@Override
-	protected void addAdditionalSaveData(ValueOutput valueOutput) {
-		super.addAdditionalSaveData(valueOutput);
-		valueOutput.storeNullable("Banner", ItemStack.CODEC, getBannerItem());
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		if (!getBannerItem().isEmpty()) {
+			output.storeNullable("Banner", ItemStack.CODEC, getBannerItem());
+		}
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,20 +19,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @since 1.0.4
  */
 @Mixin(CapeLayer.class)
-public abstract class CapeLayerMixin extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+public abstract class CapeLayerMixin extends RenderLayer<PlayerRenderState, PlayerModel> {
 
-	public CapeLayerMixin(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> context) {
+	public CapeLayerMixin(RenderLayerParent<PlayerRenderState, PlayerModel> context) {
 		super(context);
 	}
 
-	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;FFFFFF)V", at = @At(value = "HEAD"), cancellable = true)
-	public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, AbstractClientPlayer abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-		if (hasCustomBanner(abstractClientPlayerEntity)) {
+	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/PlayerRenderState;FF)V", at = @At(value = "HEAD"), cancellable = true)
+	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, PlayerRenderState playerRenderState, float f, float g, CallbackInfo ci) {
+		if (hasCustomBanner(playerRenderState)) {
 			ci.cancel();
 		}
 	}
 
-	public boolean hasCustomBanner(AbstractClientPlayer playerEntity) {
+	public boolean hasCustomBanner(PlayerRenderState playerEntity) {
 		return playerEntity instanceof Bannerable && !((Bannerable) playerEntity).getBannerItem().isEmpty();
 	}
 

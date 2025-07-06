@@ -1,16 +1,16 @@
 package dev.svrt.domiirl.morebannerfeatures.mixin.horse;
 
+import dev.svrt.domiirl.morebannerfeatures.MoreBannerFeatures;
 import dev.svrt.domiirl.morebannerfeatures.core.BannerSlot;
 import dev.svrt.domiirl.morebannerfeatures.core.accessor.InventoryBannerable;
 import dev.svrt.domiirl.morebannerfeatures.core.config.MBFOptions;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.HorseInventoryMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 /**
@@ -31,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(HorseInventoryMenu.class)
 public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
+	private static final ResourceLocation SLOT_ICON = ResourceLocation.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, "container/slot/banner");
+
 	@Shadow @Final private Container horseContainer;
 	private InventoryBannerable bannerable;
 
@@ -38,7 +39,7 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 		super(type, syncId);
 	}
 
-	@Inject(method = "<init>", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	private void init(int syncId, Inventory playerInventory, Container inventory, AbstractHorse entity, int j, CallbackInfo ci) {
 
 		if (entity instanceof InventoryBannerable bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {
@@ -46,9 +47,9 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
 			int x = 8;
 			int y = 54;
-			int slot = bannerable.getSlot();
 
-			this.addSlot(new BannerSlot(entity, inventory, slot, x, y));
+			Container container2 = entity.createEquipmentSlotContainer(EquipmentSlot.CHEST);
+			this.addSlot(new BannerSlot(entity, container2, 0, x, y, SLOT_ICON));
 		}
 
 	}

@@ -10,6 +10,7 @@ import dev.svrt.domiirl.morebannerfeatures.errors.ErrorSystemManager;
 import dev.svrt.domiirl.morebannerfeatures.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -21,6 +22,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.world.entity.Entity;
@@ -35,21 +37,20 @@ import net.minecraft.world.phys.Vec3;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, HorseModel<AbstractHorse>> {
+public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderState, HorseModel> {
 
-	private static ModelPart flagPart;
-	private static ModelPart crossbarPart;
+	private static final DeltaTracker deltaTracker = Minecraft.getInstance().getDeltaTracker();
 
-	public HorseBaseBannerFeatureRenderer(RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>> context) {
-		super(context);
+	public HorseBaseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent) {
+		super(renderLayerParent);
 	}
 
 	@Override
-	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, AbstractHorse entity, float limbAngle, float limbDistance) {
-		renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance);
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, EquineRenderState entityRenderState, float f, float g) {
+		renderSideBanner(matrices, vertexConsumers, light, entityRenderState);
 	}
 
-	public static void renderSideBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, EntityRenderState entity, float limbAngle, float limbDistance) {
+	public static void renderSideBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntityRenderState entity) {
 		if (entity instanceof Bannerable bannerable) {
 			matrices.pushPose();
 
@@ -77,10 +78,10 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			matrices.mulPose(Axis.YP.rotationDegrees(90));
 			modifyMatricesDefault(matrices, true);
 			modifyMatricesForEntity(matrices, entity, true);
-			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
+			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen);
 
 			// FINISHED MODIFYING
-			renderBanner(matrices, vertexConsumers, light, entity, tickDelta, itemStack);
+			renderBanner(matrices, vertexConsumers, light, entity, deltaTracker.getGameTimeDeltaPartialTick(false), itemStack);
 			matrices.popPose();
 
 			// SECOND BANNER
@@ -90,10 +91,10 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			matrices.mulPose(Axis.YN.rotationDegrees(90));
 			modifyMatricesDefault(matrices, false);
 			modifyMatricesForEntity(matrices, entity, false);
-			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
+			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen);
 
 			// FINISHED MODIFYING
-			renderBanner(matrices, vertexConsumers, light, entity, tickDelta, itemStack);
+			renderBanner(matrices, vertexConsumers, light, entity, deltaTracker.getGameTimeDeltaPartialTick(false), itemStack);
 			matrices.popPose();
 		}
 	}
@@ -112,7 +113,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 		return offset;
 	}
 
-	private static Vec3 modifyMatricesForEntity(PoseStack matrices, Entity entity, boolean first) {
+	private static Vec3 modifyMatricesForEntity(PoseStack matrices, EntityRenderState entity, boolean first) {
 
 		if (entity instanceof SideBannerable bannerable) {
 
@@ -139,8 +140,8 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 
 	}
 
-	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {
-		RendererUtils.modifyMatricesBannerSwing(flagPart, entity, tickDelta, false, aFloat -> -aFloat);
+	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntityRenderState entity, float tickDelta, ItemStack itemStack) {
+//		RendererUtils.modifyMatricesBannerSwing(flagPart, entity, false, aFloat -> Float.valueOf(-aFloat));
 
 		// Safety try catch to avoid crashes!
 		try {
@@ -152,16 +153,16 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 				matrices.translate(0, -0.01, 0.115);
 			}
 
-			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, flagPart);
+//			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, flagPart);
 
 			matrices.popPose();
 			matrices.pushPose();
 			if (bar) {
 				matrices.translate(0, 1.99, -0.07);
 
-				int overlay = LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0.0F);
+				int overlay = LivingEntityRenderer.getOverlayCoords(entity, 0.0F);
 				VertexConsumer vertexConsumer = ModelBakery.BANNER_BASE.buffer(vertexConsumers, RenderType::entitySolid);
-				crossbarPart.render(matrices, vertexConsumer, light, overlay);
+//				crossbarPart.render(matrices, vertexConsumer, light, overlay);
 			}
 			matrices.popPose();
 
@@ -171,11 +172,4 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 		}
 
 	}
-
-	static {
-		ModelPart modelPart = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.BANNER);
-		flagPart = modelPart.getChild("flag");
-		crossbarPart = modelPart.getChild("bar");
-	}
-
 }

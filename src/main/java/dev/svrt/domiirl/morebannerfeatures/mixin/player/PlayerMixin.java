@@ -3,6 +3,7 @@ package dev.svrt.domiirl.morebannerfeatures.mixin.player;
 import dev.svrt.domiirl.morebannerfeatures.core.accessor.Bannerable;
 import dev.svrt.domiirl.morebannerfeatures.utils.MBFUtils;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +23,7 @@ public abstract class PlayerMixin extends LivingEntity implements Bannerable {
 
 	@Override
 	public ItemStack getBannerItem() {
-		return MBFUtils.getCloakItem(((Player) (Object) this));
+		return getItemBySlot(EquipmentSlot.CHEST);
 	}
 
 }

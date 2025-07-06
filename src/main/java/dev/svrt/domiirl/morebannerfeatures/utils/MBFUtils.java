@@ -26,7 +26,7 @@ public class MBFUtils {
 //			}
 
 		}
-		return player.getInventory().getItem(EquipmentSlot.CHEST.getIndex());
+		return player.getItemBySlot(EquipmentSlot.CHEST);
 	}
 
 }

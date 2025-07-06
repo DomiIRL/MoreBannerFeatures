@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.FoxHeldItemLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.FoxRenderState;
 import net.minecraft.world.entity.animal.Fox;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,16 +20,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @since 1.1
  */
 @Mixin(FoxHeldItemLayer.class)
-public abstract class FoxHeldItemLayerMixin extends RenderLayer<Fox, FoxModel<Fox>> {
+public abstract class FoxHeldItemLayerMixin extends RenderLayer<FoxRenderState, FoxModel> {
 
-	public FoxHeldItemLayerMixin(RenderLayerParent<Fox, FoxModel<Fox>> context) {
-		super(context);
+	public FoxHeldItemLayerMixin(RenderLayerParent<FoxRenderState, FoxModel> renderLayerParent) {
+		super(renderLayerParent);
 	}
 
-	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Fox;FFFFFF)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"))
-	public void renderItem(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, Fox foxEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
+	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/FoxRenderState;FF)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V"))
+	public void renderItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, FoxRenderState foxRenderState, float f, float g, CallbackInfo ci) {
 		if (MBFOptions.FOX_CORRECTION.getBooleanValue()) {
-			matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 		}
 	}
 

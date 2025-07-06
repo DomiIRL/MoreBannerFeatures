@@ -7,6 +7,8 @@ import dev.svrt.domiirl.morebannerfeatures.core.accessor.Bannerable;
 import dev.svrt.domiirl.morebannerfeatures.errors.ErrorSystemManager;
 import dev.svrt.domiirl.morebannerfeatures.RendererUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.BannerFlagModel;
+import net.minecraft.client.model.BannerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -35,42 +37,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractBoatRenderer.class)
 public abstract class BoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
 
-	private final ModelPart modelPart = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER);
-	private final ModelPart banner = modelPart.getChild("flag");
-	private final ModelPart pillar = modelPart.getChild("pole");
-	private final ModelPart crossbar = modelPart.getChild("bar");
+	private final BannerModel standingModel = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
+	private final BannerFlagModel standingFlagModel = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
 
 	public BoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
-	@Inject(method = "render", at = @At("TAIL"))
-	private void render(Boat entity, float f, float g, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
+	@Inject(method = "renderTypeAdditions", at = @At(value = "TAIL"))
+	private void render(BoatRenderState entity, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
+		matrices.pushPose();
 		try {
-
 			if (entity instanceof Bannerable bannerable) {
 				ItemStack itemStack = bannerable.getBannerItem();
 				if (itemStack == null || !(itemStack.getItem() instanceof BannerItem)) return;
-
-				matrices.pushPose();
-
-				matrices.mulPose(Axis.YP.rotationDegrees(180 - f));
-
-				float h = entity.getHurtTime() - g;
-				float j = entity.getDamage() - g;
-				if (j < 0.0F) {
-					j = 0.0F;
-				}
-				if (h > 0.0F) {
-					matrices.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0F * entity.getHurtDir()));
-				}
-
-				float k = entity.getBubbleAngle(g);
-				if (!Mth.equal(k, 0.0F)) {
-					// TODO: TEST CHANGES
-					matrices.mulPose(new Quaternionf(1.0F, 0.0F, 1.0F, entity.getBubbleAngle(g)));
-				}
-
 				matrices.mulPose(Axis.YP.rotationDegrees(180));
 
 				matrices.translate(0, 1.05, -0.937);
@@ -78,19 +58,19 @@ public abstract class BoatRendererMixin extends EntityRenderer<AbstractBoat, Boa
 				matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
 				VertexConsumer vertexConsumer = ModelBakery.BANNER_BASE.buffer(vertexConsumers, RenderType::entityNoOutline);
-				this.pillar.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
-				this.crossbar.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
+//				this.pillar.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
+//				this.crossbar.render(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
 
-				RendererUtils.modifyMatricesBannerSwing(banner, entity, f, true);
+//				RendererUtils.modifyMatricesBannerSwing(banner, entity, true);
 
-				RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, banner);
+//				RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, banner);
 
-				matrices.popPose();
 			}
 		} catch (Exception exception) {
 			ErrorSystemManager.reportException();
 			exception.printStackTrace();
 		}
+		matrices.popPose();
 	}
 
 }
