@@ -27,15 +27,14 @@ repositories {
 loom {
 	splitEnvironmentSourceSets()
 
-	accessWidenerPath = file("src/main/resources/morebannerfeatures.accesswidener")
+	accessWidenerPath = file("src/main/resources/mbf.accesswidener")
 
 	mods {
-		"morebannerfeatures" {
+		"mbf" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 dependencies {
@@ -44,17 +43,21 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
+	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
 
 //	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 
-	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+	// Mod Menu
+	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
 	implementation 'com.github.jitpack:gradle-simple:1.1'
+}
+
+fabricApi {
+	configureDataGeneration() {
+		client = true
+	}
 }
 
 processResources {

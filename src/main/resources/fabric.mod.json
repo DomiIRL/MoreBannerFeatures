@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "morebannerfeatures",
+	"id": "mbf",
 	"version": "${version}",
 
 	"name": "More Banner Features",
@@ -15,24 +15,24 @@
 	},
 
 	"license": "ARR",
-	"icon": "assets/morebannerfeatures/icon.png",
+	"icon": "assets/mbf/icon.png",
 
 	"entrypoints": {
 		"main": [
-			"dev.svrt.domiirl.morebannerfeatures.MoreBannerFeatures"
+			"dev.svrt.domiirl.mbf.MoreBannerFeatures"
 		],
 		"modmenu": [
-			"dev.svrt.domiirl.morebannerfeatures.MoreBannerFeaturesModMenu"
+			"dev.svrt.domiirl.mbf.MoreBannerFeaturesModMenu"
 		]
 	},
 	"mixins": [
-		"morebannerfeatures.mixins.json",
+		"mbf.mixins.json",
 		{
-			"config": "morebannerfeatures.client.mixins.json",
+			"config": "mbf.client.mixins.json",
 			"environment": "client"
 		}
 	],
-	"accessWidener": "morebannerfeatures.accesswidener",
+	"accessWidener": "mbf.accesswidener",
 
 	"depends": {
 		"minecraft": "1.21.6"

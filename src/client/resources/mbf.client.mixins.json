@@ -1,0 +1,22 @@
+{
+	"required": true,
+	"package": "dev.svrt.domiirl.mbf.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"banner.BannerRendererMixin",
+		"boat.AbstractBoatRendererMixin",
+		"boat.BoatRenderStateMixin",
+		"fox.FoxHeldItemLayerMixin",
+		"horse.AbstractHorseRendererMixin",
+		"horse.AbstractHorseRenderStateMixin",
+		"horse.HorseInventoryScreenMixin",
+		"player.CapeLayerMixin",
+		"player.PlayerRendererMixin",
+		"player.PlayerRenderStateMixin",
+		"strider.StriderEntityRendererMixin",
+		"strider.StriderRenderStateMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

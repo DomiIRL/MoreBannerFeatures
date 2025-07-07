@@ -1,0 +1,63 @@
+package dev.svrt.domiirl.mbf.feature;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.accessor.Bannerable;
+import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
+import dev.svrt.domiirl.mbf.RendererUtils;
+import net.minecraft.client.model.StriderModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.StriderRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+
+/**
+ * @author KxmischesDomi | https://github.com/domiirl
+ * @since 1.0
+ */
+public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState, StriderModel> {
+
+	public StriderBannerFeatureRenderer(RenderLayerParent<StriderRenderState, StriderModel> context) {
+		super(context);
+	}
+
+	@Override
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, StriderRenderState entity, float limbAngles, float limbDistance) {
+		// Safety try catch to avoid crashes!
+		matrices.pushPose();
+
+		try {
+			if (entity instanceof Bannerable bannerable) {
+				ItemStack itemStack = bannerable.getBannerItem();
+				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
+
+					matrices.mulPose(Axis.YP.rotationDegrees(entity.yRot));
+					if (!entity.isRidden) {
+						matrices.mulPose(Axis.XP.rotationDegrees(entity.xRot));
+					}
+
+					matrices.mulPose(Axis.XP.rotationDegrees(180));
+
+					matrices.translate(-0.5, 0.25, -0.9);
+
+					RendererUtils.renderBanner(
+						matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY,
+						0.0F,
+						RendererUtils.STANDING_BANNER, RendererUtils.STANDING_FLAG_BANNER,
+						RendererUtils.createBannerSwing(entity),
+						itemStack
+					);
+				}
+
+
+			}
+		} catch (Exception exception) {
+			ErrorSystemManager.reportException();
+			exception.printStackTrace();
+		}
+		matrices.popPose();
+	}
+}

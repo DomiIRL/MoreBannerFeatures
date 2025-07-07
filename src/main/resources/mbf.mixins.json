@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "dev.svrt.domiirl.mbf.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"banner.BannerBlockMixin",
+		"banner.StandingAndWallBlockItemMixin",
+		"boat.AbstractBoatMixin",
+		"horse.AbstractHorseMixin",
+		"horse.HorseInventoryMenuMixin",
+		"player.LivingEntityMixin",
+		"player.PlayerMixin",
+		"strider.StriderMixin",
+		"villager.VillagerEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
