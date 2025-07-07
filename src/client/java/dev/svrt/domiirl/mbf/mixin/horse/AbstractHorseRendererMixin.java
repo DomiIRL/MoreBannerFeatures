@@ -2,7 +2,7 @@ package dev.svrt.domiirl.mbf.mixin.horse;
 
 import dev.svrt.domiirl.mbf.accessor.BannerRenderState;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.feature.HorseBaseBannerFeatureRenderer;
+import dev.svrt.domiirl.mbf.feature.HorseBannerFeatureRenderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.renderer.entity.*;
@@ -28,7 +28,7 @@ public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S exte
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, EntityModel entityModel, EntityModel entityModel2, CallbackInfo ci) {
-		addLayer((RenderLayer<S, M>) new HorseBaseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this));
+		addLayer((RenderLayer<S, M>) new HorseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this));
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"), cancellable = true)

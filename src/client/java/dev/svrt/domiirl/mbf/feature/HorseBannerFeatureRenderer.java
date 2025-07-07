@@ -23,9 +23,9 @@ import net.minecraft.world.item.ItemStack;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderState, HorseModel> {
+public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, HorseModel> {
 
-	public HorseBaseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent) {
+	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent) {
 		super(renderLayerParent);
 	}
 
@@ -60,9 +60,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderStat
 
 			// START MODIFYING
 			matrices.mulPose(Axis.YP.rotationDegrees(90));
-//			scaleMatricesForEntity(matrices, state);
-			modifyMatricesDefault(state, matrices, true);
-//			modifyMatricesForEntity(matrices, state, true);
+			translateMatrices(state, matrices, true);
 
 			// FINISHED MODIFYING
 			renderBanner(matrices, vertexConsumers, light, state, itemStack);
@@ -72,9 +70,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderStat
 
 			// START MODIFYING
 			matrices.mulPose(Axis.YN.rotationDegrees(90));
-//			scaleMatricesForEntity(matrices, state);
-			modifyMatricesDefault(state, matrices, false);
-//			modifyMatricesForEntity(matrices, state, false);
+			translateMatrices(state, matrices, false);
 
 			// FINISHED MODIFYING
 			renderBanner(matrices, vertexConsumers, light, state, itemStack);
@@ -82,13 +78,13 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderStat
 		}
 	}
 
-	private static void modifyMatricesDefault(EquineRenderState state, PoseStack matrices, boolean first) {
+	private static void translateMatrices(EquineRenderState state, PoseStack matrices, boolean first) {
 		float y = 0;
 		float x = 0;
 		float zOff = 0;
 		boolean hasChest = state instanceof DonkeyRenderState donkeyRenderState && donkeyRenderState.hasChest;
 
-		if (state instanceof DonkeyRenderState donkeyRenderState) {
+		if (state instanceof DonkeyRenderState) {
 			zOff -= hasChest ? 0.3F : -0.25F;
 			x = 0F;
 			y = -2.43F;
@@ -112,35 +108,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderStat
 		}
 	}
 
-//	private static Vec3 modifyMatricesForEntity(PoseStack matrices, EntityRenderState entity, boolean first) {
-//
-//		if (entity instanceof Bannerable bannerable) {
-//
-//			Vec3 offset = new Vec3(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
-//
-//			if (first) {
-//				matrices.translate(-offset.z(), -offset.y(), offset.x());
-//			} else {
-//				matrices.translate(offset.z(), -offset.y(), offset.x());
-//			}
-//
-//			return offset;
-//		}
-//
-//		return Vec3.ZERO;
-//	}
-//
-//	private static void scaleMatricesForEntity(PoseStack matrices, EntityRenderState entity) {
-//
-//		if (entity instanceof SideBannerable bannerable) {
-//			Vec3 scaleOffset = bannerable.getScaleOffset();
-//			if (scaleOffset != null) matrices.scale((float) scaleOffset.x(), (float) scaleOffset.y(), (float) scaleOffset.z());
-//		}
-//
-//	}
-
 	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntityRenderState entity, ItemStack itemStack) {
-//		RendererUtils.modifyMatricesBannerSwing(flagPart, state, false, aFloat -> Float.valueOf(-aFloat));
 		matrices.pushPose();
 
 		// Safety try catch to avoid crashes!
@@ -152,16 +120,6 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<EquineRenderStat
 				RendererUtils.createBannerSwing(entity),
 				itemStack
 			);
-
-//			matrices.pushPose();
-//			if (bar) {
-//				matrices.translate(0, 1.99, -0.07);
-//
-//				int overlay = LivingEntityRenderer.getOverlayCoords(state, 0.0F);
-//				VertexConsumer vertexConsumer = ModelBakery.BANNER_BASE.buffer(vertexConsumers, RenderType::entitySolid);
-////				crossbarPart.render(matrices, vertexConsumer, light, overlay);
-//			}
-//			matrices.popPose();
 
 		} catch (Exception exception) {
 			ErrorSystemManager.reportException();

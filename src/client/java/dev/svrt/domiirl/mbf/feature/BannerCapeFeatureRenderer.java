@@ -63,9 +63,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, Pl
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, PlayerRenderState state, float limbAngle, float limbDistance) {
 		try {
-//			 && !state.isInvisible
 			if (state instanceof Bannerable bannerable && RendererUtils.isLegitPlayerBannerEquipment(bannerable.getBannerItem())) {
-
 				if (this.hasLayer(state.chestEquipment, EquipmentClientInfo.LayerType.WINGS)) {
 					return;
 				}
