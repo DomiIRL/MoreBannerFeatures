@@ -54,12 +54,6 @@ dependencies {
 	implementation 'com.github.jitpack:gradle-simple:1.1'
 }
 
-fabricApi {
-	configureDataGeneration() {
-		client = true
-	}
-}
-
 processResources {
 	inputs.property "version", project.version
 
