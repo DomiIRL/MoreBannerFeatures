@@ -24,5 +24,9 @@
 	"mbf.tooltip.hanging_banners": "Allow banners to hang from certain entities",
 	"mbf.tooltip.villager_banners": "Allow villagers to display profession-related banners",
 
-	"mbf.message.error": "§c§lMore Banner Features: §cRendering error detected. Click this message to report with your game log (can be disabled in settings)"
+	"mbf.message.error": "§c§lMore Banner Features: §cRendering error detected. Click this message to report with your game log (can be disabled in settings)",
+
+	"item.mbf.banner_thread": "Banner Thread",
+	"tooltip.mbf.max_banner_layers": "Max Banner Layers: %1$s",
+	"tooltip.mbf.banner_base_color": "Banner Color: %s"
 }

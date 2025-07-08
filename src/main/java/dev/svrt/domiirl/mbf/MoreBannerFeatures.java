@@ -1,7 +1,9 @@
 package dev.svrt.domiirl.mbf;
 
 import dev.svrt.domiirl.mbf.config.MBFConfigManager;
-import dev.svrt.domiirl.mbf.recipe.ModRecipes;
+import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.registry.ModItems;
+import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.FabricLoader;
 
@@ -14,7 +16,9 @@ public class MoreBannerFeatures implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		MBFConfigManager.load();
-		ModRecipes.init();
+		ModDataComponents.init();
+		ModItems.init();
+		ModRecipeSerializers.init();
 	}
 
 	public static boolean isTrinketsInstalled() {

@@ -12,6 +12,7 @@
     "horse.AbstractHorseRendererMixin",
     "horse.AbstractHorseRenderStateMixin",
     "horse.HorseInventoryScreenMixin",
+    "threads.LoomScreenMixin",
     "player.CapeLayerMixin",
     "player.PlayerRendererMixin",
     "player.PlayerRenderStateMixin",

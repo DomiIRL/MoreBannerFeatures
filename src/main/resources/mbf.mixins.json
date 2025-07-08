@@ -6,12 +6,15 @@
 		"banner.BannerBlockMixin",
 		"banner.StandingAndWallBlockItemMixin",
 		"boat.AbstractBoatMixin",
-      	"ghast.HappyGhastMixin",
+		"ghast.HappyGhastMixin",
 		"horse.AbstractHorseMixin",
 		"horse.HorseInventoryMenuMixin",
+		"item.ItemStackMixin",
 		"player.LivingEntityMixin",
 		"player.PlayerMixin",
 		"strider.StriderMixin",
+		"threads.BannerPatternLayersMixin",
+		"threads.LoomMenuMixin",
 		"villager.VillagerEntityMixin"
 	],
 	"injectors": {

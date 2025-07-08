@@ -1,5 +1,7 @@
 package dev.svrt.domiirl.mbf.recipe;
 
+import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,7 +25,7 @@ public class ArmorDecorationRecipe extends CustomRecipe {
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return ModRecipes.ARMOR_DECORATION;
+        return ModRecipeSerializers.ARMOR_DECORATION;
     }
 
     @Override
@@ -74,7 +76,7 @@ public class ArmorDecorationRecipe extends CustomRecipe {
         DyeColor baseColor = ((BannerItem) banner.getItem()).getColor();
         BannerPatternLayers patterns = banner.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
-        result.set(DataComponents.BASE_COLOR, baseColor);
+        result.set(ModDataComponents.BANNER_BASE_COLOR, baseColor);
         result.set(DataComponents.BANNER_PATTERNS, patterns);
 
         return result;

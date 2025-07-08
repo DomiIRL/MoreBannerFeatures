@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SAS",
+    "AIA",
+    "SAS"
+  ],
+  "key": {
+    "S": "minecraft:string",
+    "A": "minecraft:amethyst_shard",
+    "I": "minecraft:diamond"
+  },
+  "result": {
+    "id": "mbf:banner_thread",
+    "count": 1,
+    "components": {
+      "mbf:max_banner_layers": 5
+    }
+  }
+}
+

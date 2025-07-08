@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.BannerFlagModel;
@@ -43,7 +44,7 @@ public class RendererUtils {
 	}
 
 	public static void renderBanner(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int j, float f, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float g, ItemStack itemStack) {
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.WHITE);
+		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 		renderBanner(poseStack, multiBufferSource, light, j, f, bannerModel, bannerFlagModel, g, dyeColor, bannerPatternLayers);
 	}
@@ -64,13 +65,13 @@ public class RendererUtils {
 	}
 
 	public static void renderCanvasFromItem(ItemStack itemStack, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas) {
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.WHITE);
+		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 		BannerRenderer.renderPatterns(matrixStack, vertexConsumers, light, overlay, canvas, ModelBakery.BANNER_BASE, true, dyeColor, patternLayers, itemStack.hasFoil(), itemStack.hasFoil());
 	}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {
-		return !itemStack.isEmpty() && (itemStack.getItem() instanceof BannerItem || (itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(DataComponents.BASE_COLOR)));
+		return !itemStack.isEmpty() && (itemStack.getItem() instanceof BannerItem || (itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(ModDataComponents.BANNER_BASE_COLOR)));
 	}
 
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SAS",
+    "AIA",
+    "SAS"
+  ],
+  "key": {
+    "S": "minecraft:string",
+    "A": "minecraft:amethyst_shard",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "mbf:banner_thread",
+    "count": 1
+  }
+}
+
