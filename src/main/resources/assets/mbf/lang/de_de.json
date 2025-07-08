@@ -1,0 +1,28 @@
+{
+	"mbf.options": "Banner-Einstellungen",
+
+	"mbf.options.fox_correction": "Fuchs Banner",
+	"mbf.options.horse_slot": "Pferde Slot",
+	"mbf.options.errors": "Fehler zeigen",
+	"mbf.options.pig_banners": "Schweine Banner",
+	"mbf.options.boat_banners": "Boot Banner",
+	"mbf.options.strider_banners": "Strider Banner",
+	"mbf.options.happy_ghast_banners": "Ghast Banner",
+	"mbf.options.alternate_happy_ghast_banners": "Ghast Position",
+	"mbf.options.hanging_banners": "Hängende Banner",
+	"mbf.options.villager_banners": "Dorfbewohner Banner",
+
+	"mbf.tooltip.bar": "Holz zwischen Tier und Banner",
+	"mbf.tooltip.fox_correction": "Fuchs Banner richtig zeigen",
+	"mbf.tooltip.horse_slot": "Mehr Banner für Pferde",
+	"mbf.tooltip.errors": "Fehler im Chat",
+	"mbf.tooltip.pig_banners": "Schweine zeigen Banner",
+	"mbf.tooltip.boat_banners": "Boote zeigen Banner",
+	"mbf.tooltip.strider_banners": "Strider zeigen Banner",
+	"mbf.tooltip.happy_ghast_banners": "Ghasts zeigen Banner",
+	"mbf.tooltip.alternate_happy_ghast_banners": "Andere Ghast Banner Position",
+	"mbf.tooltip.hanging_banners": "Banner aufhängen",
+	"mbf.tooltip.villager_banners": "Dorfbewohner zeigen Banner",
+
+	"mbf.message.error": "§c§lBanner: §cFehler beim Anzeigen. Klick zum Melden (abschaltbar)"
+}

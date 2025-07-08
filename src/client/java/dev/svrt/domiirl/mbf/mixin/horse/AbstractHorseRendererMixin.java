@@ -15,10 +15,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 @Mixin(AbstractHorseRenderer.class)
 public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S extends EquineRenderState, M extends EntityModel<? super S>> extends AgeableMobRenderer<T, S, M> {
 
@@ -31,7 +27,7 @@ public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S exte
 		addLayer((RenderLayer<S, M>) new HorseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this));
 	}
 
-	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"))
 	private void extractRenderState(AbstractHorse horse, EquineRenderState state, float f, CallbackInfo ci) {
 		if (state instanceof BannerRenderState bannerRenderState && horse instanceof Bannerable bannerable) {
 			bannerRenderState.setBannerItem(bannerable.getBannerItem());

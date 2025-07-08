@@ -1,0 +1,28 @@
+{
+	"mbf.options": "Options bannière",
+
+	"mbf.options.fox_correction": "Bannière renard",
+	"mbf.options.horse_slot": "Slot cheval",
+	"mbf.options.errors": "Voir erreurs",
+	"mbf.options.pig_banners": "Bannière cochon",
+	"mbf.options.boat_banners": "Bannière bateau",
+	"mbf.options.strider_banners": "Bannière strider",
+	"mbf.options.happy_ghast_banners": "Bannière ghast",
+	"mbf.options.alternate_happy_ghast_banners": "Position ghast",
+	"mbf.options.hanging_banners": "Bannière suspendue",
+	"mbf.options.villager_banners": "Bannière villageois",
+
+	"mbf.tooltip.bar": "Barre bois entre animal et bannière",
+	"mbf.tooltip.fox_correction": "Corrige bannière renard",
+	"mbf.tooltip.horse_slot": "Plus de bannières pour cheval",
+	"mbf.tooltip.errors": "Erreurs dans le chat",
+	"mbf.tooltip.pig_banners": "Cochons ont des bannières",
+	"mbf.tooltip.boat_banners": "Bateaux ont des bannières",
+	"mbf.tooltip.strider_banners": "Striders ont des bannières",
+	"mbf.tooltip.happy_ghast_banners": "Ghasts ont des bannières",
+	"mbf.tooltip.alternate_happy_ghast_banners": "Autre position ghast",
+	"mbf.tooltip.hanging_banners": "Bannières suspendues",
+	"mbf.tooltip.villager_banners": "Villageois ont des bannières",
+
+	"mbf.message.error": "§c§lBannière: §cErreur d'affichage. Cliquez pour signaler (désactivable)"
+}

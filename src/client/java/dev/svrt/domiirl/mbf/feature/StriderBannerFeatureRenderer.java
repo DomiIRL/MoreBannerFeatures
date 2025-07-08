@@ -14,10 +14,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState, StriderModel> {
 
 	public StriderBannerFeatureRenderer(RenderLayerParent<StriderRenderState, StriderModel> context) {

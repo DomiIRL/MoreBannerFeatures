@@ -20,10 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 @Mixin(AbstractBoatRenderer.class)
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
 

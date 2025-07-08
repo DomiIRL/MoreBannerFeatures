@@ -19,10 +19,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 public class RendererUtils {
 
 	public static final BannerModel STANDING_BANNER = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));

@@ -31,7 +31,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;F)V", at = @At("HEAD"))
-	public void extractRenderState(AbstractClientPlayer player, PlayerRenderState renderState, float f, CallbackInfo ci) {
+	private void extractRenderState(AbstractClientPlayer player, PlayerRenderState renderState, float f, CallbackInfo ci) {
 		if (renderState instanceof BannerRenderState bannerRenderState && player instanceof Bannerable bannerable) {
 			bannerRenderState.setBannerItem(bannerable.getBannerItem());
 		}

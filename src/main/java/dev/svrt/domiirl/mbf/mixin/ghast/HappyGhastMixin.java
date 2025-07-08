@@ -1,4 +1,4 @@
-package dev.svrt.domiirl.mbf.mixin.boat;
+package dev.svrt.domiirl.mbf.mixin.ghast;
 
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
@@ -10,13 +10,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.HappyGhast;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.AbstractBoat;
-import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
@@ -31,18 +28,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AbstractBoat.class)
-public abstract class AbstractBoatMixin extends VehicleEntity implements Leashable, Bannerable {
+@Mixin(HappyGhast.class)
+public abstract class HappyGhastMixin extends Animal implements Bannerable {
 
-	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(AbstractBoat.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(HappyGhast.class, EntityDataSerializers.ITEM_STACK);
 
-	public AbstractBoatMixin(EntityType<?> type, Level world) {
-		super(type, world);
+	protected HappyGhastMixin(EntityType<? extends Animal> entityType, Level world) {
+		super(entityType, world);
 	}
 
 	@Override
 	public @NotNull ItemStack getBannerItem() {
-		if (!MBFOptions.BOAT_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HAPPY_GHAST_BANNERS.getBooleanValue()) {
 			return ItemStack.EMPTY;
 		}
 		return this.entityData.get(BANNER);
@@ -58,45 +55,45 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	}
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
-	private void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+	protected void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+		super.readAdditionalSaveData(input);
 		input.read("Banner", ItemStack.CODEC).ifPresent(this::setBannerItem);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
-	private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+	protected void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+		super.addAdditionalSaveData(output);
 		if (!getBannerItem().isEmpty()) {
 			output.storeNullable("Banner", ItemStack.CODEC, getBannerItem());
 		}
 	}
 
 	@Override
-	protected void destroy(ServerLevel serverLevel, DamageSource damageSource) {
-		super.destroy(serverLevel, damageSource);
-		if (getBannerItem() != null && !getBannerItem().isEmpty()) {
-			spawnAtLocation(serverLevel, getBannerItem());
-			setBannerItem(ItemStack.EMPTY);
-		}
+	protected void dropEquipment(ServerLevel serverLevel) {
+		if (!getBannerItem().isEmpty()) spawnAtLocation(serverLevel, getBannerItem());
+		super.dropEquipment(serverLevel);
 	}
 
-	@Inject(method = "interact", at = @At(value = "HEAD"), cancellable = true)
-	private void interact(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+	@Inject(method = "mobInteract", at = @At(value = "HEAD"), cancellable = true)
+	private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 
-		if (!MBFOptions.BOAT_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HAPPY_GHAST_BANNERS.getBooleanValue()) {
 			return;
 		}
 
-		if (player.isSecondaryUseActive()) {
-			cir.setReturnValue(InteractionResult.PASS);
-			return;
-		}
+		if (player.isSecondaryUseActive()) return;
+		if (isBaby()) return;
 
 		ItemStack itemStack = player.getItemInHand(hand);
 		if (itemStack.getItem() instanceof BannerItem) {
 			if (ItemStack.isSameItem(getBannerItem(), itemStack)) return;
 
-			if (!getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
-				spawnAtLocation(serverLevel, getBannerItem());
-				setBannerItem(ItemStack.EMPTY);
+			this.level().playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+			if (!getBannerItem().isEmpty()) {
+				if (this.level() instanceof ServerLevel serverLevel) {
+					spawnAtLocation(serverLevel, getBannerItem());
+				}
 			}
 
 			ItemStack copy = itemStack.copy();
@@ -109,13 +106,15 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 
 			cir.setReturnValue(InteractionResult.SUCCESS);
 			cir.cancel();
-		} else if (itemStack.getItem() instanceof ShearsItem && !getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
-			spawnAtLocation(serverLevel, getBannerItem());
+		} else if (itemStack.getItem() instanceof ShearsItem && !getBannerItem().isEmpty()) {
 
 			this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
 			this.gameEvent(GameEvent.SHEAR, player);
 			itemStack.hurtAndBreak(1, player, getSlotForHand(hand));
 
+			if (this.level() instanceof ServerLevel serverLevel) {
+				spawnAtLocation(serverLevel, getBannerItem());
+			}
 			setBannerItem(ItemStack.EMPTY);
 			cir.setReturnValue(InteractionResult.SUCCESS);
 			cir.cancel();
@@ -123,8 +122,9 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 
 	}
 
-	private static EquipmentSlot getSlotForHand(InteractionHand interactionHand) {
-		return interactionHand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+	@Override
+	public boolean requiresCustomPersistence() {
+		return !getBannerItem().isEmpty() || super.requiresCustomPersistence();
 	}
 
 }

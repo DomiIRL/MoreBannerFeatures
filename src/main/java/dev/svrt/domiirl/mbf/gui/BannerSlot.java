@@ -9,10 +9,6 @@ import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 public class BannerSlot extends Slot {
 
 	protected final Entity entity;

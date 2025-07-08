@@ -6,6 +6,7 @@
 		"banner.BannerBlockMixin",
 		"banner.StandingAndWallBlockItemMixin",
 		"boat.AbstractBoatMixin",
+      	"ghast.HappyGhastMixin",
 		"horse.AbstractHorseMixin",
 		"horse.HorseInventoryMenuMixin",
 		"player.LivingEntityMixin",

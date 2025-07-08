@@ -27,10 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 @Environment(EnvType.CLIENT)
 public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, PlayerModel> {
 

@@ -26,7 +26,7 @@ public abstract class FoxHeldItemLayerMixin extends RenderLayer<FoxRenderState, 
 	}
 
 	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/FoxRenderState;FF)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V"))
-	public void renderItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, FoxRenderState foxRenderState, float f, float g, CallbackInfo ci) {
+	private void renderItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, FoxRenderState foxRenderState, float f, float g, CallbackInfo ci) {
 		if (MBFOptions.FOX_CORRECTION.getBooleanValue()) {
 			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 		}

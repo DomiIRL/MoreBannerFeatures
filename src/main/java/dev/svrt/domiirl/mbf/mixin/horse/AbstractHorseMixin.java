@@ -12,14 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseMixin extends Animal implements Bannerable {
-
-	@Shadow protected SimpleContainer inventory;
 
 //	private static final EntityDataAccessor<ItemStack> BANNER_ITEM = SynchedEntityData.defineId(AbstractHorse.class, EntityDataSerializers.ITEM_STACK);
 

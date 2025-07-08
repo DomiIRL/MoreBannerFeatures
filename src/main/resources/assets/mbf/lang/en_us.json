@@ -1,16 +1,28 @@
 {
-	"mbf.options": "More Banner Features Options",
+	"mbf.options": "Banner Features Settings",
 
-	"mbf.options.fox_correction": "Fox Mouth Correction",
-	"mbf.options.banner_glint": "Enchanting Effect",
-	"mbf.options.horse_slot": "Additional Horse Slot",
-	"mbf.options.errors": "Error Messages",
+	"mbf.options.fox_correction": "Fix Fox Banner Display",
+	"mbf.options.horse_slot": "Extra Horse Banner Slot",
+	"mbf.options.errors": "Show Error Messages",
+	"mbf.options.pig_banners": "Pig Banner Support",
+	"mbf.options.boat_banners": "Boat Banner Support",
+	"mbf.options.strider_banners": "Strider Banner Support",
+	"mbf.options.happy_ghast_banners": "Happy Ghast Banners",
+	"mbf.options.alternate_happy_ghast_banners": "Alternate Ghast Banner Position",
+	"mbf.options.hanging_banners": "Hanging Banner Support",
+	"mbf.options.villager_banners": "Villager Banner Support",
 
-	"mbf.tooltip.bar": "Wooden Bars will be displayed between the animals and the banners they wear on their sides.",
-	"mbf.tooltip.fox_correction": "Banners in fox mouths will be displayed properly.",
-	"mbf.tooltip.horse_slot": "Tells if the additional horse slot should be activated. Can cause issues if only disabled on the server!",
-	"mbf.tooltip.banner_glint": "All Banners will have the enchanting effect.",
-	"mbf.tooltip.errors": "When MoreBannerFeatures catches an error while rendering it'll be displayed in chat.",
+	"mbf.tooltip.bar": "Display wooden bars between animals and their side banners",
+	"mbf.tooltip.fox_correction": "Correctly position banners held in fox mouths",
+	"mbf.tooltip.horse_slot": "Enable additional banner slot for horses (warning: disabling server-side only may cause issues)",
+	"mbf.tooltip.errors": "Show chat notifications when rendering errors occur",
+	"mbf.tooltip.pig_banners": "Allow pigs to display decorative banners",
+	"mbf.tooltip.boat_banners": "Allow boats to display banners like sails",
+	"mbf.tooltip.strider_banners": "Enable banner display on striders",
+	"mbf.tooltip.happy_ghast_banners": "Allow ghasts to display banners",
+	"mbf.tooltip.alternate_happy_ghast_banners": "Use alternative position for ghast banners",
+	"mbf.tooltip.hanging_banners": "Allow banners to hang from certain entities",
+	"mbf.tooltip.villager_banners": "Allow villagers to display profession-related banners",
 
-	"mbf.message.error": "§c§lMoreBannerFeatures: §cAn error occurred while rendering. Please report this with a provided game log on discord by clicking on this message. This message can be deactivated in the mod's settings"
+	"mbf.message.error": "§c§lMore Banner Features: §cRendering error detected. Click this message to report with your game log (can be disabled in settings)"
 }

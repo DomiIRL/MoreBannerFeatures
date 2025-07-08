@@ -14,10 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0
- */
 @Mixin(StriderRenderer.class)
 public abstract class StriderEntityRendererMixin extends MobRenderer<Strider, StriderRenderState, StriderModel> {
 
@@ -31,7 +27,7 @@ public abstract class StriderEntityRendererMixin extends MobRenderer<Strider, St
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/monster/Strider;Lnet/minecraft/client/renderer/entity/state/StriderRenderState;F)V", at = @At("HEAD"))
-	public void extractRenderState(Strider strider, StriderRenderState renderState, float f, CallbackInfo ci) {
+	private void extractRenderState(Strider strider, StriderRenderState renderState, float f, CallbackInfo ci) {
 		if (renderState instanceof BannerRenderState bannerRenderState && strider instanceof Bannerable bannerable) {
 			bannerRenderState.setBannerItem(bannerable.getBannerItem());
 		}

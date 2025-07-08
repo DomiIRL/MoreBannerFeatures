@@ -1,0 +1,28 @@
+{
+`	"mbf.options": "Opciones banderas",
+
+	"mbf.options.fox_correction": "Bandera zorro",
+	"mbf.options.horse_slot": "Slot caballo",
+	"mbf.options.errors": "Ver errores",
+	"mbf.options.pig_banners": "Bandera cerdo",
+	"mbf.options.boat_banners": "Bandera barco",
+	"mbf.options.strider_banners": "Bandera strider",
+	"mbf.options.happy_ghast_banners": "Bandera ghast",
+	"mbf.options.alternate_happy_ghast_banners": "Posición ghast",
+	"mbf.options.hanging_banners": "Bandera colgante",
+	"mbf.options.villager_banners": "Bandera aldeano",
+
+	"mbf.tooltip.bar": "Barra entre animal y bandera",
+	"mbf.tooltip.fox_correction": "Corrige bandera zorro",
+	"mbf.tooltip.horse_slot": "Más banderas en caballos",
+	"mbf.tooltip.errors": "Errores en chat",
+	"mbf.tooltip.pig_banners": "Cerdos con bandera",
+	"mbf.tooltip.boat_banners": "Barcos con bandera",
+	"mbf.tooltip.strider_banners": "Striders con bandera",
+	"mbf.tooltip.happy_ghast_banners": "Ghasts con bandera",
+	"mbf.tooltip.alternate_happy_ghast_banners": "Otra posición ghast",
+	"mbf.tooltip.hanging_banners": "Banderas colgantes",
+	"mbf.tooltip.villager_banners": "Aldeanos con bandera",
+
+	"mbf.message.error": "§c§lBanderas: §cError al mostrar. Haz clic para avisar (puede apagarse)"
+}
