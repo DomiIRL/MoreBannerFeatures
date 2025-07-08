@@ -18,9 +18,9 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 
 	private final SideBannerRenderer bannerRenderer;
 
-	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent) {
+	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent, boolean undead) {
 		super(renderLayerParent);
-		this.bannerRenderer = new SideBannerRenderer(new EquineBannerPositionProvider());
+		this.bannerRenderer = new SideBannerRenderer(new EquineBannerPositionProvider(undead));
 	}
 
 	@Override
