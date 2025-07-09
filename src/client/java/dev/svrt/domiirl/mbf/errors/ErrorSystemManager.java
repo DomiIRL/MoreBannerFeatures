@@ -10,10 +10,6 @@ import net.minecraft.network.chat.Style;
 
 import java.net.URI;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1.0
- */
 public class ErrorSystemManager {
 
 	private static long lastTimeReported = -1;

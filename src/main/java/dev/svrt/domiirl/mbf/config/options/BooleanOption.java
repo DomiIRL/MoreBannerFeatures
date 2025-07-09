@@ -4,10 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.network.chat.Component;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1.0
- */
 public class BooleanOption implements IOption {
 
 	public final String key;

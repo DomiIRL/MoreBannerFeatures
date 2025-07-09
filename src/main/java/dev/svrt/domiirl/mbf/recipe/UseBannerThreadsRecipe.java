@@ -49,7 +49,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
         }
 
         // Must have exactly one banner and at least one thread
-        return !banner.isEmpty() && threadLayerSum > 0 && itemCount == (1 + (itemCount - 1));
+        return !banner.isEmpty() && threadLayerSum > 0;
     }
 
     @Override
@@ -97,15 +97,13 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
 
         // Find banner and thread layer sum
         int currentMax = VANILLA_MAX_BANNER_LAYERS;
-        int bannerSlot = -1;
-        int[] threadLayers = new int[craftingInput.size()];
+      int[] threadLayers = new int[craftingInput.size()];
 
         for (int i = 0; i < craftingInput.size(); i++) {
             ItemStack stack = craftingInput.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof BannerItem) {
-                    bannerSlot = i;
-                    if (stack.has(ModDataComponents.MAX_BANNER_LAYERS)) {
+                  if (stack.has(ModDataComponents.MAX_BANNER_LAYERS)) {
                         currentMax = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
                     }
                 } else if (stack.getItem() == ModItems.BANNER_THREAD) {

@@ -2,10 +2,6 @@ package dev.svrt.domiirl.mbf.config;
 
 import dev.svrt.domiirl.mbf.config.options.BooleanOption;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1.0
- */
 public class MBFOptions {
 
 	public static final BooleanOption FOX_CORRECTION;

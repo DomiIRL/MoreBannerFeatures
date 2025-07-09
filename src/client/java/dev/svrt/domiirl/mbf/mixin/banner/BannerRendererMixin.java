@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
- 
+
 @Mixin(value = BannerRenderer.class, priority = 10000)
 public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {
 
@@ -61,13 +61,4 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 			ci.cancel();
 		}
 	}
-
-	@ModifyArgs(method = "renderPatterns(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/resources/model/Material;ZLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;ZZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/Material;buffer(Lnet/minecraft/client/renderer/MultiBufferSource;Ljava/util/function/Function;ZZ)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
-	private static void modifyArgs(Args args) {
-		if (RendererUtils.nextBannerGlint) {
-			RendererUtils.nextBannerGlint = false;
-			args.set(3, true);
-		}
-	}
-
 }

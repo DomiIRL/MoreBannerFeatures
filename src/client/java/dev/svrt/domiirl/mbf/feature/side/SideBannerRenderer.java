@@ -31,17 +31,8 @@ public class SideBannerRenderer {
   public SideBannerRenderer(BannerPositionProvider positionProvider) {
     this.positionProvider = positionProvider;
 
-    // Initialize banner models
     this.bannerBar = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
     this.bannerFlag = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
-
-    // Hide the pole part of the banner
-    if (bannerBar.root().hasChild("pole")) {
-      bannerBar.root().getChild("pole").visible = false;
-    }
-
-    bannerBar.root().rotateBy(Axis.XP.rotationDegrees(180)); // Initial orientation - banner faces downward by default
-    bannerFlag.root().rotateBy(Axis.XP.rotationDegrees(180)); // Initial orientation - banner faces downward by default
   }
 
   /**

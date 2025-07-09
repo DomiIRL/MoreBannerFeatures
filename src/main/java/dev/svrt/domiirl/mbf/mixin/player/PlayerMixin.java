@@ -10,10 +10,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0.4
- */
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements Bannerable {
 

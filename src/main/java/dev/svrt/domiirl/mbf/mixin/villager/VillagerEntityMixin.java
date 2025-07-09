@@ -12,10 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1
- */
 @Mixin(Villager.class)
 public abstract class VillagerEntityMixin extends AbstractVillager implements VillagerBannerable {
 

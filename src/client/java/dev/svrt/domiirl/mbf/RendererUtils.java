@@ -24,11 +24,7 @@ public class RendererUtils {
 
 	public static final BannerModel STANDING_BANNER = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
 	public static final BannerModel BANNER_BAR = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
-	public static final BannerModel WALL_BANNER = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.WALL_BANNER));
 	public static final BannerFlagModel STANDING_FLAG_BANNER = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
-	public static final BannerFlagModel WALL_FLAG_BANNER = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.WALL_BANNER_FLAG));
-
-	public static boolean nextBannerGlint = false;
 
 	private static final DeltaTracker deltaTracker = Minecraft.getInstance().getDeltaTracker();
 

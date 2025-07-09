@@ -20,19 +20,17 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0.2
- */
 @Mixin(BannerBlock.class)
 public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
-	private static final BooleanProperty HANGING;
+	@Unique
+	private static final BooleanProperty HANGING = BlockStateProperties.HANGING;
 
 	protected BannerBlockMixin(DyeColor color, Properties settings) {
 		super(color, settings);
@@ -52,23 +50,19 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 		if (state == null) return;
 
 		Direction[] var3 = ctx.getNearestLookingDirections();
-		int var4 = var3.length;
 
-		for(int var5 = 0; var5 < var4; ++var5) {
-			Direction direction = var3[var5];
-			if (direction == Direction.UP && ctx.getNearestLookingVerticalDirection() == Direction.UP) {
-				if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).isSolid()) {
-					cir.setReturnValue(state.setValue(HANGING, true));
-					return;
-				}
-
-			}
-		}
-
+    for (Direction direction : var3) {
+      if (direction == Direction.UP && ctx.getNearestLookingVerticalDirection() == Direction.UP) {
+        if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).isSolid()) {
+          cir.setReturnValue(state.setValue(HANGING, true));
+          return;
+        }
+      }
+    }
 	}
 
 	@Inject(method = "createBlockStateDefinition", at = @At(value = "TAIL"))
-	private void appendProperties(Builder<Block, BlockState> builder, CallbackInfo ci) {
+	private void createBlockStateDefinition(Builder<Block, BlockState> builder, CallbackInfo ci) {
 		builder.add(HANGING);
 	}
 
@@ -101,9 +95,4 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 			cir.setReturnValue(direction == Direction.UP && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, randomSource));
 		}
 	}
-
-	static {
-		HANGING = BlockStateProperties.HANGING;
-	}
-
 }

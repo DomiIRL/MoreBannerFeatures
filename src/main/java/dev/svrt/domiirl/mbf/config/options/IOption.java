@@ -2,10 +2,6 @@ package dev.svrt.domiirl.mbf.config.options;
 
 import com.google.gson.JsonObject;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1.0
- */
 public interface IOption {
 	String getKey();
 	void write(JsonObject config);
