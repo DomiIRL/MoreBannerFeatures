@@ -1,12 +1,8 @@
 package dev.svrt.domiirl.mbf.utils;
 
-import dev.emi.trinkets.api.TrinketComponent;
-import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.Optional;
 
 public class MBFUtils {
 

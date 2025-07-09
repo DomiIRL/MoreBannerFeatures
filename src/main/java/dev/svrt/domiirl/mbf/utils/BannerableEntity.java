@@ -6,10 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityAttachment;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -18,14 +15,55 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
+
 public class BannerableEntity {
 
+  public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = List.of(
+    EntityType.ACACIA_BOAT,
+    EntityType.BIRCH_BOAT,
+    EntityType.DARK_OAK_BOAT,
+    EntityType.JUNGLE_BOAT,
+    EntityType.OAK_BOAT,
+    EntityType.SPRUCE_BOAT,
+    EntityType.CHERRY_BOAT,
+    EntityType.ACACIA_CHEST_BOAT,
+    EntityType.BIRCH_CHEST_BOAT,
+    EntityType.DARK_OAK_CHEST_BOAT,
+    EntityType.JUNGLE_CHEST_BOAT,
+    EntityType.OAK_CHEST_BOAT,
+    EntityType.SPRUCE_CHEST_BOAT,
+    EntityType.CHERRY_CHEST_BOAT,
+    EntityType.STRIDER,
+    EntityType.HORSE,
+    EntityType.DONKEY,
+    EntityType.MULE,
+    EntityType.SKELETON_HORSE,
+    EntityType.ZOMBIE_HORSE,
+    EntityType.MINECART,
+    EntityType.CHEST_MINECART,
+    EntityType.TNT_MINECART,
+    EntityType.SPAWNER_MINECART,
+    EntityType.FURNACE_MINECART,
+    EntityType.COMMAND_BLOCK_MINECART,
+    EntityType.HOPPER_MINECART,
+    EntityType.HAPPY_GHAST
+  );
+
   public static void handleInteract(Entity entity, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    if (!(BANNERABLE_ENTITY_TYPES.contains(entity.getType()))) {
+      return;
+    }
+
     if (!(entity instanceof Bannerable bannerable) || !bannerable.moreBannerFeatures$isEnabled() || player.isSecondaryUseActive()) {
       return;
     }
 
     if (entity instanceof AgeableMob ageableMob && ageableMob.isBaby()) {
+      return;
+    }
+
+    if (entity instanceof TamableAnimal tamableAnimal && !tamableAnimal.isTame()) {
       return;
     }
 
@@ -67,5 +105,4 @@ public class BannerableEntity {
       cir.cancel();
     }
   }
-
 }

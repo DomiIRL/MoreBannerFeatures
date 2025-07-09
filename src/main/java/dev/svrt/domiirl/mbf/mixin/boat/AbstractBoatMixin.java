@@ -61,9 +61,9 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	}
 
 	@Override
-	protected void destroy(ServerLevel serverLevel, DamageSource damageSource) {
-		super.destroy(serverLevel, damageSource);
-		if (moreBannerFeatures$getBannerItem() != null && !moreBannerFeatures$getBannerItem().isEmpty()) {
+	public void remove(RemovalReason removalReason) {
+		super.remove(removalReason);
+		if (!moreBannerFeatures$getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
 			spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
 			moreBannerFeatures$setBannerItem(ItemStack.EMPTY);
 		}

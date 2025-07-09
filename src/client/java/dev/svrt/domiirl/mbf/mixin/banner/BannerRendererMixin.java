@@ -27,10 +27,6 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(value = BannerRenderer.class, priority = 10000)
 public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {
 
-	@Shadow @Final private BannerModel wallModel;
-
-	@Shadow @Final private BannerFlagModel wallFlagModel;
-
 	@Shadow @Final private BannerFlagModel standingFlagModel;
 
 	@Inject(

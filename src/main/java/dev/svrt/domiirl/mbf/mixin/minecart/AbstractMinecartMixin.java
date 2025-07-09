@@ -59,11 +59,11 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements Min
 	}
 
 	@Override
-	protected void destroy(ServerLevel serverLevel, DamageSource damageSource) {
-		super.destroy(serverLevel, damageSource);
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
+	public void remove(RemovalReason removalReason) {
+		if (!moreBannerFeatures$getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
 			spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
 			moreBannerFeatures$setBannerItem(ItemStack.EMPTY);
 		}
+		super.remove(removalReason);
 	}
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
+import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,6 +33,9 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 		if (state instanceof Bannerable bannerRenderState && minecart instanceof Bannerable bannerable) {
 			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
 		}
+		if (state instanceof BannerableMinecartRenderState customState) {
+			customState.setVelocity(minecart.getDeltaMovement());
+		}
 	}
 
 	@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/MinecartModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", shift = At.Shift.AFTER))
@@ -42,6 +47,17 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 					matrices.mulPose(Axis.XP.rotationDegrees(180));
 					matrices.mulPose(Axis.YP.rotationDegrees(90));
+
+					boolean inverted = false;
+
+					if (state instanceof BannerableMinecartRenderState minecartState) {
+						Vec3 velocity = minecartState.getVelocity();
+						inverted = velocity.x < 0 || velocity.z < 0;
+					}
+
+					if (!inverted) {
+						matrices.mulPose(Axis.YP.rotationDegrees(180));
+					}
 
 					matrices.translate(-0.5, 0.3, -1.06);
 

@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.BannerFlagModel;
 import net.minecraft.client.model.BannerModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -33,6 +34,12 @@ public class SideBannerRenderer {
 
     this.bannerBar = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
     this.bannerFlag = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
+
+    // Hide the pole part of the banner
+    ModelPart part = bannerBar.root();
+    if (part.hasChild("pole")) {
+      part.getChild("pole").visible = false;
+    }
   }
 
   /**

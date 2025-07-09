@@ -21,7 +21,7 @@ public class MBFOptions {
 		HORSE_SLOT = new BooleanOption("horse_slot", true);
 		HORSE_BANNERS = new BooleanOption("horse_banners", true);
 		BOAT_BANNERS = new BooleanOption("boat_banners", true);
-		MINECART_BANNERS = new BooleanOption("minecart_banners", true);
+		MINECART_BANNERS = new BooleanOption("minecart_banners", false);
 		STRIDER_BANNERS = new BooleanOption("strider_banners", true);
 		HAPPY_GHAST_BANNERS = new BooleanOption("happy_ghast_banners", true);
 		ALTERNATE_HAPPY_GHAST = new BooleanOption("alternate_happy_ghast_banners", false);
