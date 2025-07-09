@@ -15,11 +15,13 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BannerableEntity {
 
-  public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = List.of(
+  public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = new ArrayList<>(List.of(
     EntityType.ACACIA_BOAT,
     EntityType.BIRCH_BOAT,
     EntityType.DARK_OAK_BOAT,
@@ -47,8 +49,9 @@ public class BannerableEntity {
     EntityType.FURNACE_MINECART,
     EntityType.COMMAND_BLOCK_MINECART,
     EntityType.HOPPER_MINECART,
-    EntityType.HAPPY_GHAST
-  );
+    EntityType.HAPPY_GHAST,
+    EntityType.VILLAGER
+  ));
 
   public static void handleInteract(Entity entity, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
     if (!(BANNERABLE_ENTITY_TYPES.contains(entity.getType()))) {
