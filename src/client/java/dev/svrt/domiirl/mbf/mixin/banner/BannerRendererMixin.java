@@ -23,11 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.0.2
- */
+ 
 @Mixin(value = BannerRenderer.class, priority = 10000)
 public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {
 

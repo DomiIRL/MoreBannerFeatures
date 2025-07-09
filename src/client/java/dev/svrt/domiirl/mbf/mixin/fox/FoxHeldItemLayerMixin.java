@@ -14,10 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * @author KxmischesDomi | https://github.com/domiirl
- * @since 1.1
- */
 @Mixin(FoxHeldItemLayer.class)
 public abstract class FoxHeldItemLayerMixin extends RenderLayer<FoxRenderState, FoxModel> {
 
