@@ -10,8 +10,9 @@ public class MBFOptions {
 
 	public static final BooleanOption FOX_CORRECTION;
 	public static final BooleanOption HORSE_SLOT;
-	public static final BooleanOption PIG_BANNERS;
+	public static final BooleanOption HORSE_BANNERS;
 	public static final BooleanOption BOAT_BANNERS;
+	public static final BooleanOption MINECART_BANNERS;
 	public static final BooleanOption STRIDER_BANNERS;
 	public static final BooleanOption HAPPY_GHAST_BANNERS;
 	public static final BooleanOption ALTERNATE_HAPPY_GHAST;
@@ -22,8 +23,9 @@ public class MBFOptions {
 	static {
 		FOX_CORRECTION = new BooleanOption("fox_correction", true);
 		HORSE_SLOT = new BooleanOption("horse_slot", true);
-		PIG_BANNERS = new BooleanOption("pig_banners", true);
+		HORSE_BANNERS = new BooleanOption("horse_banners", true);
 		BOAT_BANNERS = new BooleanOption("boat_banners", true);
+		MINECART_BANNERS = new BooleanOption("minecart_banners", true);
 		STRIDER_BANNERS = new BooleanOption("strider_banners", true);
 		HAPPY_GHAST_BANNERS = new BooleanOption("happy_ghast_banners", true);
 		ALTERNATE_HAPPY_GHAST = new BooleanOption("alternate_happy_ghast_banners", false);

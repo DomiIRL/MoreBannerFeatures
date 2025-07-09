@@ -1,14 +1,14 @@
-package dev.svrt.domiirl.mbf.mixin.ghast;
+package dev.svrt.domiirl.mbf.mixin.minecart;
 
-import dev.svrt.domiirl.mbf.accessor.GhastBannerable;
-import dev.svrt.domiirl.mbf.config.MBFOptions;
+import dev.svrt.domiirl.mbf.accessor.MinecartBannerable;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.HappyGhast;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
@@ -19,18 +19,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(HappyGhast.class)
-public abstract class HappyGhastMixin extends Animal implements GhastBannerable {
+@Mixin(AbstractMinecart.class)
+public abstract class AbstractMinecartMixin extends VehicleEntity implements MinecartBannerable {
 
-	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(HappyGhast.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(AbstractMinecart.class, EntityDataSerializers.ITEM_STACK);
 
-	protected HappyGhastMixin(EntityType<? extends Animal> entityType, Level world) {
-		super(entityType, world);
+	public AbstractMinecartMixin(EntityType<?> type, Level world) {
+		super(type, world);
 	}
 
 	@Override
 	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
-		if (!MBFOptions.HAPPY_GHAST_BANNERS.getBooleanValue()) {
+		if (!moreBannerFeatures$isEnabled()) {
 			return ItemStack.EMPTY;
 		}
 		return this.entityData.get(BANNER);
@@ -47,28 +47,23 @@ public abstract class HappyGhastMixin extends Animal implements GhastBannerable 
 	}
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
-	protected void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
-		super.readAdditionalSaveData(input);
+	private void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
 		input.read("Banner", ItemStack.CODEC).ifPresent(this::moreBannerFeatures$setBannerItem);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
-	protected void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
-		super.addAdditionalSaveData(output);
+	private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
 		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
 			output.storeNullable("Banner", ItemStack.CODEC, moreBannerFeatures$getBannerItem());
 		}
 	}
 
 	@Override
-	protected void dropEquipment(ServerLevel serverLevel) {
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
-		super.dropEquipment(serverLevel);
+	protected void destroy(ServerLevel serverLevel, DamageSource damageSource) {
+		super.destroy(serverLevel, damageSource);
+		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
+			spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
+			moreBannerFeatures$setBannerItem(ItemStack.EMPTY);
+		}
 	}
-
-	@Override
-	public boolean requiresCustomPersistence() {
-		return !moreBannerFeatures$getBannerItem().isEmpty() || super.requiresCustomPersistence();
-	}
-
 }

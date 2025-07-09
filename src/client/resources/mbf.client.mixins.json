@@ -12,12 +12,14 @@
     "horse.AbstractHorseRendererMixin",
     "horse.AbstractHorseRenderStateMixin",
     "horse.HorseInventoryScreenMixin",
-    "threads.LoomScreenMixin",
+    "minecart.AbstractMinecartRendererMixin",
+    "minecart.MinecartRenderStateMixin",
     "player.CapeLayerMixin",
     "player.PlayerRendererMixin",
     "player.PlayerRenderStateMixin",
     "strider.StriderEntityRendererMixin",
-    "strider.StriderRenderStateMixin"
+    "strider.StriderRenderStateMixin",
+    "threads.LoomScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

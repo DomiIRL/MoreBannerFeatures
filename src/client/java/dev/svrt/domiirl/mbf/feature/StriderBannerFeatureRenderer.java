@@ -2,9 +2,9 @@ package dev.svrt.domiirl.mbf.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import dev.svrt.domiirl.mbf.RendererUtils;
 import net.minecraft.client.model.StriderModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -26,8 +26,8 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 		matrices.pushPose();
 
 		try {
-			if (entity instanceof Bannerable bannerable) {
-				ItemStack itemStack = bannerable.getBannerItem();
+			if (entity instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
+				ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 
 					matrices.mulPose(Axis.YP.rotationDegrees(entity.yRot));

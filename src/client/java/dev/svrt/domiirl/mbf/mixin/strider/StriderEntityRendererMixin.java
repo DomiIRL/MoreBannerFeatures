@@ -1,6 +1,5 @@
 package dev.svrt.domiirl.mbf.mixin.strider;
 
-import dev.svrt.domiirl.mbf.accessor.BannerRenderState;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.feature.StriderBannerFeatureRenderer;
 import net.minecraft.client.model.StriderModel;
@@ -28,8 +27,8 @@ public abstract class StriderEntityRendererMixin extends MobRenderer<Strider, St
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/monster/Strider;Lnet/minecraft/client/renderer/entity/state/StriderRenderState;F)V", at = @At("HEAD"))
 	private void extractRenderState(Strider strider, StriderRenderState renderState, float f, CallbackInfo ci) {
-		if (renderState instanceof BannerRenderState bannerRenderState && strider instanceof Bannerable bannerable) {
-			bannerRenderState.setBannerItem(bannerable.getBannerItem());
+		if (renderState instanceof Bannerable bannerRenderState && strider instanceof Bannerable bannerable) {
+			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
 		}
 	}
 

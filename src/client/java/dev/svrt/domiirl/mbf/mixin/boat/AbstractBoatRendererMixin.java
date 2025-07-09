@@ -3,7 +3,6 @@ package dev.svrt.domiirl.mbf.mixin.boat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.RendererUtils;
-import dev.svrt.domiirl.mbf.accessor.BannerRenderState;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,8 +28,8 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/AbstractBoat;Lnet/minecraft/client/renderer/entity/state/BoatRenderState;F)V", at = @At("HEAD"), cancellable = true)
 	private void extractRenderState(AbstractBoat boat, BoatRenderState state, float f, CallbackInfo ci) {
-		if (state instanceof BannerRenderState bannerRenderState && boat instanceof Bannerable bannerable) {
-			bannerRenderState.setBannerItem(bannerable.getBannerItem());
+		if (state instanceof Bannerable bannerRenderState && boat instanceof Bannerable bannerable) {
+			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
 		}
 	}
 
@@ -38,8 +37,8 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	private void render(BoatRenderState entity, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
 		matrices.pushPose();
 		try {
-			if (entity instanceof Bannerable bannerable) {
-				ItemStack itemStack = bannerable.getBannerItem();
+			if (entity instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
+				ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 					matrices.mulPose(Axis.XP.rotationDegrees(180));
 					matrices.mulPose(Axis.YP.rotationDegrees(90));

@@ -49,11 +49,11 @@ public class SideBannerRenderer {
    */
   public void renderSideBanners(PoseStack stack, MultiBufferSource vertexConsumers, int light,
                                 LivingEntityRenderState state) {
-    if (!(state instanceof Bannerable bannerable)) {
+    if (!(state instanceof Bannerable bannerable) || !bannerable.moreBannerFeatures$isEnabled()) {
       return;
     }
 
-    ItemStack itemStack = bannerable.getBannerItem();
+    ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
     if (itemStack.isEmpty() || !(itemStack.getItem() instanceof BannerItem)) {
       return;
     }

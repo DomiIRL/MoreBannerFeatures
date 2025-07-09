@@ -1,9 +1,9 @@
 package dev.svrt.domiirl.mbf.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import dev.svrt.domiirl.mbf.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.PlayerModel;
@@ -59,7 +59,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, Pl
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, PlayerRenderState state, float limbAngle, float limbDistance) {
 		try {
-			if (state instanceof Bannerable bannerable && RendererUtils.isLegitPlayerBannerEquipment(bannerable.getBannerItem())) {
+			if (state instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled() && RendererUtils.isLegitPlayerBannerEquipment(bannerable.moreBannerFeatures$getBannerItem())) {
 				if (this.hasLayer(state.chestEquipment, EquipmentClientInfo.LayerType.WINGS)) {
 					return;
 				}
@@ -87,7 +87,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, Pl
 					.rotateY(-(180.0F - capeLean2 / 2.0F) * ((float) Math.PI / 180F));
 				poseStack.mulPose(quaternionf);
 
-				RendererUtils.renderCanvasFromItem(bannerable.getBannerItem(), poseStack, multiBufferSource, light, OverlayTexture.NO_OVERLAY, cloak);
+				RendererUtils.renderCanvasFromItem(bannerable.moreBannerFeatures$getBannerItem(), poseStack, multiBufferSource, light, OverlayTexture.NO_OVERLAY, cloak);
 
 				poseStack.popPose();
 			}

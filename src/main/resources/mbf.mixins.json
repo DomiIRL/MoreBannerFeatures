@@ -1,23 +1,29 @@
 {
-	"required": true,
-	"package": "dev.svrt.domiirl.mbf.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"banner.BannerBlockMixin",
-		"banner.StandingAndWallBlockItemMixin",
-		"boat.AbstractBoatMixin",
-		"ghast.HappyGhastMixin",
-		"horse.AbstractHorseMixin",
-		"horse.HorseInventoryMenuMixin",
-		"item.ItemStackMixin",
-		"player.LivingEntityMixin",
-		"player.PlayerMixin",
-		"strider.StriderMixin",
-		"threads.BannerPatternLayersMixin",
-		"threads.LoomMenuMixin",
-		"villager.VillagerEntityMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "dev.svrt.domiirl.mbf.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "banner.BannerBlockMixin",
+    "banner.StandingAndWallBlockItemMixin",
+    "boat.AbstractBoatMixin",
+    "common.EntityMixin",
+    "common.LivingEntityMixin",
+    "ghast.HappyGhastMixin",
+    "horse.AbstractHorseMixin",
+    "horse.HorseInventoryMenuMixin",
+    "item.ItemStackMixin",
+    "minecart.AbstractMinecartContainerMixin",
+    "minecart.AbstractMinecartMixin",
+    "minecart.MinecartChestMixin",
+    "minecart.MinecartFurnaceMixin",
+    "minecart.MinecartMixin",
+    "player.PlayerMixin",
+    "strider.StriderMixin",
+    "threads.BannerPatternLayersMixin",
+    "threads.LoomMenuMixin",
+    "villager.VillagerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

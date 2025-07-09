@@ -27,7 +27,7 @@ public abstract class CapeLayerMixin extends RenderLayer<PlayerRenderState, Play
 
 	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/PlayerRenderState;FF)V", at = @At(value = "HEAD"), cancellable = true)
 	private void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, PlayerRenderState state, float f, float g, CallbackInfo ci) {
-		if (state instanceof Bannerable bannerable && RendererUtils.isLegitPlayerBannerEquipment(bannerable.getBannerItem())) {
+		if (state instanceof Bannerable bannerable && RendererUtils.isLegitPlayerBannerEquipment(bannerable.moreBannerFeatures$getBannerItem())) {
 			ci.cancel();
 		}
 	}

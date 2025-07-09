@@ -1,4 +1,4 @@
-package dev.svrt.domiirl.mbf.mixin.player;
+package dev.svrt.domiirl.mbf.mixin.common;
 
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;

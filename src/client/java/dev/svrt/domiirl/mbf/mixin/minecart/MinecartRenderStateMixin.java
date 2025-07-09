@@ -1,13 +1,13 @@
-package dev.svrt.domiirl.mbf.mixin.boat;
+package dev.svrt.domiirl.mbf.mixin.minecart;
 
-import dev.svrt.domiirl.mbf.accessor.BoatBannerable;
-import net.minecraft.client.renderer.entity.state.BoatRenderState;
+import dev.svrt.domiirl.mbf.accessor.MinecartBannerable;
+import net.minecraft.client.renderer.entity.state.MinecartRenderState;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(BoatRenderState.class)
-public class BoatRenderStateMixin implements BoatBannerable {
+@Mixin(MinecartRenderState.class)
+public class MinecartRenderStateMixin implements MinecartBannerable {
   public ItemStack bannerItem = ItemStack.EMPTY;
 
   @Override

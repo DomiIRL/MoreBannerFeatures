@@ -25,7 +25,7 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 
 	@Override
 	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, EquineRenderState entityRenderState, float f, float g) {
-		if (entityRenderState instanceof Bannerable) {
+		if (entityRenderState instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
 			matrices.pushPose();
 
 			// Apply stand animation rotation
