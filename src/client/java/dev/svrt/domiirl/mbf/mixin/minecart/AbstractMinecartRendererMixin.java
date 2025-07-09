@@ -33,7 +33,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 		}
 	}
 
-	@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/AbstractMinecartRenderer;renderMinecartContents(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lnet/minecraft/world/level/block/state/BlockState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"))
+	@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/MinecartModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", shift = At.Shift.AFTER))
 	private void render(S state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
 		matrices.pushPose();
 		try {
@@ -43,9 +43,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 					matrices.mulPose(Axis.XP.rotationDegrees(180));
 					matrices.mulPose(Axis.YP.rotationDegrees(90));
 
-					matrices.translate(-0.5, 0, -1.44);
-
-//					matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
+					matrices.translate(-0.5, 0.3, -1.06);
 
 					RendererUtils.renderBanner(matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, 0.0f, RendererUtils.STANDING_BANNER, RendererUtils.STANDING_FLAG_BANNER, RendererUtils.createBannerSwing(state), itemStack);
 				}

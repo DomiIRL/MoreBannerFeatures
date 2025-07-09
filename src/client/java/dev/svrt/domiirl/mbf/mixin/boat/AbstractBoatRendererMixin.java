@@ -45,8 +45,6 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 
 					matrices.translate(-0.5, 0, -1.44);
 
-//					matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
-
 					RendererUtils.renderBanner(matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, 0.0f, RendererUtils.STANDING_BANNER, RendererUtils.STANDING_FLAG_BANNER, RendererUtils.createBannerSwing(entity), itemStack);
 				}
 			}
