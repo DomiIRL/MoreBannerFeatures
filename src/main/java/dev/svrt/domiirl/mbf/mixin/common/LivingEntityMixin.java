@@ -27,7 +27,6 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "getEquipmentSlotForItem", at = @At(value = "HEAD"), cancellable = true)
 	private void getPreferredEquipmentSlot(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
-		if (MoreBannerFeatures.isTrinketsInstalled()) return;
 		if (!(this instanceof Bannerable)) return;
 		Item item = stack.getItem();
 
@@ -42,7 +41,6 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "isEquippableInSlot", at = @At(value = "HEAD"), cancellable = true)
 	private void isEquippableInSlot(ItemStack itemStack, EquipmentSlot equipmentSlot, CallbackInfoReturnable<Boolean> cir) {
-		if (MoreBannerFeatures.isTrinketsInstalled()) return;
 		if (!(this instanceof Bannerable)) return;
 		Item item = itemStack.getItem();
 

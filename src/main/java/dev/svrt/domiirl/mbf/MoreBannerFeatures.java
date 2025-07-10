@@ -5,13 +5,14 @@ import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.FabricLoader;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class MoreBannerFeatures implements ModInitializer {
 
 	public static final String MOD_ID = "mbf";
 
 	public static Boolean trinketsInstalled = null;
+	public static Boolean accessoriesInstalled = null;
 
 	@Override
 	public void onInitialize() {
@@ -23,9 +24,16 @@ public class MoreBannerFeatures implements ModInitializer {
 
 	public static boolean isTrinketsInstalled() {
 		if (trinketsInstalled == null) {
-			trinketsInstalled = FabricLoader.INSTANCE.getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("trinkets"));
+			trinketsInstalled = FabricLoader.getInstance().getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("trinkets"));
 		}
 		return trinketsInstalled;
+	}
+
+	public static boolean isAccessoriesInstalled() {
+		if (accessoriesInstalled == null) {
+			accessoriesInstalled = FabricLoader.getInstance().getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("accessories"));
+		}
+		return accessoriesInstalled;
 	}
 
 

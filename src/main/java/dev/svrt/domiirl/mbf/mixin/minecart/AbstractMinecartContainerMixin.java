@@ -20,10 +20,6 @@ public abstract class AbstractMinecartContainerMixin extends AbstractMinecart {
     super(entityType, level);
   }
 
-  protected AbstractMinecartContainerMixin(EntityType<?> entityType, Level level, double d, double e, double f) {
-    super(entityType, level, d, e, f);
-  }
-
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
   private void onInteract(Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
     BannerableEntity.handleInteract(this, player, interactionHand, cir);

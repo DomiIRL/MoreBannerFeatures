@@ -39,6 +39,7 @@
 	},
 	"suggests": {
 		"trinkets": "*",
+		"accessories": "*",
 		"modmenu": "*"
 	},
 
