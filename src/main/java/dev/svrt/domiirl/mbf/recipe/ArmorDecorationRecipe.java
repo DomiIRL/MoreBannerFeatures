@@ -85,7 +85,7 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     public boolean isValidArmor(ItemStack itemStack) {
         Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
         return equippable != null && (equippable.slot() == EquipmentSlot.CHEST
-//          || equippable.slot() == EquipmentSlot.HEAD // todo: change helmet rendering to include banner
+          || equippable.slot() == EquipmentSlot.HEAD // todo: change helmet rendering to include banner
         );
     }
 }

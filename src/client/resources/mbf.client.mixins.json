@@ -6,6 +6,8 @@
     "banner.BannerRendererMixin",
     "boat.AbstractBoatRendererMixin",
     "boat.BoatRenderStateMixin",
+    "common.ItemModelResolverMixin",
+    "common.LivingEntityRendererMixin",
     "fox.FoxHeldItemLayerMixin",
     "ghast.HappyGhastRendererMixin",
     "ghast.HappyGhastRenderStateMixin",
@@ -23,5 +25,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }
