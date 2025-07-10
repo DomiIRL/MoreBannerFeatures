@@ -1,19 +1,73 @@
-# More Banner Features
+![](https://i.imgur.com/GtapsfE.png)
 
-[![Downloads](http://cf.way2muchnoise.eu/full_515000_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/more-banner-features)
-[![Versions](http://cf.way2muchnoise.eu/versions/515000.svg)](https://www.curseforge.com/minecraft/mc-mods/more-banner-features/)
-[![Discord](https://img.shields.io/discord/889561210478014504?color=%237289DA&label=Discord&logo=discord&logoColor=white)](https://discord.gg/7BSqZa9r3P)
+<center>
 
-Adds many new features for banners and gives them new purposes
+[![](https://i.imgur.com/Dv780sE.png)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
+[![](https://i.imgur.com/c1fCoHy.png)](https://discord.gg/7BSqZa9r3P)
+[![](https://i.imgur.com/GH0SZoc.png)](https://github.com/KxmischesDomi/MoreBannerFeatures/issues)
 
-Mod has to be installed on Server and Client
+[![Modrinth](https://img.shields.io/modrinth/dt/FOaR4sIZ?logo=modrinth&style=for-the-badge)](https://modrinth.com/mod/more-banner-features) [![Modrinth](https://img.shields.io/modrinth/game-versions/FOaR4sIZ?logo=modrinth&style=for-the-badge)](https://modrinth.com/mod/more-banner-features)
 
-## Dependencies
+[![Downloads](http://cf.way2muchnoise.eu/full_515000_downloads.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/more-banner-features) [![Versions](http://cf.way2muchnoise.eu/versions/515000.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/more-banner-features)  
 
-### Fabric
-- [ModMenu](https://www.curseforge.com/minecraft/mc-mods/modmenu) to chance config values
-- FabricAPI
 
-![](https://media.discordapp.net/attachments/864603904728629299/876930146446241832/unknown.png?width=1202&height=676)
-![](https://media.discordapp.net/attachments/864603904728629299/876896485130788864/unknown.png?width=1202&height=676)
-![](https://media.discordapp.net/attachments/864603904728629299/881278198212624415/unknown.png?width=1202&height=676)
+</center>
+
+&nbsp;
+
+## Features
+
+*   Banners on Entities: Happy Ghast, Boat, Horse, Mule, Donkey, Strider, Villager
+*   Players can equip Banners as: Cape, Hat (Support for Slot Mods)
+*   Combine chestplates and helmets with Banners to equip both
+*   Banner Threads item _(combine with a banner to increase the max layer limit)_
+
+### Beta Features (Must be enabled in config)
+
+*   Minecart Banners
+
+## Compatibilities
+
+*   Trinkets / Trinkets Canary
+*   Accessories
+
+***
+
+## Features (before v2.0)
+
+*   Equip Banners as Capes (Cape Slot if [Trinkets](https://www.curseforge.com/minecraft/mc-mods/trinkets-fabric) installed)
+*   Put Banners on Horses, Donkeys, Mules and Llamas with a new inventory slot
+*   Put Banners with right-click on Pigs, Striders, Boats & Villagers
+*   Remove Banners from Pigs, Striders, Boats & Villagers with Shears
+*   Hang Banners below blocks
+*   Fix banner position in fox mouth
+*   Fix enchanting glint on enchanted banners
+*   Config menu accessible through [ModMenu](https://www.curseforge.com/minecraft/mc-mods/modmenu)
+
+## Compatibilities (before v2.0)
+
+*   [Boat Container](https://www.curseforge.com/minecraft/mc-mods/boat-container) — By KxmischesDomi
+*   [Wavey Capes](https://www.curseforge.com/minecraft/mc-mods/waveycapes) — By tr9zw
+
+## Incompatibilities (before v2.0)
+
+*   [Entity Banners](https://www.curseforge.com/minecraft/mc-mods/entity-banners) — Weird rendering bugs
+*   [Glow Banners](https://www.curseforge.com/minecraft/mc-mods/glow-banners) — Banners don't glow
+ 
+![](https://u.svrt.dev/u/edible-same-alaskanhusky.jpg)
+
+![](https://u.svrt.dev/u/calm-cavernous-barnowl.jpg)
+
+![](https://u.svrt.dev/u/eager-black-angwantibo.jpg)
+
+![](https://u.svrt.dev/u/raw-deadly-americanwigeon.gif)
+
+![](https://i.imgur.com/UEcEcL6.png)
+
+![](https://i.imgur.com/BInqA1P.png)
+
+![](https://i.imgur.com/WCxzehM.png)
+
+![](https://i.imgur.com/As8JsDk.png)
+
+![](https://i.imgur.com/0j1QtKa.png)
