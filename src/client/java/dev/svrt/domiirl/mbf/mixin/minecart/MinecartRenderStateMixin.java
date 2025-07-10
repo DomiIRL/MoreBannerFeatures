@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.minecart;
 
-import dev.svrt.domiirl.mbf.accessor.MinecartBannerable;
 import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
+import dev.svrt.domiirl.mbf.accessor.MinecartBannerable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;

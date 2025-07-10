@@ -1,6 +1,5 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
-import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
