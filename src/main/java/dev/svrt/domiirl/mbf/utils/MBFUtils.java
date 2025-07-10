@@ -73,6 +73,7 @@ public class MBFUtils {
 
 	@SuppressWarnings("unchecked")
 	public static ItemStack getTrinketSlotItem(LivingEntity entity, String equipmentSlot, String slotName) {
+		if (!MoreBannerFeatures.isTrinketsInstalled()) return ItemStack.EMPTY;
 		initTrinketsReflection();
 		if (trinketsReflectionInitialized) {
 			try {
@@ -121,7 +122,6 @@ public class MBFUtils {
 
 	public static ItemStack getCloakItem(LivingEntity entity) {
 		ItemStack trinketCape = getTrinketSlotItem(entity, "chest", "cape");
-		System.out.println(trinketCape);
 		if (!trinketCape.isEmpty()) {
 			return trinketCape;
 		}

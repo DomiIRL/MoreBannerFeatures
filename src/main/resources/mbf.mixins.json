@@ -3,6 +3,7 @@
   "package": "dev.svrt.domiirl.mbf.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "banner.BannerBlockEntityMixin",
     "banner.BannerBlockMixin",
     "banner.StandingAndWallBlockItemMixin",
     "boat.AbstractBoatMixin",

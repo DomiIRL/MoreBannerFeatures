@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,9 +28,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HorseInventoryMenu.class)
 public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
+    @Unique
     private static final ResourceLocation SLOT_ICON = ResourceLocation.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, "container/slot/banner");
 
     @Shadow @Final private Container horseContainer;
+    @Unique
     private Bannerable bannerable;
 
     protected HorseInventoryMenuMixin(@Nullable MenuType<?> type, int syncId) {

@@ -30,7 +30,6 @@ public abstract class StandingAndWallBlockItemMixin extends BlockItem {
 
 	@Inject(method = "getPlacementState", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Direction;getOpposite()Lnet/minecraft/core/Direction;"), cancellable = true)
 	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir, BlockState blockState, LevelReader worldView, BlockPos blockPos, Direction[] directions, int i, int i1) {
-
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
@@ -39,7 +38,7 @@ public abstract class StandingAndWallBlockItemMixin extends BlockItem {
 		if (direction != Direction.UP) return;
 
 		StandingAndWallBlockItem blockItem = (StandingAndWallBlockItem) (Object) this;
-		if (blockItem instanceof BannerItem bannerItem) {
+		if (blockItem instanceof BannerItem) {
 			blockState = this.wallBlock.getStateForPlacement(context);
 
 			BlockState blockState3 = direction == Direction.UP ? this.getBlock().getStateForPlacement(context) : blockState;

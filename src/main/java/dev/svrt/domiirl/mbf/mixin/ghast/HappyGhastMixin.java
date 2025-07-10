@@ -15,6 +15,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HappyGhast.class)
 public abstract class HappyGhastMixin extends Animal implements GhastBannerable {
 
+	@Unique
 	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(HappyGhast.class, EntityDataSerializers.ITEM_STACK);
 
 	protected HappyGhastMixin(EntityType<? extends Animal> entityType, Level world) {
