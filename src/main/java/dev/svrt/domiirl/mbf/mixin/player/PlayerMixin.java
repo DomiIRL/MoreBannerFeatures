@@ -19,12 +19,12 @@ public abstract class PlayerMixin extends LivingEntity implements Bannerable {
 	}
 
 	@Override
-	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+	public @NotNull ItemStack mbf$getBannerItem() {
 		return MBFUtils.getCloakItem((Player) (Object) this);
 	}
 
 	@Override
-	public void moreBannerFeatures$setBannerItem(@NotNull ItemStack stack) {
+	public void mbf$setBannerItem(@NotNull ItemStack stack) {
 		this.setItemSlot(EquipmentSlot.CHEST, stack);
 	}
 }

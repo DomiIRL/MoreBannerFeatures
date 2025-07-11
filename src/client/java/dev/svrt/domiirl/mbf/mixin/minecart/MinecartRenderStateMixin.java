@@ -13,12 +13,12 @@ public class MinecartRenderStateMixin implements MinecartBannerable, BannerableM
   public Vec3 velocity = Vec3.ZERO;
 
   @Override
-  public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+  public @NotNull ItemStack mbf$getBannerItem() {
     return bannerItem;
   }
 
   @Override
-  public void moreBannerFeatures$setBannerItem(@NotNull ItemStack stack) {
+  public void mbf$setBannerItem(@NotNull ItemStack stack) {
     this.bannerItem = stack;
   }
 

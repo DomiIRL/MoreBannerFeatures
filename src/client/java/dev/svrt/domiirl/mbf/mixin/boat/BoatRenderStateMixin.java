@@ -11,12 +11,12 @@ public class BoatRenderStateMixin implements BoatBannerable {
   public ItemStack bannerItem = ItemStack.EMPTY;
 
   @Override
-  public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+  public @NotNull ItemStack mbf$getBannerItem() {
     return bannerItem;
   }
 
   @Override
-  public void moreBannerFeatures$setBannerItem(@NotNull ItemStack stack) {
+  public void mbf$setBannerItem(@NotNull ItemStack stack) {
     this.bannerItem = stack;
   }
 }

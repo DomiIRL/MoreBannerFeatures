@@ -22,19 +22,19 @@ public abstract class VillagerEntityMixin extends AbstractVillager implements Vi
 	}
 
 	@Override
-	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+	public @NotNull ItemStack mbf$getBannerItem() {
 		return getItemBySlot(EquipmentSlot.HEAD);
 	}
 
 	@Override
-	public void moreBannerFeatures$setBannerItem(@NotNull ItemStack itemStack) {
+	public void mbf$setBannerItem(@NotNull ItemStack itemStack) {
 		this.setItemSlot(EquipmentSlot.HEAD, itemStack);
 	}
 
 	@Override
 	protected void dropEquipment(ServerLevel serverLevel) {
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
-			spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
+		if (!mbf$getBannerItem().isEmpty()) {
+			spawnAtLocation(serverLevel, mbf$getBannerItem());
 		}
 		super.dropEquipment(serverLevel);
 	}

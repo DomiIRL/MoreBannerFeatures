@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.player;
 
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.feature.BannerCapeFeatureRenderer;
+import dev.svrt.domiirl.mbf.layer.BannerCapeFeatureRenderer;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
@@ -28,7 +28,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 	@Inject(method = "extractRenderState(Lnet/minecraft/client/player/AbstractClientPlayer;Lnet/minecraft/client/renderer/entity/state/PlayerRenderState;F)V", at = @At("HEAD"))
 	private void extractRenderState(AbstractClientPlayer player, PlayerRenderState renderState, float f, CallbackInfo ci) {
 		if (renderState instanceof Bannerable bannerRenderState && player instanceof Bannerable bannerable) {
-			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
+			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
 		}
 	}
 }

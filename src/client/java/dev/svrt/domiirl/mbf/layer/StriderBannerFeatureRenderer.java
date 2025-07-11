@@ -1,4 +1,4 @@
-package dev.svrt.domiirl.mbf.feature;
+package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -26,8 +26,8 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 		matrices.pushPose();
 
 		try {
-			if (entity instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
-				ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
+			if (entity instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
+				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 
 					matrices.mulPose(Axis.YP.rotationDegrees(entity.yRot));

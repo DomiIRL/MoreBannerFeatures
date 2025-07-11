@@ -29,7 +29,7 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/AbstractBoat;Lnet/minecraft/client/renderer/entity/state/BoatRenderState;F)V", at = @At("HEAD"), cancellable = true)
 	private void extractRenderState(AbstractBoat boat, BoatRenderState state, float f, CallbackInfo ci) {
 		if (state instanceof Bannerable bannerRenderState && boat instanceof Bannerable bannerable) {
-			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
+			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
 		}
 	}
 
@@ -37,8 +37,8 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	private void render(BoatRenderState entity, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
 		matrices.pushPose();
 		try {
-			if (entity instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
-				ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
+			if (entity instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
+				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 					matrices.mulPose(Axis.XP.rotationDegrees(180));
 					matrices.mulPose(Axis.YP.rotationDegrees(90));

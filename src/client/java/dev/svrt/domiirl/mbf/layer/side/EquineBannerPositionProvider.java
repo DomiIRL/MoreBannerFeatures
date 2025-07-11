@@ -1,5 +1,5 @@
 
-package dev.svrt.domiirl.mbf.feature.side;
+package dev.svrt.domiirl.mbf.layer.side;
 
 import net.minecraft.client.renderer.entity.state.DonkeyRenderState;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;

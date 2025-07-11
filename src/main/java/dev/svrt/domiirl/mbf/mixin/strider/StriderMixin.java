@@ -31,7 +31,7 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	}
 
 	@Override
-	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+	public @NotNull ItemStack mbf$getBannerItem() {
 		if (!MBFOptions.STRIDER_BANNERS.getBooleanValue()) {
 			return ItemStack.EMPTY;
 		}
@@ -39,7 +39,7 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	}
 
 	@Override
-	public void moreBannerFeatures$setBannerItem(@NotNull ItemStack itemStack) {
+	public void mbf$setBannerItem(@NotNull ItemStack itemStack) {
 		this.entityData.set(BANNER, itemStack);
 	}
 
@@ -51,26 +51,26 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	@Override
 	protected void readAdditionalSaveData(ValueInput input) {
 		super.readAdditionalSaveData(input);
-		input.read("Banner", ItemStack.CODEC).ifPresent(this::moreBannerFeatures$setBannerItem);
+		input.read("Banner", ItemStack.CODEC).ifPresent(this::mbf$setBannerItem);
 	}
 
 	@Override
 	protected void addAdditionalSaveData(ValueOutput output) {
 		super.addAdditionalSaveData(output);
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
-			output.storeNullable("Banner", ItemStack.CODEC, moreBannerFeatures$getBannerItem());
+		if (!mbf$getBannerItem().isEmpty()) {
+			output.storeNullable("Banner", ItemStack.CODEC, mbf$getBannerItem());
 		}
 	}
 
 	@Override
 	protected void dropEquipment(ServerLevel serverLevel) {
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
+		if (!mbf$getBannerItem().isEmpty()) spawnAtLocation(serverLevel, mbf$getBannerItem());
 		super.dropEquipment(serverLevel);
 	}
 
 	@Override
 	public boolean requiresCustomPersistence() {
-		return !moreBannerFeatures$getBannerItem().isEmpty() || super.requiresCustomPersistence();
+		return !mbf$getBannerItem().isEmpty() || super.requiresCustomPersistence();
 	}
 
 }

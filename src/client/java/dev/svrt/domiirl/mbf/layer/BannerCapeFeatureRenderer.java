@@ -1,8 +1,9 @@
-package dev.svrt.domiirl.mbf.feature;
+package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
+import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -59,10 +60,11 @@ public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, Pl
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, PlayerRenderState state, float limbAngle, float limbDistance) {
 		try {
-			if (state instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled() && RendererUtils.isLegitPlayerBannerEquipment(bannerable.moreBannerFeatures$getBannerItem())) {
-				if (this.hasLayer(state.chestEquipment, EquipmentClientInfo.LayerType.WINGS)) {
+			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled() && RendererUtils.isLegitPlayerBannerEquipment(bannerable.mbf$getBannerItem())) {
+				if (!MBFOptions.ELYTRA_CAPES.getBooleanValue() && this.hasLayer(state.chestEquipment, EquipmentClientInfo.LayerType.WINGS)) {
 					return;
 				}
+
 				poseStack.pushPose();
 
 				if (this.hasLayer(state.chestEquipment, EquipmentClientInfo.LayerType.HUMANOID)) {
@@ -87,7 +89,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<PlayerRenderState, Pl
 					.rotateY(-(180.0F - capeLean2 / 2.0F) * ((float) Math.PI / 180F));
 				poseStack.mulPose(quaternionf);
 
-				RendererUtils.renderCanvasFromItem(bannerable.moreBannerFeatures$getBannerItem(), poseStack, multiBufferSource, light, OverlayTexture.NO_OVERLAY, cloak);
+				RendererUtils.renderCanvasFromItem(bannerable.mbf$getBannerItem(), poseStack, multiBufferSource, light, OverlayTexture.NO_OVERLAY, cloak);
 
 				poseStack.popPose();
 			}

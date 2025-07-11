@@ -32,7 +32,7 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	}
 
 	@Override
-	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+	public @NotNull ItemStack mbf$getBannerItem() {
 		if (!MBFOptions.BOAT_BANNERS.getBooleanValue()) {
 			return ItemStack.EMPTY;
 		}
@@ -40,7 +40,7 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	}
 
 	@Override
-	public void moreBannerFeatures$setBannerItem(@NotNull ItemStack itemStack) {
+	public void mbf$setBannerItem(@NotNull ItemStack itemStack) {
 		this.entityData.set(BANNER, itemStack);
 	}
 
@@ -51,22 +51,22 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
 	private void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
-		input.read("Banner", ItemStack.CODEC).ifPresent(this::moreBannerFeatures$setBannerItem);
+		input.read("Banner", ItemStack.CODEC).ifPresent(this::mbf$setBannerItem);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
-		if (!moreBannerFeatures$getBannerItem().isEmpty()) {
-			output.storeNullable("Banner", ItemStack.CODEC, moreBannerFeatures$getBannerItem());
+		if (!mbf$getBannerItem().isEmpty()) {
+			output.storeNullable("Banner", ItemStack.CODEC, mbf$getBannerItem());
 		}
 	}
 
 	@Override
 	public void remove(RemovalReason removalReason) {
 		super.remove(removalReason);
-		if (!moreBannerFeatures$getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
-			spawnAtLocation(serverLevel, moreBannerFeatures$getBannerItem());
-			moreBannerFeatures$setBannerItem(ItemStack.EMPTY);
+		if (!mbf$getBannerItem().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
+			spawnAtLocation(serverLevel, mbf$getBannerItem());
+			mbf$setBannerItem(ItemStack.EMPTY);
 		}
 	}
 }

@@ -5,7 +5,7 @@ import dev.svrt.domiirl.mbf.config.MBFOptions;
 public interface MinecartBannerable extends Bannerable {
 
   @Override
-  default boolean moreBannerFeatures$isEnabled() {
+  default boolean mbf$isEnabled() {
     return MBFOptions.MINECART_BANNERS.getBooleanValue();
   }
 }

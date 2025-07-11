@@ -1,9 +1,11 @@
 package dev.svrt.domiirl.mbf.mixin.item;
 
+import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.fabricmc.fabric.api.item.v1.FabricItemStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentHolder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BannerItem;

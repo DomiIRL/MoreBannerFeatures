@@ -1,4 +1,4 @@
-package dev.svrt.domiirl.mbf.feature.side;
+package dev.svrt.domiirl.mbf.layer.side;
 
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;

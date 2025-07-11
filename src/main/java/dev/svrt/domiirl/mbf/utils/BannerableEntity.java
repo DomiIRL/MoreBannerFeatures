@@ -57,7 +57,7 @@ public class BannerableEntity {
       return;
     }
 
-    if (!(entity instanceof Bannerable bannerable) || !bannerable.moreBannerFeatures$isEnabled() || player.isSecondaryUseActive()) {
+    if (!(entity instanceof Bannerable bannerable) || !bannerable.mbf$isEnabled() || player.isSecondaryUseActive()) {
       return;
     }
 
@@ -71,20 +71,20 @@ public class BannerableEntity {
 
     ItemStack itemStack = player.getItemInHand(hand);
     if (itemStack.getItem() instanceof BannerItem) {
-      if (ItemStack.isSameItem(bannerable.moreBannerFeatures$getBannerItem(), itemStack)) return;
+      if (ItemStack.isSameItem(bannerable.mbf$getBannerItem(), itemStack)) return;
 
       entity.level().playSound(null, entity, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-      if (!bannerable.moreBannerFeatures$getBannerItem().isEmpty()) {
+      if (!bannerable.mbf$getBannerItem().isEmpty()) {
         if (entity.level() instanceof ServerLevel serverLevel) {
           Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
-          entity.spawnAtLocation(serverLevel, bannerable.moreBannerFeatures$getBannerItem(), vec3);
+          entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
         }
       }
 
       ItemStack copy = itemStack.copy();
       copy.setCount(1);
-      bannerable.moreBannerFeatures$setBannerItem(copy);
+      bannerable.mbf$setBannerItem(copy);
 
       if (!player.getAbilities().instabuild) {
         itemStack.shrink(1);
@@ -92,7 +92,7 @@ public class BannerableEntity {
 
       cir.setReturnValue(InteractionResult.SUCCESS);
       cir.cancel();
-    } else if (itemStack.getItem() instanceof ShearsItem && !bannerable.moreBannerFeatures$getBannerItem().isEmpty()) {
+    } else if (itemStack.getItem() instanceof ShearsItem && !bannerable.mbf$getBannerItem().isEmpty()) {
 
       entity.level().playSound(null, entity, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
       entity.gameEvent(GameEvent.SHEAR, player);
@@ -100,9 +100,9 @@ public class BannerableEntity {
 
       if (entity.level() instanceof ServerLevel serverLevel) {
         Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
-        entity.spawnAtLocation(serverLevel, bannerable.moreBannerFeatures$getBannerItem(), vec3);
+        entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
       }
-      bannerable.moreBannerFeatures$setBannerItem(ItemStack.EMPTY);
+      bannerable.mbf$setBannerItem(ItemStack.EMPTY);
       cir.setReturnValue(InteractionResult.SUCCESS);
       cir.cancel();
     }

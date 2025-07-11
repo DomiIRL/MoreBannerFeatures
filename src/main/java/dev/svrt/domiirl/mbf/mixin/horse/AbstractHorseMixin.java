@@ -19,17 +19,17 @@ public abstract class AbstractHorseMixin extends Animal implements HorseBannerab
 	}
 
 	@Override
-	public @NotNull ItemStack moreBannerFeatures$getBannerItem() {
+	public @NotNull ItemStack mbf$getBannerItem() {
 		return this.getItemBySlot(EquipmentSlot.CHEST);
 	}
 
 	@Override
-	public void moreBannerFeatures$setBannerItem(@NotNull ItemStack stack) {
+	public void mbf$setBannerItem(@NotNull ItemStack stack) {
 		this.setItemSlot(EquipmentSlot.CHEST, stack);
 	}
 
 	@Override
-	public boolean moreBannerFeatures$isEnabled() {
+	public boolean mbf$isEnabled() {
 		return MBFOptions.HORSE_BANNERS.getBooleanValue();
 	}
 }

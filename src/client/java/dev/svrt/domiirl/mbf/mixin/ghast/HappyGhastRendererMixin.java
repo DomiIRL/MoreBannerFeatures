@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.ghast;
 
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.feature.HappyGhastBannerFeatureRenderer;
+import dev.svrt.domiirl.mbf.layer.HappyGhastBannerFeatureRenderer;
 import net.minecraft.client.model.HappyGhastModel;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -28,7 +28,7 @@ public abstract class HappyGhastRendererMixin extends AgeableMobRenderer<HappyGh
   @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/HappyGhast;Lnet/minecraft/client/renderer/entity/state/HappyGhastRenderState;F)V", at = @At("HEAD"))
   private void extractRenderState(HappyGhast happyGhast, HappyGhastRenderState renderState, float f, CallbackInfo ci) {
     if (renderState instanceof Bannerable bannerRenderState && happyGhast instanceof Bannerable bannerable) {
-      bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
+      bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
     }
   }
 

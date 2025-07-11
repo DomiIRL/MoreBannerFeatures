@@ -11,6 +11,7 @@
 	"mbf.options.alternate_happy_ghast_banners": "Alternate Ghast Position",
 	"mbf.options.hanging_banners": "Hanging Banners",
 	"mbf.options.villager_banners": "Villager Banners",
+	"mbf.options.elytra_capes": "Capes Replace Elytra",
 	"mbf.options.errors": "Show Error Messages",
 
 	"mbf.tooltip.bar": "Display wooden bars between animals and their side banners",
@@ -24,6 +25,7 @@
 	"mbf.tooltip.alternate_happy_ghast_banners": "Use alternative position for ghast banners",
 	"mbf.tooltip.hanging_banners": "Allow banners to hang underneath blocks",
 	"mbf.tooltip.villager_banners": "Allow to equip banners on villagers heads",
+	"mbf.tooltip.elytra_capes": "When you wear a cape and an elytra the elytra will be replaced with the cape. Looks like you are superman :)",
 	"mbf.tooltip.errors": "Show chat notifications when rendering errors occur",
 
 	"mbf.message.error": "§c§lMore Banner Features: §cRendering error detected. Click this message to report with your game log (can be disabled in settings)",

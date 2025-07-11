@@ -1,10 +1,10 @@
-package dev.svrt.domiirl.mbf.feature;
+package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.feature.side.EquineBannerPositionProvider;
-import dev.svrt.domiirl.mbf.feature.side.SideBannerRenderer;
+import dev.svrt.domiirl.mbf.layer.side.EquineBannerPositionProvider;
+import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HorseModel;
@@ -25,7 +25,7 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 
 	@Override
 	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, EquineRenderState entityRenderState, float f, float g) {
-		if (entityRenderState instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
+		if (entityRenderState instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 			matrices.pushPose();
 
 			// Apply stand animation rotation

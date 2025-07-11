@@ -31,7 +31,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/AbstractMinecart;Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;F)V", at = @At("HEAD"), cancellable = true)
 	private void extractRenderState(T minecart, S state, float f, CallbackInfo ci) {
 		if (state instanceof Bannerable bannerRenderState && minecart instanceof Bannerable bannerable) {
-			bannerRenderState.moreBannerFeatures$setBannerItem(bannerable.moreBannerFeatures$getBannerItem());
+			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
 		}
 		if (state instanceof BannerableMinecartRenderState customState) {
 			customState.setVelocity(minecart.getDeltaMovement());
@@ -42,8 +42,8 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 	private void render(S state, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
 		matrices.pushPose();
 		try {
-			if (state instanceof Bannerable bannerable && bannerable.moreBannerFeatures$isEnabled()) {
-				ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
+			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
+				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 					matrices.mulPose(Axis.XP.rotationDegrees(180));
 					matrices.mulPose(Axis.YP.rotationDegrees(90));

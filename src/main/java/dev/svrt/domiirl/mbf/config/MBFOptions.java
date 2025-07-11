@@ -14,6 +14,7 @@ public class MBFOptions {
 	public static final BooleanOption ALTERNATE_HAPPY_GHAST;
 	public static final BooleanOption HANGING_BANNERS;
 	public static final BooleanOption VILLAGER_BANNERS;
+	public static final BooleanOption ELYTRA_CAPES;
 	public static final BooleanOption ERRORS;
 
 	static {
@@ -27,6 +28,7 @@ public class MBFOptions {
 		ALTERNATE_HAPPY_GHAST = new BooleanOption("alternate_happy_ghast_banners", false);
 		HANGING_BANNERS = new BooleanOption("hanging_banners", true);
 		VILLAGER_BANNERS = new BooleanOption("villager_banners", true);
+		ELYTRA_CAPES = new BooleanOption("elytra_capes", true);
 		ERRORS = new BooleanOption("errors", true);
 	}
 

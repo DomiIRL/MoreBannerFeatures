@@ -1,4 +1,4 @@
-package dev.svrt.domiirl.mbf.feature.side;
+package dev.svrt.domiirl.mbf.layer.side;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -47,11 +47,11 @@ public class SideBannerRenderer {
    */
   public void renderSideBanners(PoseStack stack, MultiBufferSource vertexConsumers, int light,
                                 LivingEntityRenderState state) {
-    if (!(state instanceof Bannerable bannerable) || !bannerable.moreBannerFeatures$isEnabled()) {
+    if (!(state instanceof Bannerable bannerable) || !bannerable.mbf$isEnabled()) {
       return;
     }
 
-    ItemStack itemStack = bannerable.moreBannerFeatures$getBannerItem();
+    ItemStack itemStack = bannerable.mbf$getBannerItem();
     if (itemStack.isEmpty() || !(itemStack.getItem() instanceof BannerItem)) {
       return;
     }

@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.recipe;
 
+import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.minecraft.core.HolderLookup;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
@@ -84,8 +86,7 @@ public class ArmorDecorationRecipe extends CustomRecipe {
 
     public boolean isValidArmor(ItemStack itemStack) {
         Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
-        return equippable != null && (equippable.slot() == EquipmentSlot.CHEST
-          || equippable.slot() == EquipmentSlot.HEAD // todo: change helmet rendering to include banner
+        return equippable != null && (equippable.slot() == EquipmentSlot.CHEST || equippable.slot() == EquipmentSlot.HEAD
         );
     }
 }

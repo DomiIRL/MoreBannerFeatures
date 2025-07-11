@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 public interface Bannerable {
 
 	@NotNull
-	ItemStack moreBannerFeatures$getBannerItem();
+	ItemStack mbf$getBannerItem();
 
-	void moreBannerFeatures$setBannerItem(@NotNull ItemStack stack);
+	void mbf$setBannerItem(@NotNull ItemStack stack);
 
-	default boolean moreBannerFeatures$isEnabled() {
+	default boolean mbf$isEnabled() {
 		return true;
 	}
 

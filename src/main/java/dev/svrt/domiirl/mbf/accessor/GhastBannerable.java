@@ -5,7 +5,7 @@ import dev.svrt.domiirl.mbf.config.MBFOptions;
 public interface GhastBannerable extends Bannerable {
 
   @Override
-  default boolean moreBannerFeatures$isEnabled() {
+  default boolean mbf$isEnabled() {
     return MBFOptions.HAPPY_GHAST_BANNERS.getBooleanValue();
   }
 }
