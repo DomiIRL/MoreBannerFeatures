@@ -11,6 +11,7 @@
   "mbf.options.alternate_happy_ghast_banners": "Posición Ghast",
   "mbf.options.hanging_banners": "Banner Colgante",
   "mbf.options.villager_banners": "Banner Aldeano",
+  "mbf.options.elytra_capes": "Capas reemplazan Elytra",
   "mbf.options.errors": "Errores",
 
   "mbf.tooltip.bar": "Muestra barras de madera entre animales y sus banderas laterales",
@@ -24,6 +25,7 @@
   "mbf.tooltip.alternate_happy_ghast_banners": "Usa una posición alternativa para las banderas de ghast",
   "mbf.tooltip.hanging_banners": "Permite colgar banderas debajo de bloques",
   "mbf.tooltip.villager_banners": "Permite poner banderas en la cabeza de los aldeanos",
+  "mbf.tooltip.elytra_capes": "Si llevas una capa y una elytra, la elytra será reemplazada por la capa. ¡Parecerás Superman :)!",
   "mbf.tooltip.errors": "Muestra notificaciones en el chat cuando ocurren errores de renderizado",
 
   "mbf.message.error": "§c§lMás Funciones de Banderas: §cError de renderizado detectado. Haz clic para reportar con tu registro del juego (puede desactivarse en ajustes)",

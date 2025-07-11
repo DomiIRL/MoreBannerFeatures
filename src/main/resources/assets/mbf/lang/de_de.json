@@ -11,6 +11,7 @@
 	"mbf.options.alternate_happy_ghast_banners": "Ghast Position",
 	"mbf.options.hanging_banners": "Hängende Banner",
 	"mbf.options.villager_banners": "Dorfbewohner Banner",
+	"mbf.options.elytra_capes": "Umhänge ersetzen Elytren",
 	"mbf.options.errors": "Fehlermeldungen",
 
 	"mbf.tooltip.bar": "Zeigt Holzleisten zwischen Tieren und ihren Seitenbannern an",
@@ -24,6 +25,7 @@
 	"mbf.tooltip.alternate_happy_ghast_banners": "Verwendet alternative Position für Ghast Banner",
 	"mbf.tooltip.hanging_banners": "Erlaubt Banner unter Blöcke zu hängen",
 	"mbf.tooltip.villager_banners": "Erlaubt Banner auf Dorfbewohner Köpfen",
+	"mbf.tooltip.elytra_capes": "Wenn du einen Umhang und eine Elytra trägst, wird die Elytra durch den Umhang ersetzt. Sieht aus, als wärst du Superman :)",
 	"mbf.tooltip.errors": "Zeigt Chat Benachrichtigungen bei Renderfehlern",
 
 	"mbf.message.error": "Mehr Banner Features Renderfehler erkannt. Klicke hier um mit deinem Spiel Log zu melden (kann in den Einstellungen deaktiviert werden)",

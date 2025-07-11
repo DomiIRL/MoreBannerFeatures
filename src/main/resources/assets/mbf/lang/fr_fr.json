@@ -11,6 +11,7 @@
 	"mbf.options.alternate_happy_ghast_banners": "Position Ghast",
 	"mbf.options.hanging_banners": "Bannière Suspendue",
 	"mbf.options.villager_banners": "Bannière Villageois",
+	"mbf.options.elytra_capes": "Les capes remplacent les élytres",
 	"mbf.options.errors": "Erreurs",
 
 	"mbf.tooltip.bar": "Affiche des barres en bois entre les animaux et leurs bannières latérales",
@@ -24,6 +25,7 @@
 	"mbf.tooltip.alternate_happy_ghast_banners": "Utilise une position alternative pour les bannières de ghast",
 	"mbf.tooltip.hanging_banners": "Permet de suspendre des bannières sous les blocs",
 	"mbf.tooltip.villager_banners": "Permet de mettre des bannières sur la tête des villageois",
+	"mbf.tooltip.elytra_capes": "Quand tu portes une cape et une élytre, l'élytre sera remplacée par la cape. On dirait Superman :)",
 	"mbf.tooltip.errors": "Affiche une notification dans le chat en cas d'erreur de rendu",
 
 	"mbf.message.error": "§c§lPlus de Bannières : §cErreur de rendu détectée. Clique ici pour signaler avec ton journal de jeu (désactivable dans les paramètres)",
