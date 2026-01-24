@@ -6,23 +6,25 @@ import dev.svrt.domiirl.mbf.layer.side.GhastBannerPositionProvider;
 import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
 import net.minecraft.client.model.HappyGhastModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HappyGhastRenderState;
+import net.minecraft.client.resources.model.MaterialSet;
 
 public class HappyGhastBannerFeatureRenderer extends RenderLayer<HappyGhastRenderState, HappyGhastModel> {
 
   private final SideBannerRenderer bannerRenderer;
 
-  public HappyGhastBannerFeatureRenderer(RenderLayerParent<HappyGhastRenderState, HappyGhastModel> renderLayerParent) {
+  public HappyGhastBannerFeatureRenderer(RenderLayerParent<HappyGhastRenderState, HappyGhastModel> renderLayerParent, MaterialSet materials) {
     super(renderLayerParent);
-    this.bannerRenderer = new SideBannerRenderer(new GhastBannerPositionProvider());
+    this.bannerRenderer = new SideBannerRenderer(new GhastBannerPositionProvider(), materials);
   }
 
   @Override
-  public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, HappyGhastRenderState entityRenderState, float f, float g) {
+  public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, HappyGhastRenderState entityRenderState, float f, float g) {
     if (entityRenderState instanceof Bannerable) {
-      bannerRenderer.renderSideBanners(poseStack, multiBufferSource, i, entityRenderState);
+      bannerRenderer.renderSideBanners(poseStack, submitNodeCollector, i, entityRenderState);
     }
   }
 }

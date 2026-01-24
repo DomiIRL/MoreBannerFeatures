@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "banner.BannerRendererMixin",
+    "banner.BannerRenderStateMixin",
     "boat.AbstractBoatRendererMixin",
     "boat.BoatRenderStateMixin",
     "common.ItemModelResolverMixin",

@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 public class MoreBannerFeatures implements ModInitializer {
 
@@ -36,7 +37,10 @@ public class MoreBannerFeatures implements ModInitializer {
 				return;
 			}
 			builder.modifyPools(poolBuilder -> {
-				poolBuilder.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY).include(ModDataComponents.MAX_BANNER_LAYERS).build());
+				poolBuilder.apply(
+					CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY)
+						.include(ModDataComponents.MAX_BANNER_LAYERS)
+						.build());
 			});
 
 		});

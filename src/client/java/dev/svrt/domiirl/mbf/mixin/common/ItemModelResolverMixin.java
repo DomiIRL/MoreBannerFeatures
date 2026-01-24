@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -45,7 +46,7 @@ public class ItemModelResolverMixin {
 
   // Use @Inject because I don't trust that no one else would redirect at this point here
   @Inject(method = "appendItemLayers", at = @At("HEAD"), cancellable = true)
-  private void appendItemLayers(ItemStackRenderState itemStackRenderState, ItemStack itemStack, ItemDisplayContext itemDisplayContext, @Nullable Level level, @Nullable LivingEntity livingEntity, int i, CallbackInfo ci) {
+  private void appendItemLayers(ItemStackRenderState itemStackRenderState, ItemStack itemStack, ItemDisplayContext itemDisplayContext, Level level, ItemOwner itemOwner, int i, CallbackInfo ci) {
     if (itemDisplayContext == ItemDisplayContext.HEAD
       && itemStack.has(DataComponents.BANNER_PATTERNS)
       && (itemStack.getItem() instanceof BannerItem || itemStack.has(ModDataComponents.BANNER_BASE_COLOR))) {
@@ -55,7 +56,7 @@ public class ItemModelResolverMixin {
       if (resourceLocation != null) {
         itemStackRenderState.setOversizedInGui(this.clientProperties.apply(resourceLocation).oversizedInGui());
         this.modelGetter.apply(resourceLocation)
-          .update(itemStackRenderState, itemStack, (ItemModelResolver) (Object) this, itemDisplayContext, level instanceof ClientLevel clientLevel ? clientLevel : null, livingEntity, i);
+          .update(itemStackRenderState, itemStack, (ItemModelResolver) (Object) this, itemDisplayContext, level instanceof ClientLevel clientLevel ? clientLevel : null, itemOwner, i);
         ci.cancel();
       }
     }

@@ -39,6 +39,4 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     ItemStack bannerItem = this.menu.getBannerSlot().getItem();
     return bannerItem.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
   }
-
-
 }

@@ -96,7 +96,8 @@ public class BannerableEntity {
 
       entity.level().playSound(null, entity, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
       entity.gameEvent(GameEvent.SHEAR, player);
-      itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+      EquipmentSlot equipmentSlot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+      itemStack.hurtAndBreak(1, player, equipmentSlot);
 
       if (entity.level() instanceof ServerLevel serverLevel) {
         Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);

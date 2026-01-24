@@ -26,7 +26,7 @@ public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S exte
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, EntityModel entityModel, EntityModel entityModel2, CallbackInfo ci) {
-		addLayer((RenderLayer<S, M>) new HorseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this, ((Object) this) instanceof UndeadHorseRenderer));
+		addLayer((RenderLayer<S, M>) new HorseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this, context.getMaterials(), ((Object) this) instanceof UndeadHorseRenderer));
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"))

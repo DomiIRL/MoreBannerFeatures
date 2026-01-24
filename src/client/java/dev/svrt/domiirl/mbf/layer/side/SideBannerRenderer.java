@@ -12,9 +12,10 @@ import net.minecraft.client.model.BannerFlagModel;
 import net.minecraft.client.model.BannerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
@@ -28,9 +29,11 @@ public class SideBannerRenderer {
   private final BannerModel bannerBar;
   private final BannerFlagModel bannerFlag;
   private final BannerPositionProvider positionProvider;
+  private final MaterialSet materials;
 
-  public SideBannerRenderer(BannerPositionProvider positionProvider) {
+  public SideBannerRenderer(BannerPositionProvider positionProvider, MaterialSet materialSet) {
     this.positionProvider = positionProvider;
+    this.materials = materialSet;
 
     this.bannerBar = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
     this.bannerFlag = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
@@ -45,7 +48,7 @@ public class SideBannerRenderer {
   /**
    * Renders side banners for an entity.
    */
-  public void renderSideBanners(PoseStack stack, MultiBufferSource vertexConsumers, int light,
+  public void renderSideBanners(PoseStack stack, SubmitNodeCollector submitNodeCollector, int light,
                                 LivingEntityRenderState state) {
     if (!(state instanceof Bannerable bannerable) || !bannerable.mbf$isEnabled()) {
       return;
@@ -74,7 +77,7 @@ public class SideBannerRenderer {
 
     // Render left side banner
     stack.pushPose();
-    renderBanner(stack, vertexConsumers, light, state, itemStack, -90F);
+    renderBanner(stack, submitNodeCollector, light, state, itemStack, -90F);
     stack.popPose();
 
     // Render right side banner
@@ -82,20 +85,27 @@ public class SideBannerRenderer {
     stack.translate(-position.entityWidth(), 0, 0);
     bannerBar.root().offsetPos(new Vector3f(position.xOffset() * -2, 0, 0));
     bannerFlag.root().offsetPos(new Vector3f(position.xOffset() * -2, 0, 0));
-    renderBanner(stack, vertexConsumers, light, state, itemStack, 90F);
+    renderBanner(stack, submitNodeCollector, light, state, itemStack, 90F);
     stack.popPose();
   }
 
-  private void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light,
+  private void renderBanner(PoseStack matrices, SubmitNodeCollector submitNodeCollector, int light,
                             LivingEntityRenderState entity, ItemStack itemStack, float rotation) {
     matrices.pushPose();
 
     // Safety try catch to avoid crashes!
     try {
+      int overlay = entity.hasRedOverlay ? OverlayTexture.RED_OVERLAY_V : OverlayTexture.NO_OVERLAY;
+
       RendererUtils.renderBanner(
-        matrices, vertexConsumers, light,
-        LivingEntityRenderer.getOverlayCoords(entity, 0.0F), rotation,
-        bannerBar, bannerFlag,
+        this.materials,
+        matrices,
+        submitNodeCollector,
+        light,
+        overlay,
+        rotation,
+        bannerBar,
+        bannerFlag,
         RendererUtils.createBannerSwing(entity),
         itemStack
       );

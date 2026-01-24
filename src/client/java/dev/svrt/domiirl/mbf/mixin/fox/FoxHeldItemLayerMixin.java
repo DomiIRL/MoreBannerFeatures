@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.client.model.FoxModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.FoxHeldItemLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -21,8 +22,8 @@ public abstract class FoxHeldItemLayerMixin extends RenderLayer<FoxRenderState, 
 		super(renderLayerParent);
 	}
 
-	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/FoxRenderState;FF)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V"))
-	private void renderItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, FoxRenderState foxRenderState, float f, float g, CallbackInfo ci) {
+	@Inject(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/FoxRenderState;FF)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V"))
+	private void renderItem(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, FoxRenderState foxRenderState, float f, float g, CallbackInfo ci) {
 		if (MBFOptions.FOX_CORRECTION.getBooleanValue()) {
 			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 		}

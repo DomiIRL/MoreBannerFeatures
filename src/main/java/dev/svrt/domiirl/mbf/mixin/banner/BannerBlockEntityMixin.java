@@ -36,13 +36,11 @@ public class BannerBlockEntityMixin {
 
   @Inject(method = "applyImplicitComponents", at = @At("TAIL"))
   private void applyImplicitComponents(DataComponentGetter dataComponentGetter, CallbackInfo ci) {
-    System.out.println("Applying implicit components to BannerBlockEntityMixin");
     this.maxLayers = dataComponentGetter.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
   }
 
   @Inject(method = "collectImplicitComponents", at = @At("TAIL"))
   private void collectImplicitComponents(DataComponentMap.Builder builder, CallbackInfo ci) {
-    System.out.println("Collecting implicit components in BannerBlockEntityMixin");
     builder.set(ModDataComponents.MAX_BANNER_LAYERS, this.maxLayers);
     builder.set(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
   }

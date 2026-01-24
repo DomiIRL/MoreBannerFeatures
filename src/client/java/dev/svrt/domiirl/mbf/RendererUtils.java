@@ -7,14 +7,18 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.BannerFlagModel;
 import net.minecraft.client.model.BannerModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Unit;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -39,31 +43,79 @@ public class RendererUtils {
 		return ((float)Math.floorMod((long)(entityRenderState.x * 7 + entityRenderState.y * 9 + entityRenderState.z * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
 	}
 
-	public static void renderBanner(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int j, float f, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float g, ItemStack itemStack) {
+	public static void renderBanner(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
-		renderBanner(poseStack, multiBufferSource, light, j, f, bannerModel, bannerFlagModel, g, dyeColor, bannerPatternLayers);
+		renderBanner(materialSet, poseStack, submitNodeCollector, light, overlay, angle, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 	}
 
-	public static void renderBanner(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, float f, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float g, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
+	public static void renderBanner(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
-		poseStack.mulPose(Axis.YP.rotationDegrees(f));
+		poseStack.mulPose(Axis.YP.rotationDegrees(angle));
 		poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
+
+		Material material = ModelBakery.BANNER_BASE;
+
 		if (bannerModel != null) {
-			bannerModel.renderToBuffer(poseStack, ModelBakery.BANNER_BASE.buffer(multiBufferSource, RenderType::entitySolid), i, j);
+			submitNodeCollector.submitModel(
+				bannerModel,
+				Unit.INSTANCE,
+				poseStack,
+				material.renderType(RenderType::entitySolid),
+				i,
+				j,
+				-1,
+				materialSet.get(material),
+				0,
+				null
+			);
 		}
+
 		if (bannerFlagModel != null) {
-			bannerFlagModel.setupAnim(g);
-			BannerRenderer.renderPatterns(poseStack, multiBufferSource, i, j, bannerFlagModel.root(), ModelBakery.BANNER_BASE, true, dyeColor, bannerPatternLayers);
+			BannerRenderer.submitPatterns(
+				materialSet,
+				poseStack,
+				submitNodeCollector,
+				i,
+				j,
+				bannerFlagModel,
+				phase,
+				material,
+				true,
+				dyeColor,
+				bannerPatternLayers,
+				false,
+				null,
+				0
+			);
 		}
+
 		poseStack.popPose();
 	}
 
-	public static void renderCanvasFromItem(ItemStack itemStack, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas) {
+	public static <S> void renderCanvasFromItem(MaterialSet materialSet, ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
-		BannerRenderer.renderPatterns(matrixStack, vertexConsumers, light, overlay, canvas, ModelBakery.BANNER_BASE, true, dyeColor, patternLayers);
+
+		Material material = ModelBakery.BANNER_BASE;
+
+		BannerRenderer.submitPatterns(
+			materialSet,
+			poseStack,
+			submitNodeCollector,
+			light,
+			overlay,
+			model,
+			object,
+			material,
+			true,
+			dyeColor,
+			patternLayers,
+			false,
+			null,
+			0
+		);
 	}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {
