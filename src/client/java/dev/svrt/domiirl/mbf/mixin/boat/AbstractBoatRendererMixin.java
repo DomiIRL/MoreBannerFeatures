@@ -10,13 +10,13 @@ import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.world.entity.vehicle.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -48,13 +48,17 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	}
 
 	@Inject(
-		method = "submitTypeAdditions(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
-		at = @At("HEAD")
+		method = "submit(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/renderer/entity/AbstractBoatRenderer;submitTypeAdditions(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
+			shift = At.Shift.AFTER
+		)
 	)
-	private void onSubmitTypeAdditions(BoatRenderState entity, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
+	private void onSubmitTypeAdditions(BoatRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
 		poseStack.pushPose();
 		try {
-			if (entity instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
+			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 					poseStack.mulPose(Axis.XP.rotationDegrees(180));
@@ -66,12 +70,12 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 						this.materials,
 						poseStack,
 						submitNodeCollector,
-						light,
+						state.lightCoords,
 						OverlayTexture.NO_OVERLAY,
 						0.0f,
 						RendererUtils.STANDING_BANNER,
 						RendererUtils.STANDING_FLAG_BANNER,
-						RendererUtils.createBannerSwing(entity),
+						RendererUtils.createBannerSwing(state),
 						itemStack
 					);
 				}
