@@ -81,7 +81,23 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 					poseStack.translate(0.0F, -0.053125F, 0.06875F);
 				}
 
-				float phase = 0.0F;
+				poseStack.translate(0.0D, 0.0D, 0.145D);
+
+				float capeLean = state.capeLean;
+				float capeLean2 = state.capeLean2;
+				float capeFlap = state.capeFlap;
+				boolean isCrouching = state.isCrouching;
+
+				if (isCrouching) {
+					poseStack.translate(0.0D, 0.14D, -0.02D);
+				}
+
+				Quaternionf quaternionf = new Quaternionf()
+					.rotateY((float) Math.PI)
+					.rotateX(-(6.0F + capeLean / 2.0F + capeFlap + (isCrouching ? 25.0F : 0.0F)) * ((float) Math.PI / 180F))
+					.rotateZ(-capeLean2 / 2.0F * ((float) Math.PI / 180F))
+					.rotateY(-(180.0F - capeLean2 / 2.0F) * ((float) Math.PI / 180F));
+				poseStack.mulPose(quaternionf);
 
 				RendererUtils.renderCanvasFromItem(
 					this.materials,
@@ -90,8 +106,8 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 					submitNodeCollector,
 					light,
 					OverlayTexture.NO_OVERLAY,
-					this.cloakModel,  // Model<Unit>
-					Unit.INSTANCE     // The object (Unit.INSTANCE for simple models)
+					this.cloakModel,
+					Unit.INSTANCE
 				);
 
 				poseStack.popPose();
