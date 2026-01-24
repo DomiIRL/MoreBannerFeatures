@@ -55,6 +55,18 @@ public class RendererUtils {
 		poseStack.mulPose(Axis.YP.rotationDegrees(angle));
 		poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
+		renderBannerDirect(materialSet, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+
+		poseStack.popPose();
+	}
+
+	public static void renderBannerDirect(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
+		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
+		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+		renderBannerDirect(materialSet, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+	}
+
+	public static void renderBannerDirect(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		Material material = ModelBakery.BANNER_BASE;
 
 		if (bannerModel != null) {
@@ -90,8 +102,6 @@ public class RendererUtils {
 				0
 			);
 		}
-
-		poseStack.popPose();
 	}
 
 	public static <S> void renderCanvasFromItem(MaterialSet materialSet, ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {

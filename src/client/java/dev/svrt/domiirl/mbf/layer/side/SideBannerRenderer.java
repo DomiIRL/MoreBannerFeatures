@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Vector3f;
 
 /**
  * Utility class for rendering side banners on entities.
@@ -64,46 +63,40 @@ public class SideBannerRenderer {
     bannerBar.resetPose();
     bannerFlag.resetPose();
 
-    bannerBar.root().rotateBy(Axis.XP.rotationDegrees(180)); // Initial orientation - banner faces downward by default
-    bannerFlag.root().rotateBy(Axis.XP.rotationDegrees(180)); // Initial orientation - banner faces downward by default
-    bannerBar.root().xScale = position.scale();
-    bannerFlag.root().xScale = position.scale();
-    bannerBar.root().yScale = position.scale();
-    bannerFlag.root().yScale = position.scale();
-    bannerBar.root().zScale = position.scale();
-    bannerFlag.root().zScale = position.scale();
-    bannerBar.root().setPos(position.xOffset(), position.yOffset(), position.zOffset());
-    bannerFlag.root().setPos(position.xOffset(), position.yOffset(), position.zOffset());
-
     // Render left side banner
     stack.pushPose();
-    renderBanner(stack, submitNodeCollector, light, state, itemStack, -90F);
+    renderBanner(stack, submitNodeCollector, light, state, itemStack, -90F, position.scale(), position.xOffset(), position.yOffset(), position.zOffset());
     stack.popPose();
 
     // Render right side banner
     stack.pushPose();
     stack.translate(-position.entityWidth(), 0, 0);
-    bannerBar.root().offsetPos(new Vector3f(position.xOffset() * -2, 0, 0));
-    bannerFlag.root().offsetPos(new Vector3f(position.xOffset() * -2, 0, 0));
-    renderBanner(stack, submitNodeCollector, light, state, itemStack, 90F);
+    renderBanner(stack, submitNodeCollector, light, state, itemStack, 90F, position.scale(), -position.xOffset(), position.yOffset(), position.zOffset());
     stack.popPose();
   }
 
   private void renderBanner(PoseStack matrices, SubmitNodeCollector submitNodeCollector, int light,
-                            LivingEntityRenderState entity, ItemStack itemStack, float rotation) {
+                            LivingEntityRenderState entity, ItemStack itemStack, float rotationY, float scale, float x, float y, float z) {
     matrices.pushPose();
 
     // Safety try catch to avoid crashes!
     try {
       int overlay = entity.hasRedOverlay ? OverlayTexture.RED_OVERLAY_V : OverlayTexture.NO_OVERLAY;
 
-      RendererUtils.renderBanner(
+      matrices.translate(0.5F, 0.0F, 0.5F);
+      matrices.mulPose(Axis.YP.rotationDegrees(rotationY));
+      matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
+
+      matrices.translate(x / 16.0F, y / 16.0F, z / 16.0F);
+      matrices.mulPose(Axis.XP.rotationDegrees(180));
+      matrices.scale(scale, scale, scale);
+
+      RendererUtils.renderBannerDirect(
         this.materials,
         matrices,
         submitNodeCollector,
         light,
         overlay,
-        rotation,
         bannerBar,
         bannerFlag,
         RendererUtils.createBannerSwing(entity),
@@ -111,7 +104,6 @@ public class SideBannerRenderer {
       );
     } catch (Exception exception) {
       ErrorSystemManager.reportException();
-      exception.printStackTrace();
     }
     matrices.popPose();
   }
