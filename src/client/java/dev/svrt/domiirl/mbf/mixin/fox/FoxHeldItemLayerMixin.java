@@ -3,7 +3,7 @@ package dev.svrt.domiirl.mbf.mixin.fox;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
-import net.minecraft.client.model.FoxModel;
+import net.minecraft.client.model.animal.fox.FoxModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.BannerRenderStateAccessor;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
-import net.minecraft.client.model.BannerFlagModel;
+import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

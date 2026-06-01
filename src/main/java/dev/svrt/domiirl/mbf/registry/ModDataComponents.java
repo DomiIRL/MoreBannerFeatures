@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.DyeColor;
 
@@ -22,7 +22,7 @@ public class ModDataComponents {
   }
 
   private static <T> DataComponentType<T> register(String id, UnaryOperator<DataComponentType.Builder<T>> unaryOperator) {
-    return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), unaryOperator.apply(DataComponentType.builder()).build());
+    return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), unaryOperator.apply(DataComponentType.builder()).build());
   }
 
 }

@@ -4,10 +4,10 @@ import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.gui.BannerSlot;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
     @Unique
-    private static final ResourceLocation SLOT_ICON = ResourceLocation.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, "container/slot/banner");
+    private static final Identifier SLOT_ICON = Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, "container/slot/banner");
 
     @Shadow @Final private Container horseContainer;
     @Unique

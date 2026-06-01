@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BannerItem;
@@ -31,15 +31,15 @@ import java.util.function.Function;
 @Mixin(ItemModelResolver.class)
 public class ItemModelResolverMixin {
 
-  @Shadow @Final private Function<ResourceLocation, ClientItem.Properties> clientProperties;
-  @Shadow @Final private Function<ResourceLocation, ItemModel> modelGetter;
-  private static final Map<DyeColor, ResourceLocation> bannerModelByColor = new HashMap<>();
+  @Shadow @Final private Function<Identifier, ClientItem.Properties> clientProperties;
+  @Shadow @Final private Function<Identifier, ItemModel> modelGetter;
+  private static final Map<DyeColor, Identifier> bannerModelByColor = new HashMap<>();
 
   static  {
     BuiltInRegistries.ITEM.stream().filter(item -> item instanceof BannerItem).map(item -> ((BannerItem) item))
       .forEach(bannerItem -> {
         DyeColor color = bannerItem.getColor();
-        ResourceLocation resourceLocation = bannerItem.getDefaultInstance().get(DataComponents.ITEM_MODEL);
+        Identifier resourceLocation = bannerItem.getDefaultInstance().get(DataComponents.ITEM_MODEL);
         bannerModelByColor.put(color, resourceLocation);
       });
   }
@@ -51,7 +51,7 @@ public class ItemModelResolverMixin {
       && itemStack.has(DataComponents.BANNER_PATTERNS)
       && (itemStack.getItem() instanceof BannerItem || itemStack.has(ModDataComponents.BANNER_BASE_COLOR))) {
       DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.get(ModDataComponents.BANNER_BASE_COLOR);
-      ResourceLocation resourceLocation = bannerModelByColor.get(dyeColor);
+      Identifier resourceLocation = bannerModelByColor.get(dyeColor);
 
       if (resourceLocation != null) {
         itemStackRenderState.setOversizedInGui(this.clientProperties.apply(resourceLocation).oversizedInGui());

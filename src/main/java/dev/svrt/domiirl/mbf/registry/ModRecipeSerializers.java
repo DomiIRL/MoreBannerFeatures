@@ -5,7 +5,7 @@ import dev.svrt.domiirl.mbf.recipe.ArmorDecorationRecipe;
 import dev.svrt.domiirl.mbf.recipe.UseBannerThreadsRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
@@ -20,6 +20,6 @@ public class ModRecipeSerializers {
   }
 
   public static <T extends CustomRecipe> RecipeSerializer<T> register(String id, RecipeSerializer<T> serializer) {
-    return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, ResourceLocation.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), serializer);
+    return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), serializer);
   }
 }

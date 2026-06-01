@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.gui;
 
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.Slot;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 public class BannerSlot extends Slot {
 
 	protected final Entity entity;
-	private final ResourceLocation slotIcon;
+	private final Identifier slotIcon;
 
-	public BannerSlot(Entity entity, Container inventory, int index, int x, int y, ResourceLocation slotIcon) {
+	public BannerSlot(Entity entity, Container inventory, int index, int x, int y, Identifier slotIcon) {
 		super(inventory, index, x, y);
 		this.entity = entity;
 		this.slotIcon = slotIcon;
@@ -36,7 +36,7 @@ public class BannerSlot extends Slot {
 	}
 
 	@Override
-	public @Nullable ResourceLocation getNoItemIcon() {
+	public @Nullable Identifier getNoItemIcon() {
 		return slotIcon;
 	}
 }

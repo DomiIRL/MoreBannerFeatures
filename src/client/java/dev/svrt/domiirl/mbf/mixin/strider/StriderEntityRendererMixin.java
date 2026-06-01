@@ -2,7 +2,7 @@ package dev.svrt.domiirl.mbf.mixin.strider;
 
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.StriderBannerFeatureRenderer;
-import net.minecraft.client.model.StriderModel;
+import net.minecraft.client.model.monster.strider.StriderModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.StriderRenderer;

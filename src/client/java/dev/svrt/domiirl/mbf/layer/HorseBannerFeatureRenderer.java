@@ -7,7 +7,7 @@ import dev.svrt.domiirl.mbf.layer.side.EquineBannerPositionProvider;
 import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HorseModel;
+import net.minecraft.client.model.animal.equine.HorseModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;

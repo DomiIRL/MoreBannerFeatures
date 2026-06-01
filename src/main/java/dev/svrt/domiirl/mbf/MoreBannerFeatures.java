@@ -33,7 +33,7 @@ public class MoreBannerFeatures implements ModInitializer {
 		});
 
 		LootTableEvents.MODIFY.register((resourceKey, builder, lootTableSource, provider) -> {
-			if (!lootTableSource.isBuiltin() || !resourceKey.location().getPath().contains("banner")) {
+			if (!lootTableSource.isBuiltin() || !resourceKey.identifier().getPath().contains("banner")) {
 				return;
 			}
 			builder.modifyPools(poolBuilder -> {

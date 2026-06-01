@@ -8,12 +8,13 @@ import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.ModelPart.Cube;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -54,7 +55,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 		cloak = new ModelPart(cuboids, new HashMap<>());
 
 		// Wrap the ModelPart in a Model.Simple
-		this.cloakModel = new Model.Simple(cloak, RenderType::entityNoOutline);
+		this.cloakModel = new Model.Simple(cloak, RenderTypes::entityNoOutline);
 	}
 
 	private boolean hasLayer(ItemStack itemStack, EquipmentClientInfo.LayerType layerType) {

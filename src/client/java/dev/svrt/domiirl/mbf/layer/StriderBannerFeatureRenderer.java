@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import net.minecraft.client.model.StriderModel;
+import net.minecraft.client.model.monster.strider.StriderModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;

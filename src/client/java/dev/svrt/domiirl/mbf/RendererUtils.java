@@ -5,12 +5,13 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.BannerFlagModel;
-import net.minecraft.client.model.BannerModel;
+import net.minecraft.client.model.object.banner.BannerFlagModel;
+import net.minecraft.client.model.object.banner.BannerModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -74,7 +75,7 @@ public class RendererUtils {
 				bannerModel,
 				Unit.INSTANCE,
 				poseStack,
-				material.renderType(RenderType::entitySolid),
+				material.renderType(RenderTypes::entitySolid),
 				i,
 				j,
 				-1,
