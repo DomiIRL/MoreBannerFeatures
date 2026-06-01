@@ -1,19 +1,19 @@
 package dev.svrt.domiirl.mbf.recipe;
 
+import com.mojang.serialization.MapCodec;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
@@ -21,8 +21,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class ArmorDecorationRecipe extends CustomRecipe {
 
-    public ArmorDecorationRecipe(CraftingBookCategory category) {
-        super(category);
+    public static final MapCodec<ArmorDecorationRecipe> MAP_CODEC = MapCodec.unit(ArmorDecorationRecipe::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, ArmorDecorationRecipe> STREAM_CODEC = StreamCodec.unit(new ArmorDecorationRecipe());
+    public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
+    public ArmorDecorationRecipe() {
+        super();
     }
 
     @Override
@@ -54,7 +58,7 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput craftingInput) {
         ItemStack chestplate = ItemStack.EMPTY;
         ItemStack banner = ItemStack.EMPTY;
 
@@ -86,7 +90,6 @@ public class ArmorDecorationRecipe extends CustomRecipe {
 
     public boolean isValidArmor(ItemStack itemStack) {
         Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
-        return equippable != null && (equippable.slot() == EquipmentSlot.CHEST || equippable.slot() == EquipmentSlot.HEAD
-        );
+        return equippable != null && (equippable.slot() == EquipmentSlot.CHEST || equippable.slot() == EquipmentSlot.HEAD);
     }
 }

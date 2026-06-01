@@ -22,7 +22,7 @@ public class ErrorSystemManager {
 				MutableComponent text = Component.translatable("mbf.message.error");
 				Style style = text.getStyle().withClickEvent(new ClickEvent.OpenUrl(URI.create("https://discord.gg/7BSqZa9r3P")));
 				text.setStyle(style);
-				player.displayClientMessage(text, false);
+				player.sendSystemMessage(text);
 			}
 		}
 	}

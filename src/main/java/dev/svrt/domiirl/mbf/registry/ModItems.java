@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.registry;
 
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -19,8 +19,8 @@ public class ModItems {
   public static void init() {
     BANNER_THREAD = register("banner_thread", Item::new, new Item.Properties().component(ModDataComponents.MAX_BANNER_LAYERS, 1));
 
-    ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
-      entries.accept(BANNER_THREAD);
+    CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(output -> {
+      output.accept(new net.minecraft.world.item.ItemStack(BANNER_THREAD), net.minecraft.world.item.CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     });
   }
 

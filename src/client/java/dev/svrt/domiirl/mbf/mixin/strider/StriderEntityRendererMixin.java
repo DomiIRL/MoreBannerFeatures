@@ -22,7 +22,7 @@ public abstract class StriderEntityRendererMixin extends MobRenderer<Strider, St
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, CallbackInfo ci) {
-		addLayer(new StriderBannerFeatureRenderer(this, context.getMaterials()));
+		addLayer(new StriderBannerFeatureRenderer(this, context.getSprites()));
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/monster/Strider;Lnet/minecraft/client/renderer/entity/state/StriderRenderState;F)V", at = @At("HEAD"))

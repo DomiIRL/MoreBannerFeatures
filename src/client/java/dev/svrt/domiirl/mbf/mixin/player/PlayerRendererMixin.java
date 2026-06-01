@@ -22,7 +22,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<Avatar, A
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context ctx, boolean slim, CallbackInfo ci) {
-		addLayer(new BannerCapeFeatureRenderer(this, ctx.getMaterials(), ctx.getEquipmentAssets()));
+		addLayer(new BannerCapeFeatureRenderer(this, ctx.getSprites(), ctx.getEquipmentAssets()));
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("HEAD"))

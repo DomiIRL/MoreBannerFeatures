@@ -11,17 +11,17 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.StriderRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 
 public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState, StriderModel> {
 
-	private final MaterialSet materials;
+	private final SpriteGetter sprites;
 
-	public StriderBannerFeatureRenderer(RenderLayerParent<StriderRenderState, StriderModel> context, MaterialSet materialSet) {
+	public StriderBannerFeatureRenderer(RenderLayerParent<StriderRenderState, StriderModel> context, SpriteGetter materialSet) {
 		super(context);
-		this.materials = materialSet;
+		this.sprites = materialSet;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 					poseStack.translate(-0.5, 0.25, -0.9);
 
 					RendererUtils.renderBanner(
-						this.materials,
+						this.sprites,
 						poseStack,
 						submitNodeCollector,
 						light,

@@ -10,9 +10,9 @@ import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
 
 	@Unique
-  private MaterialSet materials;
+  private SpriteGetter sprites;
 
 	protected AbstractBoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
@@ -34,7 +34,7 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(EntityRendererProvider.Context context, CallbackInfo ci) {
-		this.materials = context.getMaterials();
+		this.sprites = context.getSprites();
 	}
 
 	@Inject(
@@ -48,7 +48,7 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	}
 
 	@Inject(
-		method = "submit(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+		method = "submit(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/renderer/entity/AbstractBoatRenderer;submitTypeAdditions(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
@@ -67,7 +67,7 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 					poseStack.translate(-0.5, 0, -1.44);
 
 					RendererUtils.renderBanner(
-						this.materials,
+						this.sprites,
 						poseStack,
 						submitNodeCollector,
 						state.lightCoords,

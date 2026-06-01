@@ -22,7 +22,7 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.EquipmentAssetManager;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
@@ -39,13 +39,13 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 	private final ModelPart cloak;
 	private final Model<Unit> cloakModel;
 
-	private final MaterialSet materials;
+	private final SpriteGetter sprites;
 	private final EquipmentAssetManager equipmentAssets;
 
-	public BannerCapeFeatureRenderer(RenderLayerParent<AvatarRenderState, PlayerModel> featureRendererContext, MaterialSet materials, EquipmentAssetManager equipmentAssetManager) {
+	public BannerCapeFeatureRenderer(RenderLayerParent<AvatarRenderState, PlayerModel> featureRendererContext, SpriteGetter materials, EquipmentAssetManager equipmentAssetManager) {
 		super(featureRendererContext);
 
-		this.materials = materials;
+		this.sprites = materials;
 		this.equipmentAssets = equipmentAssetManager;
 
 		// OWN CLOAK WITH CUSTOM TEXTURE SIZE TO FIT THE BANNER TEXTURE
@@ -55,7 +55,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 		cloak = new ModelPart(cuboids, new HashMap<>());
 
 		// Wrap the ModelPart in a Model.Simple
-		this.cloakModel = new Model.Simple(cloak, RenderTypes::entityNoOutline);
+		this.cloakModel = new Model.Simple(cloak, RenderTypes::entitySolid);
 	}
 
 	private boolean hasLayer(ItemStack itemStack, EquipmentClientInfo.LayerType layerType) {
@@ -101,7 +101,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 				poseStack.mulPose(quaternionf);
 
 				RendererUtils.renderCanvasFromItem(
-					this.materials,
+					this.sprites,
 					bannerable.mbf$getBannerItem(),
 					poseStack,
 					submitNodeCollector,

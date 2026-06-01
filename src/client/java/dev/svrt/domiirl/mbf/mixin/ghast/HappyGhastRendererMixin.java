@@ -22,7 +22,7 @@ public abstract class HappyGhastRendererMixin extends AgeableMobRenderer<HappyGh
 
   @Inject(method = "<init>", at = @At("TAIL"))
   private void init(EntityRendererProvider.Context context, CallbackInfo ci) {
-    this.addLayer(new HappyGhastBannerFeatureRenderer(this, context.getMaterials()));
+    this.addLayer(new HappyGhastBannerFeatureRenderer(this, context.getSprites()));
   }
 
   @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/HappyGhast;Lnet/minecraft/client/renderer/entity/state/HappyGhastRenderState;F)V", at = @At("HEAD"))

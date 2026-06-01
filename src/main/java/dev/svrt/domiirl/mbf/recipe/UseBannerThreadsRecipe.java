@@ -1,12 +1,13 @@
 package dev.svrt.domiirl.mbf.recipe;
 
+import com.mojang.serialization.MapCodec;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,13 +18,17 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
 
     public static final int MAX_BANNER_LAYERS = 16, VANILLA_MAX_BANNER_LAYERS = 6;
 
-    public UseBannerThreadsRecipe(CraftingBookCategory category) {
-        super(category);
+    public static final MapCodec<UseBannerThreadsRecipe> MAP_CODEC = MapCodec.unit(UseBannerThreadsRecipe::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, UseBannerThreadsRecipe> STREAM_CODEC = StreamCodec.unit(new UseBannerThreadsRecipe());
+    public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
+    public UseBannerThreadsRecipe() {
+        super();
     }
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return ModRecipeSerializers.ARMOR_DECORATION;
+        return ModRecipeSerializers.USE_BANNER_THREADS;
     }
 
     @Override
@@ -53,7 +58,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput craftingInput) {
         ItemStack banner = ItemStack.EMPTY;
         int threadLayerSum = 0;
 
@@ -79,10 +84,8 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
         int currentMax = result.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, VANILLA_MAX_BANNER_LAYERS);
         int newMax = Math.min(currentMax + threadLayerSum, MAX_BANNER_LAYERS);
 
-        // Only consume threads up to the cap
         int layersUsed = Math.max(0, newMax - currentMax);
         if (layersUsed == 0) {
-            // Already at cap, don't allow recipe
             return ItemStack.EMPTY;
         }
 
@@ -95,15 +98,14 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     public net.minecraft.core.NonNullList<ItemStack> getRemainingItems(CraftingInput craftingInput) {
         net.minecraft.core.NonNullList<ItemStack> remaining = net.minecraft.core.NonNullList.withSize(craftingInput.size(), ItemStack.EMPTY);
 
-        // Find banner and thread layer sum
         int currentMax = VANILLA_MAX_BANNER_LAYERS;
-      int[] threadLayers = new int[craftingInput.size()];
+        int[] threadLayers = new int[craftingInput.size()];
 
         for (int i = 0; i < craftingInput.size(); i++) {
             ItemStack stack = craftingInput.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof BannerItem) {
-                  if (stack.has(ModDataComponents.MAX_BANNER_LAYERS)) {
+                    if (stack.has(ModDataComponents.MAX_BANNER_LAYERS)) {
                         currentMax = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
                     }
                 } else if (stack.getItem() == ModItems.BANNER_THREAD) {
@@ -114,22 +116,18 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
 
         int layersToUse = Math.max(0, Math.min(MAX_BANNER_LAYERS - currentMax, java.util.Arrays.stream(threadLayers).sum()));
 
-        // Place unused threads back in their slots, consuming only as many layers as needed
         for (int i = 0; i < craftingInput.size(); i++) {
             ItemStack stack = craftingInput.getItem(i);
             if (!stack.isEmpty() && stack.getItem() == ModItems.BANNER_THREAD) {
                 int threadLayer = threadLayers[i];
                 if (layersToUse >= threadLayer) {
                     layersToUse -= threadLayer;
-                    // fully consumed, do not return
                 } else if (layersToUse > 0) {
-                    // Partially consumed, return a thread with reduced layers
                     ItemStack leftover = new ItemStack(ModItems.BANNER_THREAD);
                     leftover.set(ModDataComponents.MAX_BANNER_LAYERS, threadLayer - layersToUse);
                     remaining.set(i, leftover);
                     layersToUse = 0;
                 } else {
-                    // Not consumed at all, return as is
                     remaining.set(i, stack.copyWithCount(1));
                 }
             }
