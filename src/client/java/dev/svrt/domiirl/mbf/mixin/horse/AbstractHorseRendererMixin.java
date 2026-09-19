@@ -29,7 +29,7 @@ public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S exte
 		addLayer((RenderLayer<S, M>) new HorseBannerFeatureRenderer((RenderLayerParent<EquineRenderState, HorseModel>) this, context.getMaterials(), ((Object) this) instanceof UndeadHorseRenderer));
 	}
 
-	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"))
+	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/equine/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("HEAD"))
 	private void extractRenderState(AbstractHorse horse, EquineRenderState state, float f, CallbackInfo ci) {
 		if (state instanceof Bannerable bannerRenderState && horse instanceof Bannerable bannerable) {
 			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());

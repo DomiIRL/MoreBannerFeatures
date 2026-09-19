@@ -15,7 +15,7 @@
     "ghast.HappyGhastRenderStateMixin",
     "horse.AbstractHorseRendererMixin",
     "horse.AbstractHorseRenderStateMixin",
-    "horse.HorseInventoryScreenMixin",
+    "horse.AbstractMountInventoryScreenMixin",
     "minecart.AbstractMinecartRendererMixin",
     "minecart.MinecartRenderStateMixin",
     "player.CapeLayerMixin",
