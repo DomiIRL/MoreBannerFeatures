@@ -33,10 +33,10 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 
-					poseStack.mulPose(Axis.YP.rotationDegrees(entity.yRot));
-					if (!entity.isRidden) {
-						poseStack.mulPose(Axis.XP.rotationDegrees(entity.xRot));
-					}
+					// Follow the strider's body part. It bobs (body.y), rolls (body.zRot) and pitches
+					// as it walks, and none of that reaches the entity root, so a banner anchored
+					// there drifts out of alignment. This also zeroes out correctly when ridden.
+					this.getParentModel().root().getChild("body").translateAndRotate(poseStack);
 
 					poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
