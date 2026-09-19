@@ -50,7 +50,7 @@ public class RendererUtils {
 	public static void renderBanner(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
-		poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+		poseStack.rotateDegrees(Axis.YP, angle);
 		poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
 		renderBannerDirect(sprites, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
@@ -66,11 +66,11 @@ public class RendererUtils {
 
 	public static void renderBannerDirect(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		if (bannerModel != null) {
-			submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, i, j, -1, Sheets.BANNER_BASE, sprites, 0, null);
+			submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, i, j, -1, Sheets.BANNER_BASE, sprites, 0);
 		}
 
 		if (bannerFlagModel != null) {
-			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, false, dyeColor, bannerPatternLayers, null);
+			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, false, dyeColor, bannerPatternLayers);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class RendererUtils {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
-		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, object, false, dyeColor, patternLayers, null);
+		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, object, false, dyeColor, patternLayers);
 	}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {

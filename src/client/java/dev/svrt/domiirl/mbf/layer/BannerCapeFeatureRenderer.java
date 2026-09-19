@@ -98,7 +98,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 					.rotateX(-(6.0F + capeLean / 2.0F + capeFlap + (isCrouching ? 25.0F : 0.0F)) * ((float) Math.PI / 180F))
 					.rotateZ(-capeLean2 / 2.0F * ((float) Math.PI / 180F))
 					.rotateY(-(180.0F - capeLean2 / 2.0F) * ((float) Math.PI / 180F));
-				poseStack.mulPose(quaternionf);
+				poseStack.rotate(quaternionf);
 
 				RendererUtils.renderCanvasFromItem(
 					this.sprites,

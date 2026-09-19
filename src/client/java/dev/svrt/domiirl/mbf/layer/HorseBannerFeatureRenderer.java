@@ -32,7 +32,7 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 			// Apply stand animation rotation
 			if (entityRenderState.standAnimation > 0) {
 				float o = entityRenderState.standAnimation;
-				poseStack.mulPose(Axis.XP.rotation(o * -0.7853982F));
+				poseStack.rotate(Axis.XP, o * -0.7853982F);
 				poseStack.translate(0, o * -0.4136991F, o * 0.3926991F);
 			}
 			bannerRenderer.renderSideBanners(poseStack, submitNodeCollector, light, entityRenderState);

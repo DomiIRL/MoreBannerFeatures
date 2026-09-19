@@ -52,7 +52,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/resources/Identifier;IIILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V", shift = At.Shift.AFTER)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/resources/Identifier;III)V", shift = At.Shift.AFTER)
 	)
 	private void render(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
 		poseStack.pushPose();
@@ -60,8 +60,8 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
-					poseStack.mulPose(Axis.XP.rotationDegrees(180));
-					poseStack.mulPose(Axis.YP.rotationDegrees(90));
+					poseStack.rotateDegrees(Axis.XP, 180);
+					poseStack.rotateDegrees(Axis.YP, 90);
 
 					boolean inverted = false;
 
@@ -71,7 +71,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 					}
 
 					if (!inverted) {
-						poseStack.mulPose(Axis.YP.rotationDegrees(180));
+						poseStack.rotateDegrees(Axis.YP, 180);
 					}
 
 					poseStack.translate(-0.5, 0.3, -1.06);

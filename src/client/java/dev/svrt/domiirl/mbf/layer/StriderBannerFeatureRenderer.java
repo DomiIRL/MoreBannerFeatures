@@ -33,12 +33,12 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
 
-					poseStack.mulPose(Axis.YP.rotationDegrees(entity.yRot));
+					poseStack.rotateDegrees(Axis.YP, entity.yRot);
 					if (!entity.isRidden) {
-						poseStack.mulPose(Axis.XP.rotationDegrees(entity.xRot));
+						poseStack.rotateDegrees(Axis.XP, entity.xRot);
 					}
 
-					poseStack.mulPose(Axis.XP.rotationDegrees(180));
+					poseStack.rotateDegrees(Axis.XP, 180);
 
 					poseStack.translate(-0.5, 0.25, -0.9);
 

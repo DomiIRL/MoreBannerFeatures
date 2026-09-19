@@ -62,8 +62,8 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
-					poseStack.mulPose(Axis.XP.rotationDegrees(180));
-					poseStack.mulPose(Axis.YP.rotationDegrees(90));
+					poseStack.rotateDegrees(Axis.XP, 180);
+					poseStack.rotateDegrees(Axis.YP, 90);
 
 					poseStack.translate(-0.5, 0, -1.44);
 
