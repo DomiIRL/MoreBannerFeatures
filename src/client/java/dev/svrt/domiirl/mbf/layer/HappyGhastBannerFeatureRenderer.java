@@ -5,7 +5,6 @@ import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.side.GhastBannerPositionProvider;
 import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
 import net.minecraft.client.model.animal.ghast.HappyGhastModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
