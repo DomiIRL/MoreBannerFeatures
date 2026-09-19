@@ -6,6 +6,11 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+// Without this the jar is named after the checkout directory, not the mod.
+base {
+	archivesName = project.archives_base_name
+}
+
 repositories {
 	maven { url 'https://jitpack.io' }
 
