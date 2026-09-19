@@ -78,7 +78,9 @@ public class RendererUtils {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
-		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, object, false, dyeColor, patternLayers);
+		// Banner sprites, not shield ones: the shield pattern atlas draws nothing through this
+		// path since 26.1, and the cloak's UV window is laid out for the banner flag anyway.
+		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, object, true, dyeColor, patternLayers);
 	}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {
