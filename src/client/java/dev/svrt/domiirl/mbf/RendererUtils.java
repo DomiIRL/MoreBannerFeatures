@@ -70,13 +70,17 @@ public class RendererUtils {
 		}
 
 		if (bannerFlagModel != null) {
-			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, false, dyeColor, bannerPatternLayers, null);
+			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, true, dyeColor, bannerPatternLayers, null);
 		}
 	}
 
 	public static <S> void renderCanvasFromItem(SpriteGetter sprites, ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+
+		// Solid base pass first, exactly as submitBanner does for a real banner: the pattern
+		// layers alone write no depth, which lets block outlines show through the cape.
+		submitNodeCollector.submitModel(model, object, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0, null);
 
 		// Banner sprites, not shield ones: the shield pattern atlas draws nothing through this
 		// path since 26.1, and the cloak's UV window is laid out for the banner flag anyway.
