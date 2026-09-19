@@ -25,7 +25,7 @@ public abstract class HappyGhastRendererMixin extends AgeableMobRenderer<HappyGh
     this.addLayer(new HappyGhastBannerFeatureRenderer(this, context.getSprites()));
   }
 
-  @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/HappyGhast;Lnet/minecraft/client/renderer/entity/state/HappyGhastRenderState;F)V", at = @At("HEAD"))
+  @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/happyghast/HappyGhast;Lnet/minecraft/client/renderer/entity/state/HappyGhastRenderState;F)V", at = @At("HEAD"))
   private void extractRenderState(HappyGhast happyGhast, HappyGhastRenderState renderState, float f, CallbackInfo ci) {
     if (renderState instanceof Bannerable bannerRenderState && happyGhast instanceof Bannerable bannerable) {
       bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());

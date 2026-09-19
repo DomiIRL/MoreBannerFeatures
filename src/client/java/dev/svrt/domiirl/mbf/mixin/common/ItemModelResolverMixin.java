@@ -17,7 +17,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,13 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Mixin(ItemModelResolver.class)
-public class ItemModelResolverMixin {
+public abstract class ItemModelResolverMixin {
 
-  @Shadow @Final private Function<Identifier, ClientItem.Properties> clientProperties;
-  @Shadow @Final private Function<Identifier, ItemModel> modelGetter;
+  @Shadow protected abstract ClientItem.Properties getItemProperties(Identifier modelId);
+  @Shadow protected abstract ItemModel getItemModel(Identifier modelId);
   private static final Map<DyeColor, Identifier> bannerModelByColor = new HashMap<>();
 
   static  {
@@ -54,8 +52,8 @@ public class ItemModelResolverMixin {
       Identifier resourceLocation = bannerModelByColor.get(dyeColor);
 
       if (resourceLocation != null) {
-        itemStackRenderState.setOversizedInGui(this.clientProperties.apply(resourceLocation).oversizedInGui());
-        this.modelGetter.apply(resourceLocation)
+        itemStackRenderState.setOversizedInGui(this.getItemProperties(resourceLocation).oversizedInGui());
+        this.getItemModel(resourceLocation)
           .update(itemStackRenderState, itemStack, (ItemModelResolver) (Object) this, itemDisplayContext, level instanceof ClientLevel clientLevel ? clientLevel : null, itemOwner, i);
         ci.cancel();
       }

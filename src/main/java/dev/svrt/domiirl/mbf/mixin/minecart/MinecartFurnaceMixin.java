@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.minecart.MinecartFurnace;
 import net.minecraft.world.level.Level;
@@ -21,7 +22,7 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart {
   }
 
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-  private void onInteract(Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
+  private void onInteract(Player player, InteractionHand interactionHand, Vec3 hitLocation, CallbackInfoReturnable<InteractionResult> cir) {
     BannerableEntity.handleInteract(this, player, interactionHand, cir);
   }
 }

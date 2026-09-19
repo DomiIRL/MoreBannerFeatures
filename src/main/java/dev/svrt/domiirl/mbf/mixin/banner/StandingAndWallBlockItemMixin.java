@@ -11,43 +11,36 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(StandingAndWallBlockItem.class)
 public abstract class StandingAndWallBlockItemMixin extends BlockItem {
-
-	@Shadow @Final protected Block wallBlock;
 
 	public StandingAndWallBlockItemMixin(Block block, Properties settings) {
 		super(block, settings);
 	}
 
-	@Inject(method = "getPlacementState", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Direction;getOpposite()Lnet/minecraft/core/Direction;"), cancellable = true)
-	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir, BlockState blockState, LevelReader worldView, BlockPos blockPos, Direction[] directions, int i, int i1) {
+	// Vanilla skips the direction opposite the attachment direction, so a banner aimed at a ceiling
+	// never gets the standing state. Pick it here instead; BannerBlock.getStateForPlacement then
+	// flags it as hanging.
+	@Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
+	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
-
-		Direction direction = directions[i1];
-		if (direction != Direction.UP) return;
-
-		StandingAndWallBlockItem blockItem = (StandingAndWallBlockItem) (Object) this;
-		if (blockItem instanceof BannerItem) {
-			blockState = this.wallBlock.getStateForPlacement(context);
-
-			BlockState blockState3 = direction == Direction.UP ? this.getBlock().getStateForPlacement(context) : blockState;
-			if (blockState3 != null && blockState3.canSurvive(worldView, blockPos)) {
-				cir.setReturnValue(blockState3 != null && worldView.isUnobstructed(blockState3, blockPos, CollisionContext.empty()) ? blockState3 : null);
-			}
-
+		if (!(((Object) this) instanceof BannerItem) || context.getNearestLookingVerticalDirection() != Direction.UP) {
+			return;
 		}
 
-	}
+		LevelReader level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		BlockState hanging = this.getBlock().getStateForPlacement(context);
 
+		if (hanging != null && hanging.canSurvive(level, pos) && level.isUnobstructed(hanging, pos, CollisionContext.empty())) {
+			cir.setReturnValue(hanging);
+		}
+	}
 }

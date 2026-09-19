@@ -11,6 +11,7 @@
     "common.LivingEntityMixin",
     "ghast.HappyGhastMixin",
     "horse.AbstractHorseMixin",
+    "horse.AbstractMountInventoryMenuMixin",
     "horse.HorseInventoryMenuMixin",
     "item.ItemStackMixin",
     "minecart.AbstractMinecartContainerMixin",

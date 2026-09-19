@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -33,12 +34,12 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(EntityRendererProvider.Context context, CallbackInfo ci) {
+	private void init(EntityRendererProvider.Context context, Identifier texture, CallbackInfo ci) {
 		this.sprites = context.getSprites();
 	}
 
 	@Inject(
-		method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/AbstractBoat;Lnet/minecraft/client/renderer/entity/state/BoatRenderState;F)V",
+		method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/boat/AbstractBoat;Lnet/minecraft/client/renderer/entity/state/BoatRenderState;F)V",
 		at = @At("TAIL")
 	)
 	private void onExtractRenderState(AbstractBoat boat, BoatRenderState state, float f, CallbackInfo ci) {

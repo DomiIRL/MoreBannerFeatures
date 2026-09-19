@@ -45,20 +45,23 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		}
 
 		if (bannerRenderState instanceof BannerRenderStateAccessor accessor && accessor.mbf$isHanging()) {
+			// submit() has already applied the block's Transformation, so the banner only needs
+			// lifting to the ceiling - translate is in that flipped, 0.6666667-scaled space.
 			poseStack.translate(0.0D, -0.85D, 0.0D);
-			RendererUtils.renderBanner(
+			RendererUtils.renderBannerDirect(
 				this.sprites,
 				poseStack,
 				submitNodeCollector,
 				bannerRenderState.lightCoords,
 				OverlayTexture.NO_OVERLAY,
-				0.0f,
 				RendererUtils.BANNER_BAR,
 				this.standingFlagModel,
 				bannerRenderState.phase,
 				bannerRenderState.baseColor,
 				bannerRenderState.patterns
 			);
+			// submit() pushed the pose before this call site and pops it after; cancelling skips that pop.
+			poseStack.popPose();
 			ci.cancel();
 		}
 	}
