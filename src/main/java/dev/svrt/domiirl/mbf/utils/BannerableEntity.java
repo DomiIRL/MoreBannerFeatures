@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -66,6 +67,11 @@ public class BannerableEntity {
     }
 
     if (entity instanceof TamableAnimal tamableAnimal && !tamableAnimal.isTame()) {
+      return;
+    }
+
+    // AbstractHorse is not a TamableAnimal, so the check above never covers horses.
+    if (entity instanceof AbstractHorse abstractHorse && !abstractHorse.isTamed()) {
       return;
     }
 
