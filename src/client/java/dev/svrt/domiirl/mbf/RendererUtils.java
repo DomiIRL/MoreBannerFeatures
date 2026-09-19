@@ -70,6 +70,10 @@ public class RendererUtils {
 		}
 
 		if (bannerFlagModel != null) {
+			// The cloth itself, solid. BANNER_PATTERN sorts on upload, so the pattern layers
+			// below are translucent and write no depth - without this the canvas is see-through.
+			submitNodeCollector.submitModel(bannerFlagModel, phase, poseStack, i, j, -1, Sheets.BANNER_BASE, sprites, 0);
+
 			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, true, dyeColor, bannerPatternLayers);
 		}
 	}
