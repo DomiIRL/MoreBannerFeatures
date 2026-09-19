@@ -86,21 +86,6 @@ public class RendererUtils {
 		}
 
 		if (bannerFlagModel != null) {
-			// The cloth itself, solid. BANNER_PATTERN sorts on upload, so the pattern layers below
-			// are translucent and write no depth - without this the canvas is see-through.
-			submitNodeCollector.submitModel(
-				bannerFlagModel,
-				phase,
-				poseStack,
-				material.renderType(RenderTypes::entitySolid),
-				i,
-				j,
-				-1,
-				materialSet.get(material),
-				0,
-				null
-			);
-
 			BannerRenderer.submitPatterns(
 				materialSet,
 				poseStack,
@@ -125,21 +110,6 @@ public class RendererUtils {
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
 		Material material = ModelBakery.BANNER_BASE;
-
-		// Solid base pass first, as submitBanner does for a real banner: the translucent pattern
-		// layers write no depth on their own, which lets block outlines show through the cape.
-		submitNodeCollector.submitModel(
-			model,
-			object,
-			poseStack,
-			material.renderType(RenderTypes::entitySolid),
-			light,
-			overlay,
-			-1,
-			materialSet.get(material),
-			0,
-			null
-		);
 
 		BannerRenderer.submitPatterns(
 			materialSet,
