@@ -45,9 +45,10 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		}
 
 		if (bannerRenderState instanceof BannerRenderStateAccessor accessor && accessor.mbf$isHanging()) {
-			// submit() has already applied the block's Transformation, so the banner only needs
-			// lifting to the ceiling - translate is in that flipped, 0.6666667-scaled space.
-			poseStack.translate(0.0D, -0.85D, 0.0D);
+			// submit() has already applied the block's Transformation, which scales Y by
+			// -0.6666667. The shipped offset is 0.85 blocks down, so it becomes 0.85/0.6666667
+			// the other way round in that flipped space.
+			poseStack.translate(0.0D, 1.275D, 0.0D);
 			RendererUtils.renderBannerDirect(
 				this.sprites,
 				poseStack,
