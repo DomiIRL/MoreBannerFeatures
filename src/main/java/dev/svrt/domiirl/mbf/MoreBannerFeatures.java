@@ -48,14 +48,15 @@ public class MoreBannerFeatures implements ModInitializer {
 
 	public static boolean isTrinketsInstalled() {
 		if (trinketsInstalled == null) {
-			trinketsInstalled = FabricLoader.getInstance().getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("trinkets"));
+			// isModLoaded honours provides aliases, the Trinkets fork only provides trinkets
+			trinketsInstalled = FabricLoader.getInstance().isModLoaded("trinkets");
 		}
 		return trinketsInstalled;
 	}
 
 	public static boolean isAccessoriesInstalled() {
 		if (accessoriesInstalled == null) {
-			accessoriesInstalled = FabricLoader.getInstance().getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("accessories"));
+			accessoriesInstalled = FabricLoader.getInstance().isModLoaded("accessories");
 		}
 		return accessoriesInstalled;
 	}
