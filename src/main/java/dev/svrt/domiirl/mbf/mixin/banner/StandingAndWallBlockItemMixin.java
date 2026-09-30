@@ -23,9 +23,7 @@ public abstract class StandingAndWallBlockItemMixin extends BlockItem {
 		super(block, settings);
 	}
 
-	// Vanilla skips the direction opposite the attachment direction, so a banner aimed at a ceiling
-	// never gets the standing state. Pick it here instead; BannerBlock.getStateForPlacement then
-	// flags it as hanging.
+	// Vanilla skips the opposite direction, so a ceiling banner never gets the standing state
 	@Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
 	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {

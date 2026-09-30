@@ -25,7 +25,7 @@ public abstract class AbstractMountInventoryMenuMixin extends AbstractContainerM
 		super(type, syncId);
 	}
 
-	// HorseInventoryMenuMixin appends the banner slot last, so its index is the end of the list.
+	// The banner slot is appended last, so it is the end of the list
 	@Inject(method = "quickMoveStack", at = @At("HEAD"), cancellable = true)
 	private void onQuickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
 		int bannerSlotIndex = this.slots.size() - 1;

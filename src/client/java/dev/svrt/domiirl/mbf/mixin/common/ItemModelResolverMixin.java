@@ -38,8 +38,7 @@ public class ItemModelResolverMixin {
   @Unique
   private static volatile Map<DyeColor, Identifier> bannerModelByColor;
 
-  // Built on first render, not in a static initialiser: getDefaultInstance() throws
-  // "Components not bound yet" while ItemModelResolver's own <clinit> is still running.
+  // Built on first render, a static initializer throws Components not bound yet
   @Unique
   private static Identifier mbf$bannerModel(DyeColor color) {
     Map<DyeColor, Identifier> byColor = bannerModelByColor;
