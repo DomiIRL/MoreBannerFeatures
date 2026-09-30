@@ -29,8 +29,7 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 		super(type, syncId);
 	}
 
-	// TAIL, so the banner slot lands after the player inventory - AbstractMountInventoryMenuMixin
-	// identifies it by being the last slot.
+	// TAIL so the banner slot lands after the player inventory
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	private void init(int syncId, Inventory playerInventory, Container inventory, AbstractHorse entity, int j, CallbackInfo ci) {
 		if (entity instanceof Bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {

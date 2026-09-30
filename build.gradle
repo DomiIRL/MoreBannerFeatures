@@ -6,7 +6,7 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-// Without this the jar is named after the checkout directory, not the mod.
+// Otherwise the jar is named after the checkout directory
 base {
 	archivesName = project.archives_base_name
 }

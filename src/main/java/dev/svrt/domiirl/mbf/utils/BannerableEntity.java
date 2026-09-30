@@ -70,7 +70,7 @@ public class BannerableEntity {
       return;
     }
 
-    // AbstractHorse is not a TamableAnimal, so the check above never covers horses.
+    // AbstractHorse is not a TamableAnimal, so the check above misses horses
     if (entity instanceof AbstractHorse abstractHorse && !abstractHorse.isTamed()) {
       return;
     }
