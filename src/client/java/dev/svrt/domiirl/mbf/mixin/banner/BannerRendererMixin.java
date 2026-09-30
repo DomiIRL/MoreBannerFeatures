@@ -3,6 +3,7 @@ package dev.svrt.domiirl.mbf.mixin.banner;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.BannerRenderStateAccessor;
+import dev.svrt.domiirl.mbf.accessor.HangingBanner;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -15,8 +16,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.level.block.BannerBlock;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,9 +44,7 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		}
 
 		if (bannerRenderState instanceof BannerRenderStateAccessor accessor && accessor.mbf$isHanging()) {
-			// submit() has already applied the block's Transformation, which scales Y by
-			// -0.6666667. The shipped offset is 0.85 blocks down, so it becomes 0.85/0.6666667
-			// the other way round in that flipped space.
+			// submit() already applied the Transformation, so 0.85 blocks becomes 0.85/0.6666667 here
 			poseStack.translate(0.0D, 1.275D, 0.0D);
 			RendererUtils.renderBannerDirect(
 				this.sprites,
@@ -61,7 +58,7 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 				bannerRenderState.baseColor,
 				bannerRenderState.patterns
 			);
-			// submit() pushed the pose before this call site and pops it after; cancelling skips that pop.
+			// submit() pops the pose after this call, cancelling would skip it
 			poseStack.popPose();
 			ci.cancel();
 		}
@@ -72,13 +69,10 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		at = @At("TAIL")
 	)
 	private void onExtractRenderState(BannerBlockEntity bannerBlockEntity, BannerRenderState bannerRenderState, float f, Vec3 vec3, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, CallbackInfo ci) {
-		BlockState state = bannerBlockEntity.getBlockState();
+		boolean hanging = bannerBlockEntity.getBlockState().getBlock() instanceof BannerBlock
+			&& bannerBlockEntity instanceof HangingBanner banner
+			&& banner.mbf$isHanging();
 
-		if (state.getBlock() instanceof BannerBlock && state.hasProperty(BlockStateProperties.HANGING)) {
-			boolean isHanging = state.getValue(BlockStateProperties.HANGING);
-			((BannerRenderStateAccessor) bannerRenderState).mbf$setHanging(isHanging);
-		} else {
-			((BannerRenderStateAccessor) bannerRenderState).mbf$setHanging(false);
-		}
+		((BannerRenderStateAccessor) bannerRenderState).mbf$setHanging(hanging);
 	}
 }

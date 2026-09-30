@@ -20,6 +20,13 @@ public class MBFUtils {
 	private static boolean trinketsReflectionInitialized = false;
 	private static boolean trinketsReflectionFailed = false;
 
+	// Trinkets Updated reflection
+	private static Method getAttachmentMethod;
+	private static Method getInventoryBySlotIdMethod;
+	private static Method getItemMethodTrinketsUpdated;
+	private static boolean trinketsUpdatedReflectionInitialized = false;
+	private static boolean trinketsUpdatedReflectionFailed = false;
+
 	// Accessories reflection
 	private static Class<?> accessoriesCapabilityClass;
 	private static Method getAccessoriesCapabilityMethod;
@@ -69,6 +76,42 @@ public class MBFUtils {
 		} catch (Exception e) {
 			accessoriesReflectionFailed = true;
 		}
+	}
+
+	private static void initTrinketsUpdatedReflection() {
+		if (trinketsUpdatedReflectionInitialized || trinketsUpdatedReflectionFailed) return;
+		try {
+			Class<?> apiClass = Class.forName("eu.pb4.trinkets.api.TrinketsApi");
+			getAttachmentMethod = apiClass.getMethod("getAttachment", LivingEntity.class);
+
+			Class<?> attachmentClass = Class.forName("eu.pb4.trinkets.api.TrinketAttachment");
+			getInventoryBySlotIdMethod = attachmentClass.getMethod("getInventory", String.class);
+
+			Class<?> inventoryClass = Class.forName("eu.pb4.trinkets.api.TrinketInventory");
+			getItemMethodTrinketsUpdated = inventoryClass.getMethod("getItem", int.class);
+
+			trinketsUpdatedReflectionInitialized = true;
+		} catch (Exception e) {
+			trinketsUpdatedReflectionFailed = true;
+		}
+	}
+
+	// slotId is "<group>/<slot>"
+	public static ItemStack getTrinketsUpdatedSlotItem(LivingEntity entity, String slotId) {
+		if (!MoreBannerFeatures.isTrinketsInstalled()) return ItemStack.EMPTY;
+		initTrinketsUpdatedReflection();
+		if (trinketsUpdatedReflectionInitialized) {
+			try {
+				Object attachment = getAttachmentMethod.invoke(null, entity);
+				if (attachment == null) return ItemStack.EMPTY;
+				Object inventory = getInventoryBySlotIdMethod.invoke(attachment, slotId);
+				if (inventory == null) return ItemStack.EMPTY;
+				ItemStack stack = (ItemStack) getItemMethodTrinketsUpdated.invoke(inventory, 0);
+				return stack == null ? ItemStack.EMPTY : stack;
+			} catch (Exception ignored) {
+			}
+		}
+		return ItemStack.EMPTY;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -125,6 +168,10 @@ public class MBFUtils {
 		if (!trinketCape.isEmpty()) {
 			return trinketCape;
 		}
+		ItemStack trinketsUpdatedCape = getTrinketsUpdatedSlotItem(entity, "chest/cape");
+		if (!trinketsUpdatedCape.isEmpty()) {
+			return trinketsUpdatedCape;
+		}
 		ItemStack accessoriesCape = getAccessoriesItem(entity, "cape");
 		if (!accessoriesCape.isEmpty()) {
 			return accessoriesCape;
@@ -132,6 +179,7 @@ public class MBFUtils {
 		return entity.getItemBySlot(EquipmentSlot.CHEST);
 	}
 
+	// Not consulted for the head, Trinkets Updated renders that itself
 	public static ItemStack getHeadItem(LivingEntity entity) {
 		ItemStack trinketsBanner = getTrinketSlotItem(entity, "head", "hat");
 		if (!trinketsBanner.isEmpty()) {

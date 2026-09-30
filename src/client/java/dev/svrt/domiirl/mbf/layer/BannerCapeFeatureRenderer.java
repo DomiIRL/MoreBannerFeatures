@@ -3,6 +3,7 @@ package dev.svrt.domiirl.mbf.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
+import dev.svrt.domiirl.mbf.api.BannerCapeApi;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.fabricmc.api.EnvType;
@@ -51,7 +52,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 		// OWN CLOAK WITH CUSTOM TEXTURE SIZE TO FIT THE BANNER TEXTURE
 		CubeListBuilder modelPartBuilder = new CubeListBuilder();
 		modelPartBuilder.texOffs(0, 0).addBox(-5.0F, 0.0F, -1.0F, 10.0F, 16.0F, 1.0F);
-		List<Cube> cuboids = modelPartBuilder.getCubes().stream().map(modelCuboidData -> modelCuboidData.bake(34, 27)).collect(Collectors.toList());
+		List<Cube> cuboids = modelPartBuilder.getCubes().stream().map(modelCuboidData -> modelCuboidData.bake(BannerCapeApi.TEXTURE_WIDTH, BannerCapeApi.TEXTURE_HEIGHT)).collect(Collectors.toList());
 		cloak = new ModelPart(cuboids, new HashMap<>());
 
 		// Wrap the ModelPart in a Model.Simple
@@ -82,10 +83,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 					poseStack.translate(0.0F, -0.053125F, 0.06875F);
 				}
 
-				// Placed exactly like the vanilla cape, which is a child of the body part at
-				// PartPose.offsetAndRotation(0, 0, 2, 0, PI, 0). Following the body is what makes it
-				// track crouching, and that PI cancels the leading -PI of PlayerCapeModel.setupAnim's
-				// rotation, which leaves the three rotations below.
+				// Placed like the vanilla cape, child of the body part, PI cancels setupAnim's -PI
 				this.getParentModel().body.translateAndRotate(poseStack);
 				poseStack.translate(0.0F, 0.0F, 0.125F);
 
