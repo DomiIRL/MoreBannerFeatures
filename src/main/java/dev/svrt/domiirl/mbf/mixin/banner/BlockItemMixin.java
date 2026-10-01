@@ -24,9 +24,7 @@ public abstract class BlockItemMixin {
 	// The block entity exists by now and can remember the intent
 	@Inject(method = "place", at = @At("TAIL"))
 	private void place(BlockPlaceContext context, CallbackInfoReturnable<InteractionResult> cir) {
-		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()
-			|| !(((Object) this) instanceof BannerItem)
-			|| context.getNearestLookingVerticalDirection() != Direction.UP) {
+		if (!(((Object) this) instanceof BannerItem)) {
 			return;
 		}
 
@@ -34,15 +32,16 @@ public abstract class BlockItemMixin {
 		BlockPos pos = context.getClickedPos();
 		BlockState state = level.getBlockState(pos);
 
-		if (!(state.getBlock() instanceof BannerBlock) || !level.getBlockState(pos.above()).isSolid()) {
+		if (!(state.getBlock() instanceof BannerBlock) || !(level.getBlockEntity(pos) instanceof HangingBanner banner)) {
 			return;
 		}
 
-		BlockEntity blockEntity = level.getBlockEntity(pos);
-		if (blockEntity instanceof HangingBanner banner) {
-			banner.mbf$setHanging(true);
-			blockEntity.setChanged();
-			level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
-		}
+		boolean hanging = MBFOptions.HANGING_BANNERS.getBooleanValue()
+			&& context.getNearestLookingVerticalDirection() == Direction.UP
+			&& level.getBlockState(pos.above()).isSolid();
+
+		banner.mbf$setHanging(hanging);
+		((BlockEntity) banner).setChanged();
+		level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
 	}
 }
