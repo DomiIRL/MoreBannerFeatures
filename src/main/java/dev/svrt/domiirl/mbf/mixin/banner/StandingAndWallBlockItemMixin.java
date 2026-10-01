@@ -23,13 +23,14 @@ public abstract class StandingAndWallBlockItemMixin extends BlockItem {
 		super(block, settings);
 	}
 
-	// Vanilla skips the opposite direction, so a ceiling banner never gets the standing state
+	// Vanilla skips UP, so a ceiling click falls through to a wall or nothing. Only the first
+	// direction counts: it is the clicked face, so looking up while clicking a wall stays a wall banner
 	@Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
 	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
-		if (!(((Object) this) instanceof BannerItem) || context.getNearestLookingVerticalDirection() != Direction.UP) {
+		if (!(((Object) this) instanceof BannerItem) || context.getNearestLookingDirections()[0] != Direction.UP) {
 			return;
 		}
 
