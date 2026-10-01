@@ -5,7 +5,10 @@ import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,20 +32,42 @@ public class BannerBlockEntityMixin implements HangingBanner {
   @Unique
   private boolean hanging = false;
 
+  @Unique
+  private boolean hangingKnown = false;
+
   @Override
   public boolean mbf$isHanging() {
+    // Banners hung before 2.3 kept this in the blockstate, so work it out once and keep it
+    if (!this.hangingKnown) {
+      BlockEntity blockEntity = (BlockEntity) (Object) this;
+      Level level = blockEntity.getLevel();
+      if (level == null) {
+        return false;
+      }
+
+      // A standing banner reaches into the block above, so nobody puts a solid one there
+      BlockPos pos = blockEntity.getBlockPos();
+      this.hanging = level.getBlockState(pos.above()).isSolid();
+      this.hangingKnown = true;
+      blockEntity.setChanged();
+    }
+
     return this.hanging;
   }
 
   @Override
   public void mbf$setHanging(boolean hanging) {
     this.hanging = hanging;
+    this.hangingKnown = true;
   }
 
   @Inject(method = "saveAdditional", at = @At("TAIL"))
   private void saveAdditional(ValueOutput valueOutput, CallbackInfo ci) {
     valueOutput.putInt(VALUE_NAME, this.maxLayers);
-    valueOutput.putBoolean(HANGING_NAME, this.hanging);
+    // An unknown value would reach the client as a known one and stop it deriving
+    if (this.hangingKnown) {
+      valueOutput.putBoolean(HANGING_NAME, this.hanging);
+    }
   }
 
   @Inject(method = "loadAdditional", at = @At("TAIL"))
@@ -50,6 +75,8 @@ public class BannerBlockEntityMixin implements HangingBanner {
     valueInput.getInt(VALUE_NAME).ifPresent(value -> {
       this.maxLayers = value;
     });
+    // Reading with both defaults tells us whether the key is there at all
+    this.hangingKnown = valueInput.getBooleanOr(HANGING_NAME, false) == valueInput.getBooleanOr(HANGING_NAME, true);
     this.hanging = valueInput.getBooleanOr(HANGING_NAME, false);
   }
 
