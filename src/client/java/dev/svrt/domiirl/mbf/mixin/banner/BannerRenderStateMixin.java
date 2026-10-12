@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.banner;
 
+//? if >=1.21.9 {
 import dev.svrt.domiirl.mbf.accessor.BannerRenderStateAccessor;
 import net.minecraft.client.renderer.blockentity.state.BannerRenderState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,3 +19,4 @@ public class BannerRenderStateMixin implements BannerRenderStateAccessor {
     this.hanging = hanging;
   }
 }
+//?}

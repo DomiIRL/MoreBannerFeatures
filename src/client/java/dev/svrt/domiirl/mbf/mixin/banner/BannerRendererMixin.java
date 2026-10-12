@@ -2,16 +2,12 @@ package dev.svrt.domiirl.mbf.mixin.banner;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.RendererUtils;
-import dev.svrt.domiirl.mbf.accessor.BannerRenderStateAccessor;
 import dev.svrt.domiirl.mbf.accessor.HangingBanner;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.state.BannerRenderState;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.BannerBlock;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -23,11 +19,26 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >=1.21.9 {
+import dev.svrt.domiirl.mbf.accessor.BannerRenderStateAccessor;
+import net.minecraft.client.renderer.blockentity.state.BannerRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+//?} else {
+/*import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.properties.RotationSegment;
+*///?}
+
 @Mixin(value = BannerRenderer.class, priority = 10000)
+//? if >=1.21.9 {
 public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity, BannerRenderState> {
+//?} else {
+/*public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity> {
+*///?}
 
 	@Shadow @Final private BannerFlagModel standingFlagModel;
 
+	//? if >=1.21.9 {
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/blockentity/state/BannerRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
 		at = @At(
@@ -92,4 +103,39 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 
 		((BannerRenderStateAccessor) bannerRenderState).mbf$setHanging(hanging);
 	}
+	//?} else {
+	/*@Inject(
+		method = "render(Lnet/minecraft/world/level/block/entity/BannerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/world/phys/Vec3;)V",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderBanner(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V"
+		),
+		cancellable = true
+	)
+	private void onRender(BannerBlockEntity bannerBlockEntity, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Vec3 cameraPos, CallbackInfo ci) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
+			return;
+		}
+
+		if (bannerBlockEntity.getBlockState().getBlock() instanceof BannerBlock && bannerBlockEntity instanceof HangingBanner banner && banner.mbf$isHanging()) {
+			float angle = -RotationSegment.convertToDegrees(bannerBlockEntity.getBlockState().getValue(BannerBlock.ROTATION));
+			BlockPos blockPos = bannerBlockEntity.getBlockPos();
+			float phase = ((float) Math.floorMod(blockPos.getX() * 7L + blockPos.getY() * 9L + blockPos.getZ() * 13L + bannerBlockEntity.getLevel().getGameTime(), 100L) + partialTick) / 100.0F;
+			poseStack.translate(0.0D, -0.85D, 0.0D);
+			RendererUtils.renderBanner(
+				poseStack,
+				submitNodeCollector,
+				light,
+				overlay,
+				angle,
+				RendererUtils.BANNER_BAR,
+				this.standingFlagModel,
+				phase,
+				bannerBlockEntity.getBaseColor(),
+				bannerBlockEntity.getPatterns()
+			);
+			ci.cancel();
+		}
+	}
+	*///?}
 }

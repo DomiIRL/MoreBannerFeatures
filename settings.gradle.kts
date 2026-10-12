@@ -28,6 +28,7 @@ stonecutter {
         mc("26.1.2", "fabric", "neoforge", "forge")
         mc("1.21.11", "fabric", "neoforge", "forge")
         mc("1.21.10", "fabric", "neoforge", "forge")
+        mc("1.21.8", "fabric", "neoforge", "forge")
         vcsVersion = "26.3-fabric"
     }
 }

@@ -7,14 +7,12 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.model.object.banner.BannerModel;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.util.Unit;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +23,11 @@ import net.minecraft.world.level.block.entity.BannerPatternLayers;
 *///?} else if <1.21.11 {
 /*import net.minecraft.client.renderer.rendertype.RenderType;
 *///?}
+
+//? if >=1.21.9 {
+import net.minecraft.client.model.Model;
+import net.minecraft.util.Unit;
+//?}
 
 public class RendererUtils {
 
@@ -69,6 +72,7 @@ public class RendererUtils {
 	}
 
 	public static void renderBannerDirect(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
+		//? if >=1.21.9 {
 		if (bannerModel != null) {
 			submitBase(poseStack, submitNodeCollector, i, j, bannerModel, Unit.INSTANCE);
 		}
@@ -76,14 +80,34 @@ public class RendererUtils {
 		if (bannerFlagModel != null) {
 			submitCanvas(poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 		}
+		//?} else {
+		/*if (bannerModel != null) {
+			bannerModel.renderToBuffer(poseStack, BannerSprites.cloth().buffer(submitNodeCollector, RenderTypes::entitySolid), i, j);
+		}
+
+		if (bannerFlagModel != null) {
+			bannerFlagModel.setupAnim(phase);
+			BannerRenderer.renderPatterns(poseStack, submitNodeCollector, i, j, bannerFlagModel.root(), BannerSprites.cloth(), true, dyeColor, bannerPatternLayers);
+		}
+		*///?}
 	}
 
+	//? if >=1.21.9 {
 	public static <S> void renderCanvasFromItem(ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {
+	//?} else {
+	/*public static void renderCanvasFromItem(ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, ModelPart canvas) {
+	*///?}
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
+		//? if >=1.21.9 {
 		submitCanvas(poseStack, submitNodeCollector, light, overlay, model, object, dyeColor, patternLayers);
+		//?} else {
+		/*BannerRenderer.renderPatterns(poseStack, submitNodeCollector, light, overlay, canvas, BannerSprites.cloth(), true, dyeColor, patternLayers);
+		*///?}
 	}
+
+	//? if >=1.21.9 {
 
 	private static <S> void submitCanvas(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state, DyeColor dyeColor, BannerPatternLayers patternLayers) {
 		//? if >=26.1 {
@@ -111,6 +135,8 @@ public class RendererUtils {
 		/*submitNodeCollector.submitModel(model, state, poseStack, BannerSprites.cloth().renderType(RenderTypes::entitySolid), light, overlay, -1, BannerSprites.sprite(BannerSprites.cloth()), 0, null);
 		*///?}
 	}
+
+	//?}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {
 		return !itemStack.isEmpty() && (itemStack.getItem() instanceof BannerItem || (itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(ModDataComponents.BANNER_BASE_COLOR)));

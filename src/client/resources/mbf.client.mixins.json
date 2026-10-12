@@ -3,9 +3,9 @@
   "minVersion": "0.8",
   "package": "dev.svrt.domiirl.mbf.mixin",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.svrt.domiirl.mbf.ClientMixinPlugin",
   "client": [
     "banner.BannerRendererMixin",
-    "banner.BannerRenderStateMixin",
     "boat.AbstractBoatRendererMixin",
     "boat.BoatRenderStateMixin",
     "common.ItemModelResolverMixin",

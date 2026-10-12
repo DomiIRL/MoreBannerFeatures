@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.MinecartRenderState;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.item.BannerItem;
@@ -22,6 +21,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+//?}
 
 @Mixin(AbstractMinecartRenderer.class)
 public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, S extends MinecartRenderState> extends EntityRenderer<T, S> {
@@ -40,6 +43,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 		}
 	}
 
+	//? if >=1.21.9 {
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
 		//? if >=26.3 {
@@ -51,6 +55,14 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 		*///?}
 	)
 	private void render(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
+		int light = state.lightCoords;
+	//?} else {
+	/*@Inject(
+		method = "render(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/MinecartModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", shift = At.Shift.AFTER)
+	)
+	private void render(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
+	*///?}
 		poseStack.pushPose();
 		try {
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
@@ -74,7 +86,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 					RendererUtils.renderBanner(
 						poseStack,
 						submitNodeCollector,
-						state.lightCoords,
+						light,
 						OverlayTexture.NO_OVERLAY,
 						0.0f,
 						RendererUtils.STANDING_BANNER,

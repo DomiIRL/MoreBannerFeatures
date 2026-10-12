@@ -34,7 +34,11 @@ public class MoreBannerFeaturesForge {
 			}
 		});
 
+		//? if >=1.21.9 {
 		BuildCreativeModeTabContentsEvent.BUS.addListener(event -> {
+		//?} else {
+		/^BuildCreativeModeTabContentsEvent.getBus(context.getModBusGroup()).addListener(event -> {
+		^///?}
 			if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS)) {
 				event.accept(new ItemStack(ModItems.BANNER_THREAD), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 			}

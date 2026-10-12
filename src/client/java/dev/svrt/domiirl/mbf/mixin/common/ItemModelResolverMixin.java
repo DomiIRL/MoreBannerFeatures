@@ -9,7 +9,9 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+//? if >=1.21.9 {
 import net.minecraft.world.entity.ItemOwner;
+//?}
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -79,7 +81,11 @@ public abstract class ItemModelResolverMixin {
 
   // Use @Inject because I don't trust that no one else would redirect at this point here
   @Inject(method = "appendItemLayers", at = @At("HEAD"), cancellable = true)
+  //? if >=1.21.9 {
   private void appendItemLayers(ItemStackRenderState itemStackRenderState, ItemStack itemStack, ItemDisplayContext itemDisplayContext, Level level, ItemOwner itemOwner, int i, CallbackInfo ci) {
+  //?} else {
+  /*private void appendItemLayers(ItemStackRenderState itemStackRenderState, ItemStack itemStack, ItemDisplayContext itemDisplayContext, Level level, LivingEntity itemOwner, int i, CallbackInfo ci) {
+  *///?}
     if (itemDisplayContext == ItemDisplayContext.HEAD
       && itemStack.has(DataComponents.BANNER_PATTERNS)
       && (itemStack.getItem() instanceof BannerItem || itemStack.has(ModDataComponents.BANNER_BASE_COLOR))) {

@@ -58,7 +58,10 @@ tasks {
         val props = mapOf(
             "version" to prop("mod.version"),
             "minecraft" to prop("mod.mc_compat"),
-            "pack_format" to prop("mod.pack_format"),
+            // 1.21.9 replaced the single pack_format with a min/max range
+            "pack_format" to prop("mod.pack_format").let {
+                if (sc.current.parsed >= "1.21.9") "\"min_format\": $it,\n    \"max_format\": $it" else "\"pack_format\": $it"
+            },
         )
         inputs.properties(props)
         filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta")) { expand(props) }

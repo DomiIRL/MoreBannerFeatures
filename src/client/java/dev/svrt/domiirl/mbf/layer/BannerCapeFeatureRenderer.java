@@ -37,7 +37,9 @@ import java.util.stream.Collectors;
 public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, PlayerModel> {
 
 	private final ModelPart cloak;
+	//? if >=1.21.9 {
 	private final Model<Unit> cloakModel;
+	//?}
 
 	private final EquipmentAssetManager equipmentAssets;
 
@@ -55,7 +57,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 		// Wrap the ModelPart in a Model.Simple
 		//? if >=26.1 {
 		this.cloakModel = new Model.Simple(cloak, RenderTypes::entitySolid);
-		//?} else {
+		//?} else if >=1.21.9 {
 		/*this.cloakModel = new Model.Simple(cloak, RenderTypes::entityNoOutline);
 		*///?}
 	}
@@ -99,8 +101,12 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 					submitNodeCollector,
 					light,
 					OverlayTexture.NO_OVERLAY,
+					//? if >=1.21.9 {
 					this.cloakModel,
 					Unit.INSTANCE
+					//?} else {
+					/*this.cloak
+					*///?}
 				);
 
 				poseStack.popPose();

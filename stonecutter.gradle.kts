@@ -63,7 +63,7 @@ stonecutter parameters {
         }
         // Classes 1.21.11 moved into a subpackage, newest package first
         fun moved(newPackage: String, oldPackage: String, vararg classes: String) {
-            fun path(pkg: String) = pkg.split('.').joinToString("\\1", prefix = "\\b").replaceFirst("\\1", "([./])")
+            fun path(pkg: String) = pkg.split('.').joinToString("\\1").replaceFirst("\\1", "([./])")
             fun target(pkg: String) = pkg.split('.').joinToString("$1")
             val names = classes.joinToString("|", "(", ")")
             regex(before1_21_11) {
@@ -86,5 +86,33 @@ stonecutter parameters {
         moved("net.minecraft.world.entity.animal.equine", "net.minecraft.world.entity.animal.horse", "AbstractHorse")
         moved("net.minecraft.world.entity.animal.happyghast", "net.minecraft.world.entity.animal", "HappyGhast")
         moved("net.minecraft.world.entity.npc.villager", "net.minecraft.world.entity.npc", "AbstractVillager", "Villager")
+
+        // 1.21.9 turned rendering into submitting: layers submit to a SubmitNodeCollector instead of
+        // rendering into a MultiBufferSource, and players render as Avatars
+        val before1_21_9 = current.parsed < "1.21.9"
+        regex(before1_21_9) {
+            replace("\\bSubmitNodeCollector\\b", "MultiBufferSource", "\\bMultiBufferSource\\b", "SubmitNodeCollector")
+        }
+        regex(before1_21_9) {
+            replace(
+                "\\bsubmit\\((PoseStack |Lcom/mojang/blaze3d/vertex/PoseStack;)", "render($1",
+                "\\brender\\((PoseStack |Lcom/mojang/blaze3d/vertex/PoseStack;)", "submit($1",
+            )
+        }
+        regex(before1_21_9) {
+            replace("\\bAvatarRenderState\\b", "PlayerRenderState", "\\bPlayerRenderState\\b", "AvatarRenderState")
+        }
+        regex(before1_21_9) {
+            replace("\\bAvatarRenderer\\b", "PlayerRenderer", "\\bPlayerRenderer\\b", "AvatarRenderer")
+        }
+        regex(before1_21_9) {
+            replace(
+                "net([./])minecraft\\1world\\1entity\\1Avatar\\b", "net$1minecraft$1client$1player$1AbstractClientPlayer",
+                "net([./])minecraft\\1client\\1player\\1AbstractClientPlayer\\b", "net$1minecraft$1world$1entity$1Avatar",
+            )
+        }
+        regex(before1_21_9) {
+            replace("(?<![./\\w])Avatar\\b", "AbstractClientPlayer", "(?<![./\\w])AbstractClientPlayer\\b", "Avatar")
+        }
     }
 }
