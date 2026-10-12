@@ -15,6 +15,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
 //? if forge && <1.19.3 {
 /*import net.minecraftforge.registries.RegistryManager;
 *///?}
+//? if forge && <1.19 {
+/*import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+*///?}
 import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 
@@ -33,8 +37,14 @@ public final class Platform {
 		*///?}
 	}
 
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static <V, T extends V> T register(Registry<V> registry, Identifier id, T value) {
-		//? if forge && <1.19.3 {
+		//? if forge && <1.19 {
+		/*// Before 1.19 Forge registries take entries that carry their own name
+		((IForgeRegistryEntry<?>) value).setRegistryName(id);
+		((IForgeRegistry) RegistryManager.ACTIVE.getRegistry(registry.key().location())).register((IForgeRegistryEntry) value);
+		return value;
+		*///?} else if forge && <1.19.3 {
 		/*// Forge locks the vanilla registry views before 1.19.3; during RegisterEvent its own registries take the entry
 		RegistryManager.ACTIVE.<V>getRegistry(registry.key()).register(id, value);
 		return value;

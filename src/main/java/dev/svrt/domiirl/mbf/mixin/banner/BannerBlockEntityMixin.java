@@ -26,8 +26,10 @@ import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+//? if <1.21.6 && >=1.20.5 {
 /*import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 *///?}
 
 @Mixin(BannerBlockEntity.class)

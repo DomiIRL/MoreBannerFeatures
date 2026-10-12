@@ -4,7 +4,12 @@ import dev.svrt.domiirl.mbf.config.MBFConfigManager;
 import dev.svrt.domiirl.mbf.config.options.BooleanOption;
 import dev.svrt.domiirl.mbf.config.options.IOption;
 import net.minecraft.client.Minecraft;
+//? if >=1.19 {
 import net.minecraft.client.OptionInstance;
+//?} else {
+/*import net.minecraft.client.CycleOption;
+import net.minecraft.client.Option;
+*///?}
 //? if >=1.19.3 {
 import net.minecraft.client.gui.components.Tooltip;
 //?}
@@ -47,6 +52,7 @@ public class MBFOptionsScreen extends OptionsSubScreen {
 		MBFConfigManager.save();
 	}
 
+	//? if >=1.19 {
 	public static OptionInstance<?>[] getAllToDisplay() {
 		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(MBFOptionsScreen::toOption).toArray(OptionInstance[]::new);
 	}
@@ -69,5 +75,20 @@ public class MBFOptionsScreen extends OptionsSubScreen {
 		}
 		return null;
 	}
+	//?} else {
+	/*// Before 1.19 options were CycleOptions bound to the vanilla Options object, so ours ignore it
+	public static Option[] getAllToDisplay() {
+		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(MBFOptionsScreen::toOption).toArray(Option[]::new);
+	}
+
+	public static Option toOption(IOption option) {
+		if (option instanceof BooleanOption bOption) {
+			return CycleOption.createOnOff("mbf.options." + bOption.key, bOption.tooltip, options -> bOption.value, (options, opt, newValue) -> {
+				bOption.value = newValue;
+			});
+		}
+		return null;
+	}
+	*///?}
 
 }

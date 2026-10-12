@@ -177,6 +177,11 @@ stonecutter parameters {
             replace("(?<![./\\w])Axis\\b", "Vector3f", "(?<![./\\w])Vector3f\\b", "Axis")
         }
 
+        // Components were constructed directly before 1.19
+        regex(current.parsed < "1.19") {
+            replace("\\bComponent\\.translatable\\(", "new net.minecraft.network.chat.TranslatableComponent(", "\\bnew net\\.minecraft\\.network\\.chat\\.TranslatableComponent\\(", "Component.translatable(")
+        }
+
         // The static registries lived on Registry until 1.19.3
         regex(current.parsed < "1.19.3") {
             replace("\\bBuiltInRegistries\\.(ITEM|RECIPE_SERIALIZER|BANNER_PATTERN)\\b", "Registry.$1", "\\bRegistry\\.(ITEM|RECIPE_SERIALIZER|BANNER_PATTERN)\\b", "BuiltInRegistries.$1")

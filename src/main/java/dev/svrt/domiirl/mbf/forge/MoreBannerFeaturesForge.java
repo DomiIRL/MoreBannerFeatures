@@ -23,12 +23,24 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+//? if >=1.19 {
 import net.minecraftforge.registries.RegisterEvent;
+//?} else {
+/^import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.event.RegistryEvent;
+^///?}
 
 @Mod(MoreBannerFeatures.MOD_ID)
 public class MoreBannerFeaturesForge {
 
+	//? if >=1.19 {
 	public MoreBannerFeaturesForge(FMLJavaModLoadingContext context) {
+	//?} else {
+	/^// Forge 40 only calls a no-argument mod constructor
+	public MoreBannerFeaturesForge() {
+		FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
+	^///?}
 		MBFConfigManager.load();
 
 		//? if >=1.21.9 {
@@ -40,9 +52,13 @@ public class MoreBannerFeaturesForge {
 		^///?} else if >=1.19.3 {
 		/^context.getModEventBus().addListener(MoreBannerFeaturesForge::onRegister);
 		context.getModEventBus().addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
-		^///?} else {
+		^///?} else if >=1.19 {
 		/^// Before 1.19.3 the thread picks its creative tab itself, see ModItems
 		context.getModEventBus().addListener(MoreBannerFeaturesForge::onRegister);
+		^///?} else {
+		/^// Before 1.19 every registry fires its own generic event
+		context.getModEventBus().addGenericListener(Item.class, (RegistryEvent.Register<Item> event) -> ModItems.init());
+		context.getModEventBus().addGenericListener(RecipeSerializer.class, (RegistryEvent.Register<RecipeSerializer<?>> event) -> ModRecipeSerializers.init());
 		^///?}
 
 		// Forge has no client-only mod entrypoint; the call is only linked on the client, so the server never loads the screen classes
@@ -51,6 +67,7 @@ public class MoreBannerFeaturesForge {
 		}
 	}
 
+	//? if >=1.19 {
 	// Vanilla registries only accept entries while their RegisterEvent runs
 	private static void onRegister(RegisterEvent event) {
 		//? if >=1.20.5 {
@@ -65,6 +82,7 @@ public class MoreBannerFeaturesForge {
 			ModRecipeSerializers.init();
 		}
 	}
+	//?}
 
 	//? if >=1.19.3 {
 	private static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event) {

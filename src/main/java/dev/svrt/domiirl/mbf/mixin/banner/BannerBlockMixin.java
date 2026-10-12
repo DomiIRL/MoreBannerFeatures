@@ -4,11 +4,11 @@ import dev.svrt.domiirl.mbf.accessor.HangingBanner;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 //? if >=1.21.2 {
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ScheduledTickAccess;
 //?} else {
 /*import net.minecraft.world.level.LevelAccessor;

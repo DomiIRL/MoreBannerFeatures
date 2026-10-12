@@ -44,9 +44,11 @@ public class BannerableEntity {
     OAK_CHEST_BOAT,
     SPRUCE_CHEST_BOAT,
     CHERRY_CHEST_BOAT,
-    //?} else {
+    //?} else if >=1.19 {
     /*BOAT,
     CHEST_BOAT,
+    *///?} else {
+    /*BOAT,
     *///?}
     STRIDER,
     HORSE,

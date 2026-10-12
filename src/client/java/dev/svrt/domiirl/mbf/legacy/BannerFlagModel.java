@@ -7,14 +7,14 @@ import net.minecraft.util.Mth;
 // The banner flag as 1.21.4's BannerFlagModel draws it, see BannerModel for the offset
 public class BannerFlagModel {
 
-	// 1.21.1's BannerRenderer moves the flag to y -32 on every frame
+	// The old BannerRenderer moved the flag to y -32 on every frame
 	private static final float FLAG_Y = -32.0F;
 
 	private final ModelPart flag;
 
 	public BannerFlagModel(ModelPart root) {
 		this.flag = root.getChild("flag");
-		BannerModel.place(this.flag, FLAG_Y);
+		this.flag.y = FLAG_Y + BannerModel.LAYER_OFFSET;
 	}
 
 	public ModelPart root() {
@@ -22,7 +22,7 @@ public class BannerFlagModel {
 	}
 
 	public void resetPose() {
-		this.flag.resetPose();
+		this.flag.xRot = 0.0F;
 	}
 
 	public void setupAnim(float phase) {

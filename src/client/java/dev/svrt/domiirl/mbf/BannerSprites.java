@@ -3,14 +3,16 @@ package dev.svrt.domiirl.mbf;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.SpriteId;
+//? if >=1.19 {
 import net.minecraft.core.Holder;
+//?}
 import net.minecraft.world.level.block.entity.BannerPattern;
 
 //? if >=1.21.9 {
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 //?}
-//? if <1.20.5 {
+//? if <1.20.5 && >=1.19 {
 /*import net.minecraft.world.level.block.entity.BannerPatterns;
 *///?}
 //? if <26.1 {
@@ -51,18 +53,27 @@ public final class BannerSprites {
 		return Sheets.BANNER_PATTERN_BASE;
 		//?} else if >=1.20.5 {
 		/*return Sheets.BANNER_BASE;
-		*///?} else {
+		*///?} else if >=1.19 {
 		/*return Sheets.getBannerMaterial(BannerPatterns.BASE);
+		*///?} else {
+		/*return Sheets.getBannerMaterial(BannerPattern.BASE);
 		*///?}
 	}
 
+	//? if >=1.19 {
 	public static SpriteId pattern(Holder<BannerPattern> pattern) {
+	//?} else {
+	/*// Banner patterns were an enum before 1.19
+	public static SpriteId pattern(BannerPattern pattern) {
+	*///?}
 		//? if >=26.1 {
 		return Sheets.getBannerSprite(pattern);
 		//?} else if >=1.20.5 {
 		/*return Sheets.getBannerMaterial(pattern);
-		*///?} else {
+		*///?} else if >=1.19 {
 		/*return Sheets.getBannerMaterial(pattern.unwrapKey().orElseThrow());
+		*///?} else {
+		/*return Sheets.getBannerMaterial(pattern);
 		*///?}
 	}
 
