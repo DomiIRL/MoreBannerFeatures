@@ -157,6 +157,15 @@ stonecutter parameters {
             replace("HolderLookup\\.Provider registryAccess\\)", "net.minecraft.core.RegistryAccess registryAccess)", "net\\.minecraft\\.core\\.RegistryAccess registryAccess\\)", "HolderLookup.Provider registryAccess)")
         }
 
+        // Recipes carried their own id until 1.20.2
+        val before1_20_2 = current.parsed < "1.20.2"
+        regex(before1_20_2) {
+            replace("\\(CraftingBookCategory category\\)", "(net.minecraft.resources.ResourceLocation id, CraftingBookCategory category)", "\\(net\\.minecraft\\.resources\\.ResourceLocation id, CraftingBookCategory category\\)", "(CraftingBookCategory category)")
+        }
+        regex(before1_20_2) {
+            replace("\\bsuper\\(category\\)", "super(id, category)", "\\bsuper\\(id, category\\)", "super(category)")
+        }
+
         // 1.21 gave recipes a CraftingInput instead of the crafting grid's container itself
         val before1_21 = current.parsed < "1.21"
         regex(before1_21) {

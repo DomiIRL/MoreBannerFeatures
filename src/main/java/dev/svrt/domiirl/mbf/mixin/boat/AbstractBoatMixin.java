@@ -11,7 +11,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Leashable;
 //?}
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+//? if >=1.20.3 {
 import net.minecraft.world.entity.vehicle.VehicleEntity;
+//?} else {
+/*import net.minecraft.world.entity.Entity;
+*///?}
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 //? if >=1.21.6 {
@@ -32,8 +36,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 // Boats only became leashable in 1.21
 //? if >=1.21 {
 public abstract class AbstractBoatMixin extends VehicleEntity implements Leashable, BoatBannerable {
-//?} else {
+//?} else if >=1.20.3 {
 /*public abstract class AbstractBoatMixin extends VehicleEntity implements BoatBannerable {
+*///?} else {
+/*// Boats and minecarts only share VehicleEntity from 1.20.3
+public abstract class AbstractBoatMixin extends Entity implements BoatBannerable {
 *///?}
 
 	@Unique

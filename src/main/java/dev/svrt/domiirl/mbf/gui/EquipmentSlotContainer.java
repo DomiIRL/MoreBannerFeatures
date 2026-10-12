@@ -1,22 +1,49 @@
 package dev.svrt.domiirl.mbf.gui;
 
 //? if <1.21.5 {
-/*import net.minecraft.world.entity.EquipmentSlot;
+/*import net.minecraft.world.Container;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.ticks.ContainerSingleItem;
 
-// Mob.createEquipmentSlotContainer only arrived in 1.21.5; this is the same container for the versions before
-public record EquipmentSlotContainer(Mob mob, EquipmentSlot slot) implements ContainerSingleItem {
+// Mob.createEquipmentSlotContainer only arrived in 1.21.5; this is the same container for the versions before.
+// A plain Container, since the single item interface changed shape in 1.20.3, 1.20.5 and 1.21
+public record EquipmentSlotContainer(Mob mob, EquipmentSlot slot) implements Container {
 
 	@Override
-	public ItemStack getTheItem() {
+	public int getContainerSize() {
+		return 1;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.mob.getItemBySlot(this.slot).isEmpty();
+	}
+
+	@Override
+	public ItemStack getItem(int index) {
 		return this.mob.getItemBySlot(this.slot);
 	}
 
 	@Override
-	public void setTheItem(ItemStack itemStack) {
+	public ItemStack removeItem(int index, int amount) {
+		ItemStack split = this.getItem(index).split(amount);
+		if (this.getItem(index).isEmpty()) {
+			this.setItem(index, ItemStack.EMPTY);
+		}
+		return split;
+	}
+
+	@Override
+	public ItemStack removeItemNoUpdate(int index) {
+		ItemStack itemStack = this.getItem(index);
+		this.setItem(index, ItemStack.EMPTY);
+		return itemStack;
+	}
+
+	@Override
+	public void setItem(int index, ItemStack itemStack) {
 		this.mob.setItemSlot(this.slot, itemStack);
 		if (!itemStack.isEmpty()) {
 			this.mob.setGuaranteedDrop(this.slot);
@@ -24,34 +51,18 @@ public record EquipmentSlotContainer(Mob mob, EquipmentSlot slot) implements Con
 		}
 	}
 
-	//? if <1.20.5 {
-	/^@Override
-	public ItemStack splitTheItem(int amount) {
-		ItemStack split = this.getTheItem().split(amount);
-		if (this.getTheItem().isEmpty()) {
-			this.setTheItem(ItemStack.EMPTY);
-		}
-		return split;
-	}
-
-	// The 1.20.4 interface is written for block entities; nothing calls this here
-	@Override
-	public net.minecraft.world.level.block.entity.BlockEntity getContainerBlockEntity() {
-		return null;
-	}
-	^///?}
-
 	@Override
 	public void setChanged() {
 	}
 
 	@Override
 	public boolean stillValid(Player player) {
-		//? if >=1.20.5 {
-		return player.getVehicle() == this.mob || player.canInteractWithEntity(this.mob, 4.0D);
-		//?} else {
-		/^return player.getVehicle() == this.mob || (this.mob.isAlive() && player.distanceTo(this.mob) < 8.0F);
-		^///?}
+		return player.getVehicle() == this.mob || (this.mob.isAlive() && player.distanceTo(this.mob) < 8.0F);
+	}
+
+	@Override
+	public void clearContent() {
+		this.setItem(0, ItemStack.EMPTY);
 	}
 }
 *///?}

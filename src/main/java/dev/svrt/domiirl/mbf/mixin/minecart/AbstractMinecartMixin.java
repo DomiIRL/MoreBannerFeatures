@@ -7,7 +7,11 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+//? if >=1.20.3 {
 import net.minecraft.world.entity.vehicle.VehicleEntity;
+//?} else {
+/*import net.minecraft.world.entity.Entity;
+*///?}
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 //? if >=1.21.6 {
@@ -24,7 +28,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractMinecart.class)
+//? if >=1.20.3 {
 public abstract class AbstractMinecartMixin extends VehicleEntity implements MinecartBannerable {
+//?} else {
+/*public abstract class AbstractMinecartMixin extends Entity implements MinecartBannerable {
+*///?}
 
 	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(AbstractMinecart.class, EntityDataSerializers.ITEM_STACK);
 

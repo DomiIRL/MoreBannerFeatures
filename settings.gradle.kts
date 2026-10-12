@@ -41,6 +41,8 @@ stonecutter {
         mc("1.21.1", "fabric", "neoforge", "forge")
         mc("1.20.6", "fabric", "neoforge", "forge")
         mc("1.20.4", "fabric", "neoforge")
+        // NeoForge 1.20.1 is a Forge 47.1 fork and loads the Forge jar
+        mc("1.20.1", "fabric", "forge")
         vcsVersion = "26.3-fabric"
     }
 }

@@ -187,3 +187,16 @@ deps.modmenu = "9.2.0"
 [neoforge."1.20.4"]
 mod.mc_compat = "[1.20.4, 1.20.5)"
 deps.neoforge = "20.4.251"
+
+["1.20.1"]
+mod.mc_releases = ["1.20", "1.20.1"]
+
+[fabric."1.20.1"]
+mod.mc_compat = ">=1.20 <1.20.2"
+deps.fabric_api = "0.92.12+1.20.1"
+deps.modmenu = "7.2.2"
+
+[forge."1.20.1"]
+mod.mc_compat = "[1.20.1, 1.20.2)"
+deps.forge = "47.4.26"
+mod.pack_format = "15"
