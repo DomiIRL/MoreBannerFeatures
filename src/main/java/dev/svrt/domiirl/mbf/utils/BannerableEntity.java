@@ -19,38 +19,45 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 
+// The entity type constants moved from EntityType into EntityTypes in 26.2
+//? if >=26.2 {
+import static net.minecraft.world.entity.EntityTypes.*;
+//?} else {
+/*import static net.minecraft.world.entity.EntityType.*;
+*///?}
+
 public class BannerableEntity {
 
   public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = new ArrayList<>(List.of(
-    EntityTypes.ACACIA_BOAT,
-    EntityTypes.BIRCH_BOAT,
-    EntityTypes.DARK_OAK_BOAT,
-    EntityTypes.JUNGLE_BOAT,
-    EntityTypes.OAK_BOAT,
-    EntityTypes.SPRUCE_BOAT,
-    EntityTypes.CHERRY_BOAT,
-    EntityTypes.ACACIA_CHEST_BOAT,
-    EntityTypes.BIRCH_CHEST_BOAT,
-    EntityTypes.DARK_OAK_CHEST_BOAT,
-    EntityTypes.JUNGLE_CHEST_BOAT,
-    EntityTypes.OAK_CHEST_BOAT,
-    EntityTypes.SPRUCE_CHEST_BOAT,
-    EntityTypes.CHERRY_CHEST_BOAT,
-    EntityTypes.STRIDER,
-    EntityTypes.HORSE,
-    EntityTypes.DONKEY,
-    EntityTypes.MULE,
-    EntityTypes.SKELETON_HORSE,
-    EntityTypes.ZOMBIE_HORSE,
-    EntityTypes.MINECART,
-    EntityTypes.CHEST_MINECART,
-    EntityTypes.TNT_MINECART,
-    EntityTypes.SPAWNER_MINECART,
-    EntityTypes.FURNACE_MINECART,
-    EntityTypes.COMMAND_BLOCK_MINECART,
-    EntityTypes.HOPPER_MINECART,
-    EntityTypes.HAPPY_GHAST,
-    EntityTypes.VILLAGER
+    ACACIA_BOAT,
+    BIRCH_BOAT,
+    DARK_OAK_BOAT,
+    JUNGLE_BOAT,
+    OAK_BOAT,
+    SPRUCE_BOAT,
+    CHERRY_BOAT,
+    ACACIA_CHEST_BOAT,
+    BIRCH_CHEST_BOAT,
+    DARK_OAK_CHEST_BOAT,
+    JUNGLE_CHEST_BOAT,
+    OAK_CHEST_BOAT,
+    SPRUCE_CHEST_BOAT,
+    CHERRY_CHEST_BOAT,
+    STRIDER,
+    HORSE,
+    DONKEY,
+    MULE,
+    SKELETON_HORSE,
+    ZOMBIE_HORSE,
+    MINECART,
+    CHEST_MINECART,
+    TNT_MINECART,
+    SPAWNER_MINECART,
+    FURNACE_MINECART,
+    COMMAND_BLOCK_MINECART,
+    HOPPER_MINECART,
+    HAPPY_GHAST,
+    VILLAGER
   ));
 
   public static void handleInteract(Entity entity, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
