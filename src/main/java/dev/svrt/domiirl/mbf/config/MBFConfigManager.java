@@ -3,7 +3,7 @@ package dev.svrt.domiirl.mbf.config;
 import com.google.gson.*;
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.config.options.IOption;
-import net.fabricmc.loader.api.FabricLoader;
+import dev.svrt.domiirl.mbf.platform.Platform;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -21,7 +21,7 @@ public class MBFConfigManager {
 
 	public static void loadConfigFile() {
 		if (configFile == null) {
-			configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), MoreBannerFeatures.MOD_ID + ".json");
+			configFile = new File(Platform.configDir().toFile(), MoreBannerFeatures.MOD_ID + ".json");
 		}
 	}
 

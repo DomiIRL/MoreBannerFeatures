@@ -1,4 +1,5 @@
-package dev.svrt.domiirl.mbf;
+//? if fabric {
+package dev.svrt.domiirl.mbf.fabric;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -12,3 +13,4 @@ public class MoreBannerFeaturesModMenu implements ModMenuApi {
 	}
 
 }
+//?}

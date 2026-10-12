@@ -6,8 +6,6 @@ import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.api.BannerCapeApi;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -34,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Environment(EnvType.CLIENT)
 public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, PlayerModel> {
 
 	private final ModelPart cloak;

@@ -4,8 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -26,7 +24,6 @@ import java.util.List;
 import java.util.function.Function;
 
 // Lets another mod draw the banner cape on its own mesh
-@Environment(EnvType.CLIENT)
 public final class BannerCapeApi {
 
 	public static final int TEXTURE_WIDTH = 34;

@@ -5,8 +5,6 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.model.object.banner.BannerModel;
@@ -22,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Utility class for rendering side banners on entities.
  */
-@Environment(EnvType.CLIENT)
 public class SideBannerRenderer {
 
   private final BannerModel bannerBar;

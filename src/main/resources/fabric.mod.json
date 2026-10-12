@@ -19,10 +19,10 @@
 
 	"entrypoints": {
 		"main": [
-			"dev.svrt.domiirl.mbf.MoreBannerFeatures"
+			"dev.svrt.domiirl.mbf.fabric.MoreBannerFeaturesFabric"
 		],
 		"modmenu": [
-			"dev.svrt.domiirl.mbf.MoreBannerFeaturesModMenu"
+			"dev.svrt.domiirl.mbf.fabric.MoreBannerFeaturesModMenu"
 		]
 	},
 	"mixins": [

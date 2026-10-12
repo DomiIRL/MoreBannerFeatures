@@ -2,7 +2,6 @@ package dev.svrt.domiirl.mbf.mixin.item;
 
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.fabricmc.fabric.api.item.v1.FabricItemStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponents;
@@ -22,11 +21,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Consumer;
 
 @Mixin(ItemStack.class)
-public abstract class ItemStackMixin implements DataComponentHolder, FabricItemStack {
+public abstract class ItemStackMixin implements DataComponentHolder {
 
   @Shadow public abstract Item getItem();
 
+  // NeoForge moves the vanilla component lines out of addDetailsToTooltip into its own method
+  //? if neoforge {
+  /*@Inject(method = "addDetailsToTooltipComponents", at = @At(value = "FIELD", target = "Lnet/minecraft/core/component/DataComponents;BANNER_PATTERNS:Lnet/minecraft/core/component/DataComponentType;", shift = At.Shift.BEFORE))
+  *///?} else {
   @Inject(method = "addDetailsToTooltip", at = @At(value = "FIELD", target = "Lnet/minecraft/core/component/DataComponents;BANNER_PATTERNS:Lnet/minecraft/core/component/DataComponentType;", shift = At.Shift.BEFORE))
+  //?}
   private void addDetailsToTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
 
     if (has(ModDataComponents.MAX_BANNER_LAYERS) || getItem() instanceof BannerItem) {

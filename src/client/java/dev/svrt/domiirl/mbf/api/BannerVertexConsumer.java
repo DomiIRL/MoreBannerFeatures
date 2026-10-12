@@ -1,13 +1,10 @@
 package dev.svrt.domiirl.mbf.api;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ARGB;
 
 // Maps uvs onto the sprite itself, vanilla's wrap loses them when setUv is chained before 26.3
-@Environment(EnvType.CLIENT)
 record BannerVertexConsumer(VertexConsumer delegate, TextureAtlasSprite sprite, int tint) implements VertexConsumer {
 
 	@Override

@@ -5,8 +5,6 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.side.EquineBannerPositionProvider;
 import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.animal.equine.HorseModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -14,7 +12,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 
-@Environment(EnvType.CLIENT)
 public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, HorseModel> {
 
 	private final SideBannerRenderer bannerRenderer;

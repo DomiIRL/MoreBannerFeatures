@@ -5,6 +5,7 @@
   "mixins": [
     "banner.BannerBlockEntityMixin",
     "banner.BannerBlockMixin",
+    "banner.BlockBehaviourMixin",
     "banner.BlockItemMixin",
     "banner.StandingAndWallBlockItemMixin",
     "boat.AbstractBoatMixin",
