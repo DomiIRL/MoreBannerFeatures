@@ -114,7 +114,11 @@ public class BannerableEntity {
       entity.level().playSound(null, entity, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
       entity.gameEvent(GameEvent.SHEAR, player);
       EquipmentSlot equipmentSlot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+      //? if >=1.20.5 {
       itemStack.hurtAndBreak(1, player, equipmentSlot);
+      //?} else {
+      /*itemStack.hurtAndBreak(1, player, broken -> broken.broadcastBreakEvent(equipmentSlot));
+      *///?}
 
       dropBanner(entity, bannerable);
       bannerable.mbf$setBannerItem(ItemStack.EMPTY);
@@ -130,9 +134,12 @@ public class BannerableEntity {
     //? if >=1.21.6 {
     Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
     entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
-    //?} else {
+    //?} else if >=1.20.5 {
     /*Vec3 vec3 = entity.getType().getDimensions().attachments().get(EntityAttachment.PASSENGER, 0, 0.0F);
     entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), (float) vec3.y);
+    *///?} else {
+    /*// No attachment points yet, the top of the entity is where a rider sits
+    entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), entity.getBbHeight());
     *///?}
   }
 }

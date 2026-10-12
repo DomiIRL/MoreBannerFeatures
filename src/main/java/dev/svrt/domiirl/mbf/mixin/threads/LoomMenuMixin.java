@@ -1,6 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.threads;
 
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ public class LoomMenuMixin {
   @ModifyConstant(method = "slotsChanged", constant = @Constant(intValue = 6, ordinal = 0))
   public int getLimit(int constant) {
     ItemStack bannerItem = this.bannerSlot.getItem();
-    return bannerItem.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
+    return BannerItems.maxLayers(bannerItem, BannerItems.VANILLA_MAX_LAYERS);
   }
 
 

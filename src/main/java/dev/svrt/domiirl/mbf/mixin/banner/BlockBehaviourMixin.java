@@ -1,6 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.banner;
 
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.utils.BannerItems;
+import dev.svrt.domiirl.mbf.accessor.LayeredBanner;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -25,10 +26,10 @@ public abstract class BlockBehaviourMixin {
       return;
     }
 
-    Integer maxLayers = banner.collectComponents().get(ModDataComponents.MAX_BANNER_LAYERS);
+    int maxLayers = ((LayeredBanner) banner).mbf$getMaxLayers();
     for (ItemStack drop : cir.getReturnValue()) {
       if (drop.getItem() instanceof BannerItem) {
-        drop.set(ModDataComponents.MAX_BANNER_LAYERS, maxLayers);
+        BannerItems.setMaxLayers(drop, maxLayers);
       }
     }
   }

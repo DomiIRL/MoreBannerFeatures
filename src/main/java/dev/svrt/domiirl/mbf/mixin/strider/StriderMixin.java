@@ -49,9 +49,15 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	}
 
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
+	//? if >=1.20.5 {
 	private void defineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
 		builder.define(BANNER, ItemStack.EMPTY);
 	}
+	//?} else {
+	/*private void defineSynchedData(CallbackInfo ci) {
+		this.entityData.define(BANNER, ItemStack.EMPTY);
+	}
+	*///?}
 
 	//? if >=1.21.6 {
 	@Override
@@ -71,13 +77,13 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	/*@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		BannerSaveData.read(tag, this.registryAccess()).ifPresent(this::mbf$setBannerItem);
+		BannerSaveData.read(tag, this).ifPresent(this::mbf$setBannerItem);
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		BannerSaveData.write(tag, this.registryAccess(), mbf$getBannerItem());
+		BannerSaveData.write(tag, this, mbf$getBannerItem());
 	}
 	*///?}
 

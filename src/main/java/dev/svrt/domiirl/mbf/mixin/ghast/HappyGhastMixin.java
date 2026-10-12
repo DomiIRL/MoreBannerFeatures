@@ -45,9 +45,15 @@ public abstract class HappyGhastMixin extends Animal implements GhastBannerable 
 	}
 
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
+	//? if >=1.20.5 {
 	private void defineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
 		builder.define(BANNER, ItemStack.EMPTY);
 	}
+	//?} else {
+	/*private void defineSynchedData(CallbackInfo ci) {
+		this.entityData.define(BANNER, ItemStack.EMPTY);
+	}
+	*///?}
 
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
 	protected void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {

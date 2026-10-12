@@ -1,17 +1,16 @@
 package dev.svrt.domiirl.mbf.api;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.svrt.domiirl.mbf.BannerSprites;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.renderer.rendertype.RenderType;
 //? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 //?}
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.SpriteId;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.LivingEntity;
@@ -54,10 +53,8 @@ public final class BannerCapeApi {
 		}
 
 		ItemStack itemStack = ((Bannerable) entity).mbf$getBannerItem();
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem
-			? bannerItem.getColor()
-			: itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
-		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+		DyeColor dyeColor = BannerItems.baseColor(itemStack);
+		BannerPatternLayers patternLayers = BannerItems.patterns(itemStack);
 
 		List<Pass> passes = new ArrayList<>();
 
@@ -85,7 +82,7 @@ public final class BannerCapeApi {
 		return ARGB.opaque(dyeColor.getTextureDiffuseColor());
 		//?} else {
 		/*float[] color = dyeColor.getTextureDiffuseColors();
-		return ARGB.colorFromFloat(1.0F, color[0], color[1], color[2]);
+		return ARGB.color(255, (int) (color[0] * 255.0F), (int) (color[1] * 255.0F), (int) (color[2] * 255.0F));
 		*///?}
 	}
 }

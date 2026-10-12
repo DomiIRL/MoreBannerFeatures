@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 //? if >=1.21.4 {
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ItemModel;
@@ -88,9 +88,8 @@ public abstract class ItemModelResolverMixin {
   /*private void appendItemLayers(ItemStackRenderState itemStackRenderState, ItemStack itemStack, ItemDisplayContext itemDisplayContext, Level level, LivingEntity itemOwner, int i, CallbackInfo ci) {
   *///?}
     if (itemDisplayContext == ItemDisplayContext.HEAD
-      && itemStack.has(DataComponents.BANNER_PATTERNS)
-      && (itemStack.getItem() instanceof BannerItem || itemStack.has(ModDataComponents.BANNER_BASE_COLOR))) {
-      DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.get(ModDataComponents.BANNER_BASE_COLOR);
+      && (itemStack.getItem() instanceof BannerItem || BannerItems.isDecorated(itemStack))) {
+      DyeColor dyeColor = BannerItems.baseColor(itemStack);
       Identifier resourceLocation = mbf$bannerModel(dyeColor);
 
       if (resourceLocation != null) {

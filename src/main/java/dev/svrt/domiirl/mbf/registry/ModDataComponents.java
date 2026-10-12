@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.registry;
 
+//? if >=1.20.5 {
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -25,3 +26,4 @@ public class ModDataComponents {
   }
 
 }
+//?}

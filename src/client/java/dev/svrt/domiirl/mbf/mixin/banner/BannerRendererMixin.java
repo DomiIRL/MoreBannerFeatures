@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.BannerBlock;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -151,7 +152,11 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 				^///?}
 				phase,
 				bannerBlockEntity.getBaseColor(),
+				//? if >=1.20.5 {
 				bannerBlockEntity.getPatterns()
+				//?} else {
+				/^BannerPatternLayers.fromRenderList(bannerBlockEntity.getPatterns())
+				^///?}
 			);
 			ci.cancel();
 		}

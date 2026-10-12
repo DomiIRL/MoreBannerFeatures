@@ -57,9 +57,15 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	}
 
 	@Inject(method = "defineSynchedData", at = @At(value = "TAIL"))
+	//? if >=1.20.5 {
 	private void defineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
 		builder.define(BANNER, ItemStack.EMPTY);
 	}
+	//?} else {
+	/*private void defineSynchedData(CallbackInfo ci) {
+		this.entityData.define(BANNER, ItemStack.EMPTY);
+	}
+	*///?}
 
 	//? if >=1.21.6 {
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
@@ -76,12 +82,12 @@ public abstract class AbstractBoatMixin extends VehicleEntity implements Leashab
 	//?} else {
 	/*@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
 	private void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-		BannerSaveData.read(tag, this.registryAccess()).ifPresent(this::mbf$setBannerItem);
+		BannerSaveData.read(tag, this).ifPresent(this::mbf$setBannerItem);
 	}
 
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-		BannerSaveData.write(tag, this.registryAccess(), mbf$getBannerItem());
+		BannerSaveData.write(tag, this, mbf$getBannerItem());
 	}
 	*///?}
 

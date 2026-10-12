@@ -1,9 +1,9 @@
 package dev.svrt.domiirl.mbf.utils;
 
 //? if <1.21.6 {
-/*import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+/*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
@@ -16,14 +16,25 @@ public final class BannerSaveData {
 	private BannerSaveData() {
 	}
 
-	public static Optional<ItemStack> read(CompoundTag tag, HolderLookup.Provider registries) {
+	public static Optional<ItemStack> read(CompoundTag tag, Entity entity) {
 		Tag banner = tag.get(KEY);
-		return banner == null ? Optional.empty() : ItemStack.parse(registries, banner);
+		if (banner == null) {
+			return Optional.empty();
+		}
+		//? if >=1.20.5 {
+		return ItemStack.parse(entity.registryAccess(), banner);
+		//?} else {
+		/^return banner instanceof CompoundTag itemTag ? Optional.of(ItemStack.of(itemTag)) : Optional.empty();
+		^///?}
 	}
 
-	public static void write(CompoundTag tag, HolderLookup.Provider registries, ItemStack itemStack) {
+	public static void write(CompoundTag tag, Entity entity, ItemStack itemStack) {
 		if (!itemStack.isEmpty()) {
-			tag.put(KEY, itemStack.save(registries));
+			//? if >=1.20.5 {
+			tag.put(KEY, itemStack.save(entity.registryAccess()));
+			//?} else {
+			/^tag.put(KEY, itemStack.save(new CompoundTag()));
+			^///?}
 		}
 	}
 }

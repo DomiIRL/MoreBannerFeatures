@@ -1,9 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.banner;
 
 import dev.svrt.domiirl.mbf.accessor.HangingBanner;
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.world.item.DyeColor;
+import dev.svrt.domiirl.mbf.accessor.LayeredBanner;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -16,6 +14,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >=1.20.5 {
+import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.item.DyeColor;
+//?}
 //? if >=1.21.5 {
 import net.minecraft.core.component.DataComponentGetter;
 //?}
@@ -28,7 +31,7 @@ import net.minecraft.nbt.CompoundTag;
 *///?}
 
 @Mixin(BannerBlockEntity.class)
-public abstract class BannerBlockEntityMixin extends BlockEntity implements HangingBanner {
+public abstract class BannerBlockEntityMixin extends BlockEntity implements HangingBanner, LayeredBanner {
 
   @Unique
   private static final String VALUE_NAME = "mbf$max_layers";
@@ -96,7 +99,11 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Hang
   }
   //?} else {
   /*@Inject(method = "saveAdditional", at = @At("TAIL"))
+  //? if >=1.20.5 {
   private void saveAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+  //?} else {
+  /^private void saveAdditional(CompoundTag tag, CallbackInfo ci) {
+  ^///?}
     tag.putInt(VALUE_NAME, this.maxLayers);
     // An unknown value would reach the client as a known one and stop it deriving
     if (this.hangingKnown) {
@@ -104,8 +111,14 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Hang
     }
   }
 
+  //? if >=1.20.5 {
   @Inject(method = "loadAdditional", at = @At("TAIL"))
   private void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+  //?} else {
+  /^// Block entities loaded through load(CompoundTag) before 1.20.5
+  @Inject(method = "load", at = @At("TAIL"))
+  private void loadAdditional(CompoundTag tag, CallbackInfo ci) {
+  ^///?}
     //? if >=1.21.5 {
     tag.getInt(VALUE_NAME).ifPresent(value -> {
       this.maxLayers = value;
@@ -121,6 +134,13 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Hang
   }
   *///?}
 
+  @Override
+  public int mbf$getMaxLayers() {
+    return this.maxLayers;
+  }
+
+  // Before 1.20.5 the limit reaches the item through the block entity tag instead, see BannerItems
+  //? if >=1.20.5 {
   @Inject(method = "applyImplicitComponents", at = @At("TAIL"))
   //? if >=1.21.5 {
   private void applyImplicitComponents(DataComponentGetter dataComponentGetter, CallbackInfo ci) {
@@ -148,5 +168,6 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Hang
     tag.remove(HANGING_NAME);
   }
   *///?}
+  //?}
 
 }

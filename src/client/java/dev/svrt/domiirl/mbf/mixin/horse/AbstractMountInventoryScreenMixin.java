@@ -47,7 +47,7 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 	/*@Inject(method = "renderBg", at = @At("TAIL"))
 	public void drawBackground(GuiGraphicsExtractor guiGraphics, float f, int i, int j, CallbackInfo ci) {
 	*///?}
-		if (this.menu.slots.getLast() instanceof BannerSlot) {
+		if (this.menu.slots.get(this.menu.slots.size() - 1) instanceof BannerSlot) {
 			int localI = (this.width - this.imageWidth) / 2;
 			int localJ = (this.height - this.imageHeight) / 2;
 

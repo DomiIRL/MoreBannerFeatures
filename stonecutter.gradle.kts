@@ -144,6 +144,19 @@ stonecutter parameters {
             replace("(?<![./\\w])ARGB\\b", "ARGB32", "(?<![./\\w])ARGB32\\b", "ARGB")
         }
 
+        // Banner patterns became a data component in 1.20.5; before that MBF reads the NBT list through its own stand-in
+        val before1_20_5 = current.parsed < "1.20.5"
+        regex(before1_20_5) {
+            replace(
+                "net([./])minecraft\\1world\\1level\\1block\\1entity\\1BannerPatternLayers\\b", "dev$1svrt$1domiirl$1mbf$1legacy$1BannerPatternLayers",
+                "dev([./])svrt\\1domiirl\\1mbf\\1legacy\\1BannerPatternLayers\\b", "net$1minecraft$1world$1level$1block$1entity$1BannerPatternLayers",
+            )
+        }
+
+        regex(before1_20_5) {
+            replace("HolderLookup\\.Provider registryAccess\\)", "net.minecraft.core.RegistryAccess registryAccess)", "net\\.minecraft\\.core\\.RegistryAccess registryAccess\\)", "HolderLookup.Provider registryAccess)")
+        }
+
         // 1.21 gave recipes a CraftingInput instead of the crafting grid's container itself
         val before1_21 = current.parsed < "1.21"
         regex(before1_21) {

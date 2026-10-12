@@ -1,7 +1,7 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 //? if >=1.21.4 {
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.utils.MBFUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BannerItem;
@@ -42,7 +41,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     ItemStack itemStack = MBFUtils.getHeadItem(livingEntity);
-    if (itemStack.getItem() instanceof BannerItem || itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(ModDataComponents.BANNER_BASE_COLOR)) {
+    if (itemStack.getItem() instanceof BannerItem || BannerItems.isDecorated(itemStack)) {
       //? if >=1.21.5 {
       this.itemModelResolver.updateForLiving(state.headItem, itemStack, ItemDisplayContext.HEAD, livingEntity);
       //?} else {

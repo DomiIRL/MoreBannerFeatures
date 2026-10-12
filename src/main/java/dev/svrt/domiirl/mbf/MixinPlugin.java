@@ -1,6 +1,7 @@
 package dev.svrt.domiirl.mbf;
 
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -28,6 +29,10 @@ public abstract class MixinPlugin implements IMixinConfigPlugin {
 		@Override
 		public List<String> getMixins() {
 			List<String> mixins = new ArrayList<>();
+			// Forge and NeoForge load the client config on servers too and only skip its "client" list there
+			if (MixinEnvironment.getDefaultEnvironment().getSide() != MixinEnvironment.Side.CLIENT) {
+				return mixins;
+			}
 			//? if >=1.21.9 {
 			mixins.add("banner.BannerRenderStateMixin");
 			//?}

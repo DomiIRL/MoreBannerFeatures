@@ -15,7 +15,12 @@ public class ModItems {
   public static Item BANNER_THREAD;
 
   public static void init() {
+    //? if >=1.20.5 {
     BANNER_THREAD = register("banner_thread", Item::new, new Item.Properties().component(ModDataComponents.MAX_BANNER_LAYERS, 1));
+    //?} else {
+    /*// Before components a thread without the tag simply counts as one layer
+    BANNER_THREAD = register("banner_thread", Item::new, new Item.Properties());
+    *///?}
   }
 
   public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties properties) {

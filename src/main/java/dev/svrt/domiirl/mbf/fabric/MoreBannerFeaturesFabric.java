@@ -2,7 +2,9 @@
 package dev.svrt.domiirl.mbf.fabric;
 
 import dev.svrt.domiirl.mbf.config.MBFConfigManager;
+//? if >=1.20.5 {
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+//?}
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.fabricmc.api.ModInitializer;
@@ -20,7 +22,9 @@ public class MoreBannerFeaturesFabric implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		MBFConfigManager.load();
+		//? if >=1.20.5 {
 		ModDataComponents.init();
+		//?}
 		ModItems.init();
 		ModRecipeSerializers.init();
 

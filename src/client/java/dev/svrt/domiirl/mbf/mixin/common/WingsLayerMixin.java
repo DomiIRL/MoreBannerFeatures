@@ -1,9 +1,9 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -46,7 +46,7 @@ public abstract class WingsLayerMixin<S extends LivingEntity, M extends EntityMo
     }
     if (humanoidRenderState instanceof Bannerable bannerable) {
       ItemStack itemStack = bannerable.mbf$getBannerItem();
-      if (itemStack.has(ModDataComponents.BANNER_BASE_COLOR)) {
+      if (BannerItems.decorationColor(itemStack) != null) {
         ci.cancel();
       }
     }

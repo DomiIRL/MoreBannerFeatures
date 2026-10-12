@@ -3,7 +3,9 @@
 
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.config.MBFConfigManager;
+//? if >=1.20.5 {
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+//?}
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.minecraft.core.registries.Registries;
@@ -42,9 +44,13 @@ public class MoreBannerFeaturesForge {
 
 	// Vanilla registries only accept entries while their RegisterEvent runs
 	private static void onRegister(RegisterEvent event) {
+		//? if >=1.20.5 {
 		if (event.getRegistryKey().equals(Registries.DATA_COMPONENT_TYPE)) {
 			ModDataComponents.init();
 		} else if (event.getRegistryKey().equals(Registries.ITEM)) {
+		//?} else {
+		/^if (event.getRegistryKey().equals(Registries.ITEM)) {
+		^///?}
 			ModItems.init();
 		} else if (event.getRegistryKey().equals(Registries.RECIPE_SERIALIZER)) {
 			ModRecipeSerializers.init();

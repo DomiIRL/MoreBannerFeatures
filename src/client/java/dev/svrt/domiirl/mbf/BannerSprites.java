@@ -10,6 +10,9 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 //?}
+//? if <1.20.5 {
+/*import net.minecraft.world.level.block.entity.BannerPatterns;
+*///?}
 //? if <26.1 {
 /*import net.minecraft.client.resources.model.ModelBakery;
 *///?}
@@ -46,16 +49,20 @@ public final class BannerSprites {
 	public static SpriteId patternBase() {
 		//? if >=26.1 {
 		return Sheets.BANNER_PATTERN_BASE;
-		//?} else {
+		//?} else if >=1.20.5 {
 		/*return Sheets.BANNER_BASE;
+		*///?} else {
+		/*return Sheets.getBannerMaterial(BannerPatterns.BASE);
 		*///?}
 	}
 
 	public static SpriteId pattern(Holder<BannerPattern> pattern) {
 		//? if >=26.1 {
 		return Sheets.getBannerSprite(pattern);
-		//?} else {
+		//?} else if >=1.20.5 {
 		/*return Sheets.getBannerMaterial(pattern);
+		*///?} else {
+		/*return Sheets.getBannerMaterial(pattern.unwrapKey().orElseThrow());
 		*///?}
 	}
 

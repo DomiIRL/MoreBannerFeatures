@@ -1,9 +1,8 @@
 package dev.svrt.domiirl.mbf.mixin.threads;
 
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.LoomScreen;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.LoomMenu;
@@ -30,13 +29,13 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
   @Inject(method = "containerChanged", at = @At(value = "TAIL"))
   private void containerChanged(CallbackInfo ci) {
     ItemStack bannerItem = this.menu.getBannerSlot().getItem();
-    BannerPatternLayers bannerPatternLayers = bannerItem.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
-    this.hasMaxPatterns = bannerPatternLayers.layers().size() >= bannerItem.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
+    BannerPatternLayers bannerPatternLayers = BannerItems.patterns(bannerItem);
+    this.hasMaxPatterns = bannerPatternLayers.layers().size() >= BannerItems.maxLayers(bannerItem, BannerItems.VANILLA_MAX_LAYERS);
   }
 
   @ModifyConstant(method = "containerChanged", constant = @Constant(intValue = 6, ordinal = 0))
   public int getLimit(int constant) {
     ItemStack bannerItem = this.menu.getBannerSlot().getItem();
-    return bannerItem.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
+    return BannerItems.maxLayers(bannerItem, BannerItems.VANILLA_MAX_LAYERS);
   }
 }

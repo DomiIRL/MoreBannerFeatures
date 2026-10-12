@@ -1,0 +1,67 @@
+package dev.svrt.domiirl.mbf.legacy;
+
+//? if <1.20.5 {
+/*import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// 1.20.5's BannerPatternLayers, for the versions that kept patterns as an NBT list and rendered them as pairs
+public record BannerPatternLayers(List<Layer> layers) {
+
+	public static final BannerPatternLayers EMPTY = new BannerPatternLayers(List.of());
+
+	public record Layer(Holder<BannerPattern> pattern, DyeColor color) {
+	}
+
+	public static BannerPatternLayers fromTag(ListTag tag) {
+		List<Layer> layers = new ArrayList<>();
+		for (Tag entry : tag) {
+			if (entry instanceof CompoundTag layer) {
+				Holder<BannerPattern> pattern = BannerPattern.byHash(layer.getString("Pattern"));
+				if (pattern != null) {
+					layers.add(new Layer(pattern, DyeColor.byId(layer.getInt("Color"))));
+				}
+			}
+		}
+		return new BannerPatternLayers(layers);
+	}
+
+	// What BannerBlockEntity.getPatterns() hands out: the base colour first, then the layers
+	public static BannerPatternLayers fromRenderList(List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
+		List<Layer> layers = new ArrayList<>();
+		for (int i = 1; i < patterns.size(); i++) {
+			layers.add(new Layer(patterns.get(i).getFirst(), patterns.get(i).getSecond()));
+		}
+		return new BannerPatternLayers(layers);
+	}
+
+	public ListTag toTag() {
+		ListTag tag = new ListTag();
+		for (Layer layer : this.layers) {
+			CompoundTag entry = new CompoundTag();
+			entry.putString("Pattern", layer.pattern().value().getHashname());
+			entry.putInt("Color", layer.color().getId());
+			tag.add(entry);
+		}
+		return tag;
+	}
+
+	public List<Pair<Holder<BannerPattern>, DyeColor>> toRenderList(DyeColor baseColor) {
+		List<Pair<Holder<BannerPattern>, DyeColor>> patterns = new ArrayList<>();
+		patterns.add(Pair.of(BuiltInRegistries.BANNER_PATTERN.getHolderOrThrow(BannerPatterns.BASE), baseColor));
+		for (Layer layer : this.layers) {
+			patterns.add(Pair.of(layer.pattern(), layer.color()));
+		}
+		return patterns;
+	}
+}
+*///?}

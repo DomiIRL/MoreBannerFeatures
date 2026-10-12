@@ -44,7 +44,8 @@ dependencies {
     // loom-back-compat turns mod* configurations into plain ones from 26.1 on
     modImplementation("net.fabricmc:fabric-loader:${prop("deps.fabric_loader")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric_api")}")
-    modImplementation("com.terraformersmc:modmenu:${prop("deps.modmenu")}")
+    // Only its API is compiled against; older Mod Menu releases pull Placeholder API from a repository we never need
+    modImplementation("com.terraformersmc:modmenu:${prop("deps.modmenu")}") { isTransitive = false }
 }
 
 java {

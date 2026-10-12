@@ -1,8 +1,8 @@
 package dev.svrt.domiirl.mbf;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.model.object.banner.BannerModel;
@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 //?} else {
 /*import net.minecraft.world.entity.Entity;
 *///?}
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -81,8 +80,8 @@ public class RendererUtils {
 	*///?}
 
 	public static void renderBanner(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
-		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+		DyeColor dyeColor = BannerItems.baseColor(itemStack);
+		BannerPatternLayers bannerPatternLayers = BannerItems.patterns(itemStack);
 		renderBanner(poseStack, submitNodeCollector, light, overlay, angle, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 	}
 
@@ -98,8 +97,8 @@ public class RendererUtils {
 	}
 
 	public static void renderBannerDirect(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
-		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+		DyeColor dyeColor = BannerItems.baseColor(itemStack);
+		BannerPatternLayers bannerPatternLayers = BannerItems.patterns(itemStack);
 		renderBannerDirect(poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 	}
 
@@ -119,7 +118,11 @@ public class RendererUtils {
 
 		if (bannerFlagModel != null) {
 			bannerFlagModel.setupAnim(phase);
+			//? if >=1.20.5 {
 			BannerRenderer.renderPatterns(poseStack, submitNodeCollector, i, j, bannerFlagModel.root(), BannerSprites.cloth(), true, dyeColor, bannerPatternLayers);
+			//?} else {
+			/^BannerRenderer.renderPatterns(poseStack, submitNodeCollector, i, j, bannerFlagModel.root(), BannerSprites.cloth(), true, bannerPatternLayers.toRenderList(dyeColor));
+			^///?}
 		}
 		*///?}
 	}
@@ -129,13 +132,15 @@ public class RendererUtils {
 	//?} else {
 	/*public static void renderCanvasFromItem(ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, ModelPart canvas) {
 	*///?}
-		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
-		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+		DyeColor dyeColor = BannerItems.baseColor(itemStack);
+		BannerPatternLayers patternLayers = BannerItems.patterns(itemStack);
 
 		//? if >=1.21.9 {
 		submitCanvas(poseStack, submitNodeCollector, light, overlay, model, object, dyeColor, patternLayers);
-		//?} else {
+		//?} else if >=1.20.5 {
 		/*BannerRenderer.renderPatterns(poseStack, submitNodeCollector, light, overlay, canvas, BannerSprites.cloth(), true, dyeColor, patternLayers);
+		*///?} else {
+		/*BannerRenderer.renderPatterns(poseStack, submitNodeCollector, light, overlay, canvas, BannerSprites.cloth(), true, patternLayers.toRenderList(dyeColor));
 		*///?}
 	}
 
@@ -171,6 +176,6 @@ public class RendererUtils {
 	//?}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {
-		return !itemStack.isEmpty() && (itemStack.getItem() instanceof BannerItem || (itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(ModDataComponents.BANNER_BASE_COLOR)));
+		return !itemStack.isEmpty() && (itemStack.getItem() instanceof BannerItem || BannerItems.isDecorated(itemStack));
 	}
 }

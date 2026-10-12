@@ -24,13 +24,34 @@ public record EquipmentSlotContainer(Mob mob, EquipmentSlot slot) implements Con
 		}
 	}
 
+	//? if <1.20.5 {
+	/^@Override
+	public ItemStack splitTheItem(int amount) {
+		ItemStack split = this.getTheItem().split(amount);
+		if (this.getTheItem().isEmpty()) {
+			this.setTheItem(ItemStack.EMPTY);
+		}
+		return split;
+	}
+
+	// The 1.20.4 interface is written for block entities; nothing calls this here
+	@Override
+	public net.minecraft.world.level.block.entity.BlockEntity getContainerBlockEntity() {
+		return null;
+	}
+	^///?}
+
 	@Override
 	public void setChanged() {
 	}
 
 	@Override
 	public boolean stillValid(Player player) {
+		//? if >=1.20.5 {
 		return player.getVehicle() == this.mob || player.canInteractWithEntity(this.mob, 4.0D);
+		//?} else {
+		/^return player.getVehicle() == this.mob || (this.mob.isAlive() && player.distanceTo(this.mob) < 8.0F);
+		^///?}
 	}
 }
 *///?}

@@ -1,9 +1,8 @@
 package dev.svrt.domiirl.mbf.recipe;
 
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -12,6 +11,7 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 //? if >=1.21.2 {
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.equipment.Equippable;
 //?} else {
 /*import net.minecraft.world.item.Equipable;
@@ -118,10 +118,9 @@ public class ArmorDecorationRecipe extends CustomRecipe {
         ItemStack result = chestplate.copy();
 
         DyeColor baseColor = ((BannerItem) banner.getItem()).getColor();
-        BannerPatternLayers patterns = banner.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+        BannerPatternLayers patterns = BannerItems.patterns(banner);
 
-        result.set(ModDataComponents.BANNER_BASE_COLOR, baseColor);
-        result.set(DataComponents.BANNER_PATTERNS, patterns);
+        BannerItems.decorate(result, baseColor, patterns);
 
         return result;
     }

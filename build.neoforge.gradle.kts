@@ -60,7 +60,13 @@ tasks {
             "icon_key" to if (sc.current.parsed >= "26.3") "iconFile" else "logoFile",
         )
         inputs.properties(props)
-        filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
+        // NeoForge reads META-INF/mods.toml until 20.5
+        val metadataName = if (sc.current.parsed >= "1.20.5") "neoforge.mods.toml" else "mods.toml"
+        inputs.property("metadataName", metadataName)
+        filesMatching("META-INF/neoforge.mods.toml") {
+            expand(props)
+            name = metadataName
+        }
         exclude("fabric.mod.json", "META-INF/mods.toml", "pack.mcmeta")
     }
 

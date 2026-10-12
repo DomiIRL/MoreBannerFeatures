@@ -1,6 +1,6 @@
 package dev.svrt.domiirl.mbf.recipe;
 
-import dev.svrt.domiirl.mbf.registry.ModDataComponents;
+import dev.svrt.domiirl.mbf.utils.BannerItems;
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.minecraft.world.item.BannerItem;
@@ -75,7 +75,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
                     if (!banner.isEmpty()) return false; // Multiple banners
                     banner = stack;
                 } else if (stack.getItem() == ModItems.BANNER_THREAD) {
-                    int threadLayers = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 1);
+                    int threadLayers = BannerItems.maxLayers(stack, 1);
                     threadLayerSum += threadLayers;
                 } else {
                     return false; // Invalid item
@@ -102,7 +102,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
                 if (stack.getItem() instanceof BannerItem) {
                     banner = stack;
                 } else if (stack.getItem() == ModItems.BANNER_THREAD) {
-                    int threadLayers = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 1);
+                    int threadLayers = BannerItems.maxLayers(stack, 1);
                     threadLayerSum += threadLayers;
                 }
             }
@@ -115,7 +115,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
         ItemStack result = banner.copy();
         result.setCount(1);
 
-        int currentMax = result.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, VANILLA_MAX_BANNER_LAYERS);
+        int currentMax = BannerItems.maxLayers(result, VANILLA_MAX_BANNER_LAYERS);
         int newMax = Math.min(currentMax + threadLayerSum, MAX_BANNER_LAYERS);
 
         int layersUsed = Math.max(0, newMax - currentMax);
@@ -123,7 +123,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
             return ItemStack.EMPTY;
         }
 
-        result.set(ModDataComponents.MAX_BANNER_LAYERS, newMax);
+        BannerItems.setMaxLayers(result, newMax);
 
         return result;
     }
@@ -139,11 +139,11 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
             ItemStack stack = craftingInput.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof BannerItem) {
-                    if (stack.has(ModDataComponents.MAX_BANNER_LAYERS)) {
-                        currentMax = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
+                    if (BannerItems.hasMaxLayers(stack)) {
+                        currentMax = BannerItems.maxLayers(stack, 6);
                     }
                 } else if (stack.getItem() == ModItems.BANNER_THREAD) {
-                    threadLayers[i] = stack.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 1);
+                    threadLayers[i] = BannerItems.maxLayers(stack, 1);
                 }
             }
         }
@@ -158,7 +158,7 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
                     layersToUse -= threadLayer;
                 } else if (layersToUse > 0) {
                     ItemStack leftover = new ItemStack(ModItems.BANNER_THREAD);
-                    leftover.set(ModDataComponents.MAX_BANNER_LAYERS, threadLayer - layersToUse);
+                    BannerItems.setMaxLayers(leftover, threadLayer - layersToUse);
                     remaining.set(i, leftover);
                     layersToUse = 0;
                 } else {
