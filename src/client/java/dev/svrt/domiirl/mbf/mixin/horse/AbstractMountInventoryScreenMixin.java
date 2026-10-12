@@ -1,7 +1,11 @@
 package dev.svrt.domiirl.mbf.mixin.horse;
 
 import dev.svrt.domiirl.mbf.gui.BannerSlot;
+//? if >=1.20 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import com.mojang.blaze3d.vertex.PoseStack;
+*///?}
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,7 +32,7 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 
 	//? if >=26.1 {
 	@Shadow protected abstract void extractSlot(GuiGraphicsExtractor guiGraphics, int i, int j);
-	//?} else {
+	//?} else if >=1.20 {
 	/*@Shadow protected abstract void drawSlot(GuiGraphicsExtractor guiGraphics, int i, int j);
 	*///?}
 
@@ -43,9 +47,12 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 	//? if >=26.1 {
 	@Inject(method = "extractBackground", at = @At("TAIL"))
 	public void drawBackground(GuiGraphicsExtractor guiGraphics, int i, int j, float f, CallbackInfo ci) {
-	//?} else {
+	//?} else if >=1.20 {
 	/*@Inject(method = "renderBg", at = @At("TAIL"))
 	public void drawBackground(GuiGraphicsExtractor guiGraphics, float f, int i, int j, CallbackInfo ci) {
+	*///?} else {
+	/*@Inject(method = "renderBg", at = @At("TAIL"))
+	public void drawBackground(PoseStack poseStack, float f, int i, int j, CallbackInfo ci) {
 	*///?}
 		if (this.menu.slots.get(this.menu.slots.size() - 1) instanceof BannerSlot) {
 			int localI = (this.width - this.imageWidth) / 2;
@@ -53,8 +60,11 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 
 			//? if >=26.1 {
 			extractSlot(guiGraphics, localI + 7, localJ + 53);
-			//?} else {
+			//?} else if >=1.20 {
 			/*drawSlot(guiGraphics, localI + 7, localJ + 53);
+			*///?} else {
+			/*// The empty frame vanilla draws for the saddle slot, the horse texture is still bound here
+			this.blit(poseStack, localI + 7, localJ + 53, 18, this.imageHeight + 54, 18, 18);
 			*///?}
 		}
 	}

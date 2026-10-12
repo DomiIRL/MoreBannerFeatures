@@ -19,7 +19,6 @@
     "item.ItemStackMixin",
     "minecart.AbstractMinecartContainerMixin",
     "minecart.AbstractMinecartMixin",
-    "minecart.MinecartChestMixin",
     "minecart.MinecartFurnaceMixin",
     "minecart.MinecartMixin",
     "player.PlayerMixin",

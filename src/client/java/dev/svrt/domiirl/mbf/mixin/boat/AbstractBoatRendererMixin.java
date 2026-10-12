@@ -82,9 +82,11 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 			value = "INVOKE",
 			//? if >=1.21 {
 			target = "Lnet/minecraft/client/model/ListModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V",
-			//?} else {
+			//?} else if >=1.20 {
 			/^// Models still took the tint as four floats
 			target = "Lnet/minecraft/client/model/ListModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V",
+			^///?} else {
+			/^target = "Lnet/minecraft/client/model/BoatModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V",
 			^///?}
 			shift = At.Shift.AFTER
 		)

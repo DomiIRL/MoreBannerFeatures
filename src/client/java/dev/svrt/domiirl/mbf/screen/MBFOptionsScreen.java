@@ -5,7 +5,9 @@ import dev.svrt.domiirl.mbf.config.options.BooleanOption;
 import dev.svrt.domiirl.mbf.config.options.IOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
+//? if >=1.19.3 {
 import net.minecraft.client.gui.components.Tooltip;
+//?}
 import net.minecraft.client.gui.screens.Screen;
 //? if >=1.21 {
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
@@ -52,7 +54,11 @@ public class MBFOptionsScreen extends OptionsSubScreen {
 	public static OptionInstance<?> toOption(IOption option) {
 		if (option instanceof BooleanOption bOption) {
 			if (bOption.tooltip != null) {
+				//? if >=1.19.3 {
 				return OptionInstance.createBoolean("mbf.options." + bOption.key, (value) -> Tooltip.create(bOption.tooltip), bOption.value, newValue -> {
+				//?} else {
+				/*return OptionInstance.createBoolean("mbf.options." + bOption.key, OptionInstance.cachedConstantTooltip(bOption.tooltip), bOption.value, newValue -> {
+				*///?}
 					bOption.value = newValue;
 				});
 			} else {

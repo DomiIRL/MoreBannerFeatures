@@ -27,7 +27,6 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 //?} else {
 /*import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.properties.RotationSegment;
 *///?}
 
 @Mixin(value = BannerRenderer.class, priority = 10000)
@@ -134,7 +133,7 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		}
 
 		if (bannerBlockEntity.getBlockState().getBlock() instanceof BannerBlock && bannerBlockEntity instanceof HangingBanner banner && banner.mbf$isHanging()) {
-			float angle = -RotationSegment.convertToDegrees(bannerBlockEntity.getBlockState().getValue(BannerBlock.ROTATION));
+			float angle = -bannerBlockEntity.getBlockState().getValue(BannerBlock.ROTATION) * 22.5F;
 			BlockPos blockPos = bannerBlockEntity.getBlockPos();
 			float phase = ((float) Math.floorMod(blockPos.getX() * 7L + blockPos.getY() * 9L + blockPos.getZ() * 13L + bannerBlockEntity.getLevel().getGameTime(), 100L) + partialTick) / 100.0F;
 			poseStack.translate(0.0D, -0.85D, 0.0D);

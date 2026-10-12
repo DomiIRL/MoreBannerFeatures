@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.minecart;
 
+//? if >=1.20 {
 import dev.svrt.domiirl.mbf.utils.BannerableEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,3 +31,4 @@ public abstract class MinecartChestMixin extends AbstractMinecart {
     BannerableEntity.handleInteract(this, player, interactionHand, cir);
   }
 }
+//?}

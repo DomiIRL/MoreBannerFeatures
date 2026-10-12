@@ -20,6 +20,10 @@ public abstract class MixinPlugin implements IMixinConfigPlugin {
 			//? if >=1.21.6 {
 			mixins.add("ghast.HappyGhastMixin");
 			//?}
+			// Chest minecarts only override interact from 1.20, the container minecart hook covers them before
+			//? if >=1.20 {
+			mixins.add("minecart.MinecartChestMixin");
+			//?}
 			return mixins;
 		}
 	}

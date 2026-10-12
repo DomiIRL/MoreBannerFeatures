@@ -15,12 +15,23 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-//?} else {
+//?} else if >=1.20.5 {
 /*import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 *///?}
-//? if <1.21.2 {
+//? if <26.1 && >=1.19.3 {
+/*import net.minecraft.world.item.crafting.CraftingBookCategory;
+*///?}
+//? if <1.21.2 && >=1.19.3 {
 /*import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+*///?}
+//? if <1.20.5 {
+/*import net.minecraft.core.RegistryAccess;
+*///?}
+//? if <1.20.2 {
+/*import net.minecraft.resources.ResourceLocation;
+*///?}
+//? if <1.19.3 {
+/*import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 *///?}
 
 public class UseBannerThreadsRecipe extends CustomRecipe {
@@ -41,11 +52,25 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     public UseBannerThreadsRecipe(CraftingBookCategory category) {
         super(category);
     }
-    *///?} else {
+    *///?} else if >=1.20.2 {
     /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(UseBannerThreadsRecipe::new);
 
     public UseBannerThreadsRecipe(CraftingBookCategory category) {
         super(category);
+    }
+    *///?} else if >=1.19.3 {
+    /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(UseBannerThreadsRecipe::new);
+
+    // Recipes carried their own id until 1.20.2
+    public UseBannerThreadsRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
+    }
+    *///?} else {
+    /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new SimpleRecipeSerializer<>(UseBannerThreadsRecipe::new);
+
+    // No crafting book categories before 1.19.3
+    public UseBannerThreadsRecipe(ResourceLocation id) {
+        super(id);
     }
     *///?}
 
@@ -90,8 +115,12 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     @Override
     //? if >=26.1 {
     public ItemStack assemble(CraftingInput craftingInput) {
-    //?} else {
+    //?} else if >=1.20.5 {
     /*public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    *///?} else if >=1.19.4 {
+    /*public ItemStack assemble(CraftingInput craftingInput, RegistryAccess registryAccess) {
+    *///?} else {
+    /*public ItemStack assemble(CraftingInput craftingInput) {
     *///?}
         ItemStack banner = ItemStack.EMPTY;
         int threadLayerSum = 0;
@@ -162,7 +191,13 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
                     remaining.set(i, leftover);
                     layersToUse = 0;
                 } else {
+                    //? if >=1.20 {
                     remaining.set(i, stack.copyWithCount(1));
+                    //?} else {
+                    /*ItemStack single = stack.copy();
+                    single.setCount(1);
+                    remaining.set(i, single);
+                    *///?}
                 }
             }
         }

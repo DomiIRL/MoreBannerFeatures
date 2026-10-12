@@ -10,12 +10,14 @@ import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.fabricmc.api.ModInitializer;
 //? if >=26.1 {
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
-//?} else {
+//?} else if >=1.19.3 {
 /*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 *///?}
+//? if >=1.19.3 {
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+//?}
 
 public class MoreBannerFeaturesFabric implements ModInitializer {
 
@@ -28,12 +30,15 @@ public class MoreBannerFeaturesFabric implements ModInitializer {
 		ModItems.init();
 		ModRecipeSerializers.init();
 
+		// Before 1.19.3 the thread picks its tab itself, see ModItems
+		//? if >=1.19.3 {
 		//? if >=26.1 {
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(output ->
 		//?} else {
 		/*ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(output ->
 		*///?}
 			output.accept(new ItemStack(ModItems.BANNER_THREAD), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
+		//?}
 	}
 
 }

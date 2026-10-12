@@ -12,6 +12,12 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FMLPaths;
 *///?}
 
+//? if forge && <1.19.3 {
+/*import net.minecraftforge.registries.RegistryManager;
+*///?}
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+
 public final class Platform {
 
 	private Platform() {
@@ -25,6 +31,16 @@ public final class Platform {
 		*///?} else {
 		/*return ModList.get().isLoaded(modId);
 		*///?}
+	}
+
+	public static <V, T extends V> T register(Registry<V> registry, Identifier id, T value) {
+		//? if forge && <1.19.3 {
+		/*// Forge locks the vanilla registry views before 1.19.3; during RegisterEvent its own registries take the entry
+		RegistryManager.ACTIVE.<V>getRegistry(registry.key()).register(id, value);
+		return value;
+		*///?} else {
+		return Registry.register(registry, id, value);
+		//?}
 	}
 
 	public static Path configDir() {

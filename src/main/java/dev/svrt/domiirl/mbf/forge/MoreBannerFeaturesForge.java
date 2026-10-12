@@ -8,12 +8,18 @@ import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 //?}
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
+//? if >=1.19.3 {
 import net.minecraft.core.registries.Registries;
+//?} else {
+/^import net.minecraft.core.Registry;
+^///?}
+//? if >=1.19.3 {
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+//?}
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -31,9 +37,12 @@ public class MoreBannerFeaturesForge {
 		//?} else if >=1.21.6 {
 		/^RegisterEvent.getBus(context.getModBusGroup()).addListener(MoreBannerFeaturesForge::onRegister);
 		BuildCreativeModeTabContentsEvent.getBus(context.getModBusGroup()).addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
-		^///?} else {
+		^///?} else if >=1.19.3 {
 		/^context.getModEventBus().addListener(MoreBannerFeaturesForge::onRegister);
 		context.getModEventBus().addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
+		^///?} else {
+		/^// Before 1.19.3 the thread picks its creative tab itself, see ModItems
+		context.getModEventBus().addListener(MoreBannerFeaturesForge::onRegister);
 		^///?}
 
 		// Forge has no client-only mod entrypoint; the call is only linked on the client, so the server never loads the screen classes
@@ -57,11 +66,13 @@ public class MoreBannerFeaturesForge {
 		}
 	}
 
+	//? if >=1.19.3 {
 	private static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event) {
 		if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS)) {
 			event.accept(new ItemStack(ModItems.BANNER_THREAD), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 		}
 	}
+	//?}
 
 }
 *///?}

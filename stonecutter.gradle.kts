@@ -153,17 +153,36 @@ stonecutter parameters {
             )
         }
 
-        regex(before1_20_5) {
-            replace("HolderLookup\\.Provider registryAccess\\)", "net.minecraft.core.RegistryAccess registryAccess)", "net\\.minecraft\\.core\\.RegistryAccess registryAccess\\)", "HolderLookup.Provider registryAccess)")
+
+        // 1.20 turned entity.level into a method and BlockState kept its material until then
+        val before1_20 = current.parsed < "1.20"
+        regex(before1_20) {
+            replace("\\b(entity|this)\\.level\\(\\)", "$1.getLevel()", "\\b(entity|this)\\.getLevel\\(\\)", "$1.level()")
+        }
+        regex(before1_20) {
+            replace("\\bItemStack\\.isSameItem\\(", "ItemStack.isSame(", "\\bItemStack\\.isSame\\(", "ItemStack.isSameItem(")
+        }
+        regex(before1_20) {
+            replace("\\.isSolid\\(\\)", ".getMaterial().isSolid()", "\\.getMaterial\\(\\)\\.isSolid\\(\\)", ".isSolid()")
+        }
+        regex(before1_20) {
+            replace("\\bLootParams\\b", "LootContext", "\\bLootContext\\b", "LootParams")
         }
 
-        // Recipes carried their own id until 1.20.2
-        val before1_20_2 = current.parsed < "1.20.2"
-        regex(before1_20_2) {
-            replace("\\(CraftingBookCategory category\\)", "(net.minecraft.resources.ResourceLocation id, CraftingBookCategory category)", "\\(net\\.minecraft\\.resources\\.ResourceLocation id, CraftingBookCategory category\\)", "(CraftingBookCategory category)")
+        // Rotation axes were Mojang's own Vector3f with the same rotation methods until JOML arrived in 1.19.3
+        regex(current.parsed < "1.19.3") {
+            replace("com([./])mojang\\1math\\1Axis\\b", "com$1mojang$1math$1Vector3f", "com([./])mojang\\1math\\1Vector3f\\b", "com$1mojang$1math$1Axis")
         }
-        regex(before1_20_2) {
-            replace("\\bsuper\\(category\\)", "super(id, category)", "\\bsuper\\(id, category\\)", "super(category)")
+        regex(current.parsed < "1.19.3") {
+            replace("(?<![./\\w])Axis\\b", "Vector3f", "(?<![./\\w])Vector3f\\b", "Axis")
+        }
+
+        // The static registries lived on Registry until 1.19.3
+        regex(current.parsed < "1.19.3") {
+            replace("\\bBuiltInRegistries\\.(ITEM|RECIPE_SERIALIZER|BANNER_PATTERN)\\b", "Registry.$1", "\\bRegistry\\.(ITEM|RECIPE_SERIALIZER|BANNER_PATTERN)\\b", "BuiltInRegistries.$1")
+        }
+        regex(current.parsed < "1.19.3") {
+            replace("\\bRegistries\\.(ITEM|RECIPE_SERIALIZER)\\b", "Registry.$1_REGISTRY", "\\bRegistry\\.(ITEM|RECIPE_SERIALIZER)_REGISTRY\\b", "Registries.$1")
         }
 
         // 1.21 gave recipes a CraftingInput instead of the crafting grid's container itself

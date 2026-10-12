@@ -3,7 +3,11 @@ package dev.svrt.domiirl.mbf.legacy;
 //? if <1.20.5 {
 /*import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Holder;
+//? if >=1.19.3 {
 import net.minecraft.core.registries.BuiltInRegistries;
+//?} else {
+/^import net.minecraft.core.Registry;
+^///?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;

@@ -3,8 +3,11 @@ package dev.svrt.domiirl.mbf.registry;
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.recipe.ArmorDecorationRecipe;
 import dev.svrt.domiirl.mbf.recipe.UseBannerThreadsRecipe;
+import dev.svrt.domiirl.mbf.platform.Platform;
 import net.minecraft.core.Registry;
+//? if >=1.19.3 {
 import net.minecraft.core.registries.BuiltInRegistries;
+//?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,6 +23,6 @@ public class ModRecipeSerializers {
   }
 
   public static <T extends CustomRecipe> RecipeSerializer<T> register(String id, RecipeSerializer<T> serializer) {
-    return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, MoreBannerFeatures.id(id), serializer);
+    return Platform.register(BuiltInRegistries.RECIPE_SERIALIZER, MoreBannerFeatures.id(id), serializer);
   }
 }

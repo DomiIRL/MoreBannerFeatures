@@ -2,9 +2,8 @@ package dev.svrt.domiirl.mbf;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import org.joml.Quaternionf;
 
-// PoseStack only gained rotate/rotateDegrees in 26.3 and dropped mulPose(Quaternionf) with it
+// PoseStack only gained rotate/rotateDegrees in 26.3 and dropped mulPose with it
 public final class Poses {
 
 	private Poses() {
@@ -23,14 +22,6 @@ public final class Poses {
 		poseStack.rotate(axis, radians);
 		//?} else {
 		/*poseStack.mulPose(axis.rotation(radians));
-		*///?}
-	}
-
-	public static void rotate(PoseStack poseStack, Quaternionf rotation) {
-		//? if >=26.3 {
-		poseStack.rotate(rotation);
-		//?} else {
-		/*poseStack.mulPose(rotation);
 		*///?}
 	}
 

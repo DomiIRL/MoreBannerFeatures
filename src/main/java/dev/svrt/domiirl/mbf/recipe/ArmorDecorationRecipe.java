@@ -13,8 +13,12 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 //? if >=1.21.2 {
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.equipment.Equippable;
-//?} else {
+//?}
+//? if <1.21.2 && >=1.19.4 {
 /*import net.minecraft.world.item.Equipable;
+*///?}
+//? if <1.19.4 {
+/*import net.minecraft.world.item.ArmorItem;
 *///?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
@@ -24,12 +28,23 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-//?} else {
+//?} else if >=1.20.5 {
 /*import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 *///?}
-//? if <1.21.2 {
+//? if <26.1 && >=1.19.3 {
+/*import net.minecraft.world.item.crafting.CraftingBookCategory;
+*///?}
+//? if <1.21.2 && >=1.19.3 {
 /*import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+*///?}
+//? if <1.20.5 {
+/*import net.minecraft.core.RegistryAccess;
+*///?}
+//? if <1.20.2 {
+/*import net.minecraft.resources.ResourceLocation;
+*///?}
+//? if <1.19.3 {
+/*import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 *///?}
 
 public class ArmorDecorationRecipe extends CustomRecipe {
@@ -48,11 +63,25 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     public ArmorDecorationRecipe(CraftingBookCategory category) {
         super(category);
     }
-    *///?} else {
+    *///?} else if >=1.20.2 {
     /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(ArmorDecorationRecipe::new);
 
     public ArmorDecorationRecipe(CraftingBookCategory category) {
         super(category);
+    }
+    *///?} else if >=1.19.3 {
+    /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(ArmorDecorationRecipe::new);
+
+    // Recipes carried their own id until 1.20.2
+    public ArmorDecorationRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
+    }
+    *///?} else {
+    /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new SimpleRecipeSerializer<>(ArmorDecorationRecipe::new);
+
+    // No crafting book categories before 1.19.3
+    public ArmorDecorationRecipe(ResourceLocation id) {
+        super(id);
     }
     *///?}
 
@@ -94,8 +123,12 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     @Override
     //? if >=26.1 {
     public ItemStack assemble(CraftingInput craftingInput) {
-    //?} else {
+    //?} else if >=1.20.5 {
     /*public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    *///?} else if >=1.19.4 {
+    /*public ItemStack assemble(CraftingInput craftingInput, RegistryAccess registryAccess) {
+    *///?} else {
+    /*public ItemStack assemble(CraftingInput craftingInput) {
     *///?}
         ItemStack chestplate = ItemStack.EMPTY;
         ItemStack banner = ItemStack.EMPTY;
@@ -129,9 +162,11 @@ public class ArmorDecorationRecipe extends CustomRecipe {
         //? if >=1.21.2 {
         Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
         return equippable != null && (equippable.slot() == EquipmentSlot.CHEST || equippable.slot() == EquipmentSlot.HEAD);
-        //?} else {
+        //?} else if >=1.19.4 {
         /*Equipable equipable = Equipable.get(itemStack);
         return equipable != null && (equipable.getEquipmentSlot() == EquipmentSlot.CHEST || equipable.getEquipmentSlot() == EquipmentSlot.HEAD);
+        *///?} else {
+        /*return itemStack.getItem() instanceof ArmorItem armorItem && (armorItem.getSlot() == EquipmentSlot.CHEST || armorItem.getSlot() == EquipmentSlot.HEAD);
         *///?}
     }
 }

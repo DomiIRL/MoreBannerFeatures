@@ -2,7 +2,7 @@ package dev.svrt.domiirl.mbf.registry;
 
 //? if >=1.20.5 {
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
-import net.minecraft.core.Registry;
+import dev.svrt.domiirl.mbf.platform.Platform;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -22,7 +22,7 @@ public class ModDataComponents {
   }
 
   private static void register(String id, DataComponentType<?> type) {
-    Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, MoreBannerFeatures.id(id), type);
+    Platform.register(BuiltInRegistries.DATA_COMPONENT_TYPE, MoreBannerFeatures.id(id), type);
   }
 
 }

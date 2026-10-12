@@ -1,6 +1,7 @@
 package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
@@ -23,7 +24,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Quaternionf;
 
 import java.util.HashMap;
 import java.util.List;
@@ -140,10 +140,9 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 				//?}
 				poseStack.translate(0.0F, 0.0F, 0.125F);
 
-				Poses.rotate(poseStack, new Quaternionf()
-					.rotateX((6.0F + capeLean / 2.0F + capeFlap) * ((float) Math.PI / 180F))
-					.rotateZ(capeLean2 / 2.0F * ((float) Math.PI / 180F))
-					.rotateY((180.0F - capeLean2 / 2.0F) * ((float) Math.PI / 180F)));
+				Poses.rotateDegrees(poseStack, Axis.XP, 6.0F + capeLean / 2.0F + capeFlap);
+				Poses.rotateDegrees(poseStack, Axis.ZP, capeLean2 / 2.0F);
+				Poses.rotateDegrees(poseStack, Axis.YP, 180.0F - capeLean2 / 2.0F);
 
 				//? if <1.21.2 {
 				/*// 1.21.1's PlayerModel moves its cloak by this much while crouching
