@@ -79,7 +79,12 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart> 
 	//?} else {
 	/*@Inject(
 		method = "render(Lnet/minecraft/world/entity/vehicle/minecart/AbstractMinecart;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
+		//? if >=1.21 {
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", shift = At.Shift.AFTER)
+		//?} else {
+		/^// Models still took the tint as four floats
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V", shift = At.Shift.AFTER)
+		^///?}
 	)
 	private void render(T state, float yaw, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
 	*///?}

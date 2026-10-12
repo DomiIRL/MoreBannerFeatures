@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 //? if <1.21.2 {
 /*import com.mojang.datafixers.util.Pair;
+import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import net.minecraft.world.inventory.InventoryMenu;
 *///?}
 
@@ -48,7 +49,7 @@ public class BannerSlot extends Slot {
 	/*// Slot icons come from the block atlas before 1.21.2, which picks up textures/item of every namespace
 	@Override
 	public Pair<Identifier, Identifier> getNoItemIcon() {
-		return Pair.of(InventoryMenu.BLOCK_ATLAS, Identifier.fromNamespaceAndPath(slotIcon.getNamespace(), "item/empty_slot_banner"));
+		return Pair.of(InventoryMenu.BLOCK_ATLAS, MoreBannerFeatures.id("item/empty_slot_banner"));
 	}
 	*///?}
 }

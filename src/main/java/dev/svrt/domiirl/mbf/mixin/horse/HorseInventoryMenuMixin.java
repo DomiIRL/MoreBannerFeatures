@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
 	@Unique
-	private static final Identifier SLOT_ICON = Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, "container/slot/banner");
+	private static final Identifier SLOT_ICON = MoreBannerFeatures.id("container/slot/banner");
 
 	protected HorseInventoryMenuMixin(@Nullable MenuType<?> type, int syncId) {
 		super(type, syncId);

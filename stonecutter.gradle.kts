@@ -144,6 +144,21 @@ stonecutter parameters {
             replace("(?<![./\\w])ARGB\\b", "ARGB32", "(?<![./\\w])ARGB32\\b", "ARGB")
         }
 
+        // 1.21 gave recipes a CraftingInput instead of the crafting grid's container itself
+        val before1_21 = current.parsed < "1.21"
+        regex(before1_21) {
+            replace(
+                "world([./])item\\1crafting\\1CraftingInput\\b", "world$1inventory$1CraftingContainer",
+                "world([./])inventory\\1CraftingContainer\\b", "world$1item$1crafting$1CraftingInput",
+            )
+        }
+        regex(before1_21) {
+            replace("(?<![./\\w])CraftingInput\\b", "CraftingContainer", "(?<![./\\w])CraftingContainer\\b", "CraftingInput")
+        }
+        regex(before1_21) {
+            replace("\\bcraftingInput\\.size\\(\\)", "craftingInput.getContainerSize()", "\\bcraftingInput\\.getContainerSize\\(\\)", "craftingInput.size()")
+        }
+
         // Banner models only became classes in 1.21.4; before that MBF brings its own with the same API
         val before1_21_4 = current.parsed < "1.21.4"
         regex(before1_21_11 && !before1_21_4) {

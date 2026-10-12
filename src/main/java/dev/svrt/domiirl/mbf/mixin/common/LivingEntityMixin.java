@@ -24,6 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
+	//? if >=1.21 {
 	@Inject(method = "getEquipmentSlotForItem", at = @At(value = "HEAD"), cancellable = true)
 	private void getPreferredEquipmentSlot(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
 		if (!(this instanceof Bannerable)) return;
@@ -37,6 +38,15 @@ public abstract class LivingEntityMixin extends Entity {
 			}
 		}
 	}
+	//?} else {
+	/*// Static before 1.21, so there is no entity to look at: a banner always goes on as a cape, like MBF 1.x
+	@Inject(method = "getEquipmentSlotForItem", at = @At(value = "HEAD"), cancellable = true)
+	private static void getPreferredEquipmentSlot(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
+		if (stack.getItem() instanceof BannerItem) {
+			cir.setReturnValue(EquipmentSlot.CHEST);
+		}
+	}
+	*///?}
 
 	// Before 1.21.2 armor slots ask getEquipmentSlotForItem only
 	//? if >=1.21.2 {

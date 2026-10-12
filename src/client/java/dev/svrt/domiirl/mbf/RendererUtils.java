@@ -3,7 +3,6 @@ package dev.svrt.domiirl.mbf;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.model.object.banner.BannerModel;
@@ -39,11 +38,15 @@ public class RendererUtils {
 	public static final BannerModel BANNER_BAR = createBannerBar();
 	public static final BannerFlagModel STANDING_FLAG_BANNER = createFlag();
 
-	//? if >=1.21.2 {
-	private static final DeltaTracker deltaTracker = Minecraft.getInstance().getDeltaTracker();
-	//?} else {
-	/*private static final DeltaTracker deltaTracker = Minecraft.getInstance().getTimer();
-	*///?}
+	private static float partialTick() {
+		//? if >=1.21.2 {
+		return Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
+		//?} else if >=1.21 {
+		/*return Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+		*///?} else {
+		/*return Minecraft.getInstance().getFrameTime();
+		*///?}
+	}
 
 	public static BannerModel createStandingBanner() {
 		//? if >=1.21.4 {
@@ -69,11 +72,11 @@ public class RendererUtils {
 
 	//? if >=1.21.2 {
 	public static float createBannerSwing(EntityRenderState entityRenderState) {
-		return ((float)Math.floorMod((long)(entityRenderState.x * 7 + entityRenderState.y * 9 + entityRenderState.z * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
+		return ((float)Math.floorMod((long)(entityRenderState.x * 7 + entityRenderState.y * 9 + entityRenderState.z * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + partialTick()) / 100.0F;
 	}
 	//?} else {
 	/*public static float createBannerSwing(Entity entity) {
-		return ((float)Math.floorMod((long)(entity.getX() * 7 + entity.getY() * 9 + entity.getZ() * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
+		return ((float)Math.floorMod((long)(entity.getX() * 7 + entity.getY() * 9 + entity.getZ() * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + partialTick()) / 100.0F;
 	}
 	*///?}
 

@@ -21,7 +21,7 @@ public class ModDataComponents {
   }
 
   private static void register(String id, DataComponentType<?> type) {
-    Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), type);
+    Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, MoreBannerFeatures.id(id), type);
   }
 
 }

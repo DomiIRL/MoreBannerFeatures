@@ -81,6 +81,11 @@ public final class BannerCapeApi {
 	}
 
 	private static int tint(DyeColor dyeColor) {
+		//? if >=1.21 {
 		return ARGB.opaque(dyeColor.getTextureDiffuseColor());
+		//?} else {
+		/*float[] color = dyeColor.getTextureDiffuseColors();
+		return ARGB.colorFromFloat(1.0F, color[0], color[1], color[2]);
+		*///?}
 	}
 }

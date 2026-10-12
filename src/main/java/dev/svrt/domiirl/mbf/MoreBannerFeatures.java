@@ -1,10 +1,19 @@
 package dev.svrt.domiirl.mbf;
 
 import dev.svrt.domiirl.mbf.platform.Platform;
+import net.minecraft.resources.Identifier;
 
 public class MoreBannerFeatures {
 
 	public static final String MOD_ID = "mbf";
+
+	public static Identifier id(String path) {
+		//? if >=1.21 {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+		//?} else {
+		/*return new Identifier(MOD_ID, path);
+		*///?}
+	}
 
 	public static Boolean trinketsInstalled = null;
 	public static Boolean accessoriesInstalled = null;

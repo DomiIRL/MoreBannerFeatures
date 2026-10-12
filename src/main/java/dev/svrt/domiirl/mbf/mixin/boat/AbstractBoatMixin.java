@@ -7,7 +7,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+//? if >=1.21 {
 import net.minecraft.world.entity.Leashable;
+//?}
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +29,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractBoat.class)
+// Boats only became leashable in 1.21
+//? if >=1.21 {
 public abstract class AbstractBoatMixin extends VehicleEntity implements Leashable, BoatBannerable {
+//?} else {
+/*public abstract class AbstractBoatMixin extends VehicleEntity implements BoatBannerable {
+*///?}
 
 	@Unique
 	private static final EntityDataAccessor<ItemStack> BANNER = SynchedEntityData.defineId(AbstractBoat.class, EntityDataSerializers.ITEM_STACK);

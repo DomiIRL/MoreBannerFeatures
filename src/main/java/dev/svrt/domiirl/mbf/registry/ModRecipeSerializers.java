@@ -20,6 +20,6 @@ public class ModRecipeSerializers {
   }
 
   public static <T extends CustomRecipe> RecipeSerializer<T> register(String id, RecipeSerializer<T> serializer) {
-    return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), serializer);
+    return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, MoreBannerFeatures.id(id), serializer);
   }
 }

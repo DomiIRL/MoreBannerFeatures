@@ -19,7 +19,7 @@ public class ModItems {
   }
 
   public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties properties) {
-    Identifier itemId = Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, name);
+    Identifier itemId = MoreBannerFeatures.id(name);
     //? if >=1.21.2 {
     Item item = itemFactory.apply(properties.setId(keyOfItem(name)));
     //?} else {
@@ -30,7 +30,7 @@ public class ModItems {
   }
 
   private static ResourceKey<Item> keyOfItem(String name) {
-    return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, name));
+    return ResourceKey.create(Registries.ITEM, MoreBannerFeatures.id(name));
   }
 
 }
