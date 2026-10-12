@@ -35,7 +35,11 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
+	//? if >=26.1 {
 	private void init(EntityRendererProvider.Context context, Identifier texture, CallbackInfo ci) {
+	//?} else {
+	/*private void init(EntityRendererProvider.Context context, CallbackInfo ci) {
+	*///?}
 		this.sprites = context.getSprites();
 	}
 

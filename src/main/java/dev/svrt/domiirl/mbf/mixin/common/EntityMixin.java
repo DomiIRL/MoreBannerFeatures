@@ -19,7 +19,11 @@ public abstract class EntityMixin {
   @Shadow public abstract Level level();
 
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+  //? if >=26.1 {
   private void onInteract(Player player, InteractionHand hand, Vec3 hitLocation, CallbackInfoReturnable<InteractionResult> cir) {
+  //?} else {
+  /*private void onInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+  *///?}
     BannerableEntity.handleInteract((Entity) (Object) this, player, hand, cir);
   }
 }

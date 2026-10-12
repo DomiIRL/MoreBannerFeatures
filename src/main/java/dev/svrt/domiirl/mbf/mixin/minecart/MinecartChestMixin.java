@@ -22,7 +22,11 @@ public abstract class MinecartChestMixin extends AbstractMinecart {
   }
 
   @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+  //? if >=26.1 {
   private void onInteract(Player player, InteractionHand interactionHand, Vec3 hitLocation, CallbackInfoReturnable<InteractionResult> cir) {
+  //?} else {
+  /*private void onInteract(Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
+  *///?}
     BannerableEntity.handleInteract(this, player, interactionHand, cir);
   }
 }

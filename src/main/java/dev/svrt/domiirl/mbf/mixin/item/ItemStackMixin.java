@@ -25,8 +25,8 @@ public abstract class ItemStackMixin implements DataComponentHolder {
 
   @Shadow public abstract Item getItem();
 
-  // NeoForge moves the vanilla component lines out of addDetailsToTooltip into its own method
-  //? if neoforge {
+  // NeoForge 26.x moves the vanilla component lines out of addDetailsToTooltip into its own method
+  //? if neoforge && >=26.1 {
   /*@Inject(method = "addDetailsToTooltipComponents", at = @At(value = "FIELD", target = "Lnet/minecraft/core/component/DataComponents;BANNER_PATTERNS:Lnet/minecraft/core/component/DataComponentType;", shift = At.Shift.BEFORE))
   *///?} else {
   @Inject(method = "addDetailsToTooltip", at = @At(value = "FIELD", target = "Lnet/minecraft/core/component/DataComponents;BANNER_PATTERNS:Lnet/minecraft/core/component/DataComponentType;", shift = At.Shift.BEFORE))

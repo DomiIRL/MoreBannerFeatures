@@ -1,10 +1,10 @@
 package dev.svrt.domiirl.mbf.api;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.svrt.domiirl.mbf.BannerSprites;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -68,11 +68,15 @@ public final class BannerCapeApi {
 		List<Pass> passes = new ArrayList<>();
 
 		// Solid cloth first, the pattern passes write no depth. No cull, a banner has no back side
-		passes.add(pass(Sheets.BANNER_BASE, RenderTypes::entityCutout, -1));
+		//? if >=26.1 {
+		passes.add(pass(BannerSprites.cloth(), RenderTypes::entityCutout, -1));
+		//?} else {
+		/*passes.add(pass(BannerSprites.cloth(), RenderTypes::armorCutoutNoCull, -1));
+		*///?}
 
-		passes.add(pass(Sheets.BANNER_PATTERN_BASE, RenderTypes::entityTranslucent, tint(dyeColor)));
+		passes.add(pass(BannerSprites.patternBase(), RenderTypes::entityTranslucent, tint(dyeColor)));
 		for (BannerPatternLayers.Layer layer : patternLayers.layers()) {
-			passes.add(pass(Sheets.getBannerSprite(layer.pattern()), RenderTypes::entityTranslucent, tint(layer.color())));
+			passes.add(pass(BannerSprites.pattern(layer.pattern()), RenderTypes::entityTranslucent, tint(layer.color())));
 		}
 
 		return passes;

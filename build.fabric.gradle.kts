@@ -24,8 +24,6 @@ repositories {
 loom {
     splitEnvironmentSourceSets()
 
-    accessWidenerPath = sc.process(rootProject.file("src/main/resources/mbf.accesswidener"), "build/processed.accesswidener")
-
     mods {
         register("mbf") {
             sourceSet(sourceSets.main.get())

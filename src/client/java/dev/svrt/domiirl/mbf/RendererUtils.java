@@ -10,7 +10,6 @@ import net.minecraft.client.model.object.banner.BannerModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -21,6 +20,10 @@ import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
+
+//? if <26.1 {
+/*import net.minecraft.client.renderer.rendertype.RenderTypes;
+*///?}
 
 public class RendererUtils {
 
@@ -82,6 +85,7 @@ public class RendererUtils {
 	}
 
 	private static <S> void submitCanvas(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state, DyeColor dyeColor, BannerPatternLayers patternLayers) {
+		//? if >=26.1 {
 		// Solid base pass first, the pattern layers write no depth
 		submitBase(sprites, poseStack, submitNodeCollector, light, overlay, model, state);
 
@@ -91,14 +95,19 @@ public class RendererUtils {
 		//?} else {
 		/*BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers, null);
 		*///?}
+		//?} else {
+		/*// The cloth sprite passed here is drawn as the base, so no separate base pass
+		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, BannerSprites.cloth(), true, dyeColor, patternLayers, false, null, 0);
+		*///?}
 	}
 
 	private static <S> void submitBase(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state) {
-		// Below 26.3 the call also takes a block-breaking overlay, which a banner on an entity never has
 		//? if >=26.3 {
-		submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0);
-		//?} else {
-		/*submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0, null);
+		submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), sprites, 0);
+		//?} else if >=26.1 {
+		/*submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), sprites, 0, null);
+		*///?} else {
+		/*submitNodeCollector.submitModel(model, state, poseStack, BannerSprites.cloth().renderType(RenderTypes::entitySolid), light, overlay, -1, sprites.get(BannerSprites.cloth()), 0, null);
 		*///?}
 	}
 

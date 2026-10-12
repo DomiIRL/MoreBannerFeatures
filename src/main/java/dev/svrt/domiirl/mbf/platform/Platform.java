@@ -20,10 +20,10 @@ public final class Platform {
 	public static boolean isModLoaded(String modId) {
 		//? if fabric {
 		return FabricLoader.getInstance().isModLoaded(modId);
-		//?} else if neoforge {
-		/*return ModList.get().isLoaded(modId);
-		*///?} else {
+		//?} else if forge && >=26.1 {
 		/*return ModList.isLoaded(modId);
+		*///?} else {
+		/*return ModList.get().isLoaded(modId);
 		*///?}
 	}
 

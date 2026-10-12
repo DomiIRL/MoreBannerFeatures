@@ -1,12 +1,9 @@
 package dev.svrt.domiirl.mbf.recipe;
 
-import com.mojang.serialization.MapCodec;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -19,8 +16,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
+//? if >=26.1 {
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+//?} else {
+/*import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+*///?}
+
 public class ArmorDecorationRecipe extends CustomRecipe {
 
+    //? if >=26.1 {
     public static final MapCodec<ArmorDecorationRecipe> MAP_CODEC = MapCodec.unit(ArmorDecorationRecipe::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, ArmorDecorationRecipe> STREAM_CODEC = StreamCodec.unit(new ArmorDecorationRecipe());
     public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
@@ -28,6 +35,13 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     public ArmorDecorationRecipe() {
         super();
     }
+    //?} else {
+    /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new CustomRecipe.Serializer<>(ArmorDecorationRecipe::new);
+
+    public ArmorDecorationRecipe(CraftingBookCategory category) {
+        super(category);
+    }
+    *///?}
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
@@ -58,7 +72,11 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     }
 
     @Override
+    //? if >=26.1 {
     public ItemStack assemble(CraftingInput craftingInput) {
+    //?} else {
+    /*public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    *///?}
         ItemStack chestplate = ItemStack.EMPTY;
         ItemStack banner = ItemStack.EMPTY;
 

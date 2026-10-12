@@ -28,11 +28,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.EnumMap;
 import java.util.Map;
 
+//? if <26.1 {
+/*import org.spongepowered.asm.mixin.Final;
+
+import java.util.function.Function;
+*///?}
+
 @Mixin(ItemModelResolver.class)
 public abstract class ItemModelResolverMixin {
 
+  //? if >=26.1 {
   @Shadow protected abstract ClientItem.Properties getItemProperties(Identifier modelId);
   @Shadow protected abstract ItemModel getItemModel(Identifier modelId);
+  //?} else {
+  /*@Shadow @Final private Function<Identifier, ClientItem.Properties> clientProperties;
+  @Shadow @Final private Function<Identifier, ItemModel> modelGetter;
+
+  @Unique
+  private ClientItem.Properties getItemProperties(Identifier modelId) {
+    return this.clientProperties.apply(modelId);
+  }
+
+  @Unique
+  private ItemModel getItemModel(Identifier modelId) {
+    return this.modelGetter.apply(modelId);
+  }
+  *///?}
+
   @Unique
   private static volatile Map<DyeColor, Identifier> bannerModelByColor;
 

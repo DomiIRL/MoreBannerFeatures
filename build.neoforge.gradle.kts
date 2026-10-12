@@ -56,10 +56,12 @@ tasks {
         val props = mapOf(
             "version" to prop("mod.version"),
             "minecraft" to prop("mod.mc_compat"),
+            // FML 12 (26.3) rejects logoFile, every older FML only knows logoFile
+            "icon_key" to if (sc.current.parsed >= "26.3") "iconFile" else "logoFile",
         )
         inputs.properties(props)
         filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
-        exclude("fabric.mod.json", "mbf.accesswidener", "META-INF/mods.toml", "pack.mcmeta")
+        exclude("fabric.mod.json", "META-INF/mods.toml", "pack.mcmeta")
     }
 
     named("createMinecraftArtifacts") {

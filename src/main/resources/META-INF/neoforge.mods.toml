@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "More Banner Features"
 authors = "KxmischesDomi"
 description = "Adds plenty of new cool Banner Features"
-iconFile = "assets/mbf/icon.png"
+${icon_key} = "assets/mbf/icon.png"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/more-banner-features"
 
 [[mixins]]

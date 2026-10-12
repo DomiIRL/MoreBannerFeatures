@@ -56,3 +56,20 @@ deps.neoforge = "26.1.2.116"
 mod.mc_compat = "[26.1, 26.2)"
 deps.forge = "64.1.3"
 mod.pack_format = "101"
+
+["1.21.11"]
+mod.mc_releases = ["1.21.11"]
+
+[fabric."1.21.11"]
+mod.mc_compat = "1.21.11"
+deps.fabric_api = "0.141.1+1.21.11"
+deps.modmenu = "17.0.0"
+
+[neoforge."1.21.11"]
+mod.mc_compat = "[1.21.11, 1.22)"
+deps.neoforge = "21.11.45"
+
+[forge."1.21.11"]
+mod.mc_compat = "[1.21.11, 1.22)"
+deps.forge = "61.2.1"
+mod.pack_format = "94"

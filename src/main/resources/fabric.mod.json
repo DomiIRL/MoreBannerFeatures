@@ -32,8 +32,6 @@
 			"environment": "client"
 		}
 	],
-	"accessWidener": "mbf.accesswidener",
-
 	"depends": {
 		"minecraft": "${minecraft}"
 	},

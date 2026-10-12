@@ -28,13 +28,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity, BannerRenderState> {
 
 	@Shadow @Final private BannerFlagModel standingFlagModel;
+	//? if >=26.1 {
 	@Shadow @Final private SpriteGetter sprites;
+	//?} else {
+	/*@Shadow @Final private SpriteGetter materials;
+	*///?}
 
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/blockentity/state/BannerRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
 		at = @At(
 			value = "INVOKE",
+			//? if >=26.1 {
 			target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;submitBanner(Lnet/minecraft/client/resources/model/sprite/SpriteGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"
+			//?} else {
+			/*target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;submitBanner(Lnet/minecraft/client/resources/model/sprite/SpriteGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"
+			*///?}
 		),
 		cancellable = true
 	)
@@ -44,6 +52,7 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		}
 
 		if (bannerRenderState instanceof BannerRenderStateAccessor accessor && accessor.mbf$isHanging()) {
+			//? if >=26.1 {
 			// submit() already applied the Transformation, so 0.85 blocks becomes 0.85/0.6666667 here
 			poseStack.translate(0.0D, 1.275D, 0.0D);
 			RendererUtils.renderBannerDirect(
@@ -60,6 +69,22 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 			);
 			// submit() pops the pose after this call, cancelling would skip it
 			poseStack.popPose();
+			//?} else {
+			/*poseStack.translate(0.0D, -0.85D, 0.0D);
+			RendererUtils.renderBanner(
+				this.materials,
+				poseStack,
+				submitNodeCollector,
+				bannerRenderState.lightCoords,
+				OverlayTexture.NO_OVERLAY,
+				bannerRenderState.angle,
+				RendererUtils.BANNER_BAR,
+				this.standingFlagModel,
+				bannerRenderState.phase,
+				bannerRenderState.baseColor,
+				bannerRenderState.patterns
+			);
+			*///?}
 			ci.cancel();
 		}
 	}

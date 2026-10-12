@@ -1,11 +1,8 @@
 package dev.svrt.domiirl.mbf.recipe;
 
-import com.mojang.serialization.MapCodec;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.registry.ModItems;
 import dev.svrt.domiirl.mbf.registry.ModRecipeSerializers;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -14,10 +11,20 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+//? if >=26.1 {
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+//?} else {
+/*import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+*///?}
+
 public class UseBannerThreadsRecipe extends CustomRecipe {
 
     public static final int MAX_BANNER_LAYERS = 16, VANILLA_MAX_BANNER_LAYERS = 6;
 
+    //? if >=26.1 {
     public static final MapCodec<UseBannerThreadsRecipe> MAP_CODEC = MapCodec.unit(UseBannerThreadsRecipe::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, UseBannerThreadsRecipe> STREAM_CODEC = StreamCodec.unit(new UseBannerThreadsRecipe());
     public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
@@ -25,6 +32,13 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     public UseBannerThreadsRecipe() {
         super();
     }
+    //?} else {
+    /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new CustomRecipe.Serializer<>(UseBannerThreadsRecipe::new);
+
+    public UseBannerThreadsRecipe(CraftingBookCategory category) {
+        super(category);
+    }
+    *///?}
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
@@ -58,7 +72,11 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     }
 
     @Override
+    //? if >=26.1 {
     public ItemStack assemble(CraftingInput craftingInput) {
+    //?} else {
+    /*public ItemStack assemble(CraftingInput craftingInput, HolderLookup.Provider registryAccess) {
+    *///?}
         ItemStack banner = ItemStack.EMPTY;
         int threadLayerSum = 0;
 

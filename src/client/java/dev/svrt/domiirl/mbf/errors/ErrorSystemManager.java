@@ -22,7 +22,11 @@ public class ErrorSystemManager {
 				MutableComponent text = Component.translatable("mbf.message.error");
 				Style style = text.getStyle().withClickEvent(new ClickEvent.OpenUrl(URI.create("https://discord.gg/7BSqZa9r3P")));
 				text.setStyle(style);
+				//? if >=26.1 {
 				player.sendSystemMessage(text);
+				//?} else {
+				/*player.displayClientMessage(text, false);
+				*///?}
 			}
 		}
 	}

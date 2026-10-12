@@ -54,7 +54,11 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 		cloak = new ModelPart(cuboids, new HashMap<>());
 
 		// Wrap the ModelPart in a Model.Simple
+		//? if >=26.1 {
 		this.cloakModel = new Model.Simple(cloak, RenderTypes::entitySolid);
+		//?} else {
+		/*this.cloakModel = new Model.Simple(cloak, RenderTypes::entityNoOutline);
+		*///?}
 	}
 
 	private boolean hasLayer(ItemStack itemStack, EquipmentClientInfo.LayerType layerType) {
