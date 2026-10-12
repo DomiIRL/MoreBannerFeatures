@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.mixin.boat;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
@@ -62,8 +63,8 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
-					poseStack.rotateDegrees(Axis.XP, 180);
-					poseStack.rotateDegrees(Axis.YP, 90);
+					Poses.rotateDegrees(poseStack, Axis.XP, 180);
+					Poses.rotateDegrees(poseStack, Axis.YP, 90);
 
 					poseStack.translate(-0.5, 0, -1.44);
 

@@ -50,7 +50,7 @@ public class RendererUtils {
 	public static void renderBanner(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
-		poseStack.rotateDegrees(Axis.YP, angle);
+		Poses.rotateDegrees(poseStack, Axis.YP, angle);
 		poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
 		renderBannerDirect(sprites, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
@@ -66,14 +66,11 @@ public class RendererUtils {
 
 	public static void renderBannerDirect(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		if (bannerModel != null) {
-			submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, i, j, -1, Sheets.BANNER_BASE, sprites, 0);
+			submitBase(sprites, poseStack, submitNodeCollector, i, j, bannerModel, Unit.INSTANCE);
 		}
 
 		if (bannerFlagModel != null) {
-			// Solid cloth first, the pattern layers write no depth
-			submitNodeCollector.submitModel(bannerFlagModel, phase, poseStack, i, j, -1, Sheets.BANNER_BASE, sprites, 0);
-
-			BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, true, dyeColor, bannerPatternLayers);
+			submitCanvas(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 		}
 	}
 
@@ -81,11 +78,28 @@ public class RendererUtils {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
+		submitCanvas(sprites, poseStack, submitNodeCollector, light, overlay, model, object, dyeColor, patternLayers);
+	}
+
+	private static <S> void submitCanvas(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state, DyeColor dyeColor, BannerPatternLayers patternLayers) {
 		// Solid base pass first, the pattern layers write no depth
-		submitNodeCollector.submitModel(model, object, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0);
+		submitBase(sprites, poseStack, submitNodeCollector, light, overlay, model, state);
 
 		// Banner sprites, not shield ones, the shield atlas draws nothing here
-		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, object, true, dyeColor, patternLayers);
+		//? if >=26.3 {
+		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers);
+		//?} else {
+		/*BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers, null);
+		*///?}
+	}
+
+	private static <S> void submitBase(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state) {
+		// Below 26.3 the call also takes a block-breaking overlay, which a banner on an entity never has
+		//? if >=26.3 {
+		submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0);
+		//?} else {
+		/*submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, Sheets.BANNER_BASE, sprites, 0, null);
+		*///?}
 	}
 
 	public static boolean isLegitPlayerBannerEquipment(ItemStack itemStack) {

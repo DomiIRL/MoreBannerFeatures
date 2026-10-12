@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.side.EquineBannerPositionProvider;
 import dev.svrt.domiirl.mbf.layer.side.SideBannerRenderer;
@@ -29,7 +30,7 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 			// Apply stand animation rotation
 			if (entityRenderState.standAnimation > 0) {
 				float o = entityRenderState.standAnimation;
-				poseStack.rotate(Axis.XP, o * -0.7853982F);
+				Poses.rotate(poseStack, Axis.XP, o * -0.7853982F);
 				poseStack.translate(0, o * -0.4136991F, o * 0.3926991F);
 			}
 			bannerRenderer.renderSideBanners(poseStack, submitNodeCollector, light, entityRenderState);

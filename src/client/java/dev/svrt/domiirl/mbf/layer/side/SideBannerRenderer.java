@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.layer.side;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
@@ -81,11 +82,11 @@ public class SideBannerRenderer {
       int overlay = entity.hasRedOverlay ? OverlayTexture.RED_OVERLAY_V : OverlayTexture.NO_OVERLAY;
 
       matrices.translate(0.5F, 0.0F, 0.5F);
-      matrices.rotateDegrees(Axis.YP, rotationY);
+      Poses.rotateDegrees(matrices, Axis.YP, rotationY);
       matrices.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
       matrices.translate(x / 16.0F, y / 16.0F, z / 16.0F);
-      matrices.rotateDegrees(Axis.XP, 180);
+      Poses.rotateDegrees(matrices, Axis.XP, 180);
       matrices.scale(scale, scale, scale);
 
       RendererUtils.renderBannerDirect(

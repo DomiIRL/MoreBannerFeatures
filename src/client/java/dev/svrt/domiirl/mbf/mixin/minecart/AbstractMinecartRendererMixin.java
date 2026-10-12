@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.mixin.minecart;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
@@ -52,7 +53,11 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
+		//? if >=26.3 {
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/resources/Identifier;III)V", shift = At.Shift.AFTER)
+		//?} else {
+		/*at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/resources/Identifier;IIILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V", shift = At.Shift.AFTER)
+		*///?}
 	)
 	private void render(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
 		poseStack.pushPose();
@@ -60,8 +65,8 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 				ItemStack itemStack = bannerable.mbf$getBannerItem();
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof BannerItem) {
-					poseStack.rotateDegrees(Axis.XP, 180);
-					poseStack.rotateDegrees(Axis.YP, 90);
+					Poses.rotateDegrees(poseStack, Axis.XP, 180);
+					Poses.rotateDegrees(poseStack, Axis.YP, 90);
 
 					boolean inverted = false;
 
@@ -71,7 +76,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 					}
 
 					if (!inverted) {
-						poseStack.rotateDegrees(Axis.YP, 180);
+						Poses.rotateDegrees(poseStack, Axis.YP, 180);
 					}
 
 					poseStack.translate(-0.5, 0.3, -1.06);

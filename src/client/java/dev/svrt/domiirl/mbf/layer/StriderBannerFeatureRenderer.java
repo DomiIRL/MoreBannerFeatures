@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
@@ -36,7 +37,7 @@ public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState
 					// Follow the body part, its bob and roll never reach the entity root
 					this.getParentModel().root().getChild("body").translateAndRotate(poseStack);
 
-					poseStack.rotateDegrees(Axis.XP, 180);
+					Poses.rotateDegrees(poseStack, Axis.XP, 180);
 
 					poseStack.translate(-0.5, 0.25, -0.9);
 

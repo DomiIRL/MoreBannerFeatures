@@ -1,6 +1,7 @@
 package dev.svrt.domiirl.mbf.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.api.BannerCapeApi;
@@ -84,7 +85,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AvatarRenderState, Pl
 				this.getParentModel().body.translateAndRotate(poseStack);
 				poseStack.translate(0.0F, 0.0F, 0.125F);
 
-				poseStack.rotate(new Quaternionf()
+				Poses.rotate(poseStack, new Quaternionf()
 					.rotateX((6.0F + state.capeLean / 2.0F + state.capeFlap) * ((float) Math.PI / 180F))
 					.rotateZ(state.capeLean2 / 2.0F * ((float) Math.PI / 180F))
 					.rotateY((180.0F - state.capeLean2 / 2.0F) * ((float) Math.PI / 180F)));
