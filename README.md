@@ -71,3 +71,27 @@
 ![](https://i.imgur.com/As8JsDk.png)
 
 ![](https://i.imgur.com/0j1QtKa.png)
+
+***
+
+## Building
+
+One branch builds every Minecraft version and mod loader with [Stonecutter](https://stonecutter.kikugie.dev/). Each version and loader pair is a node under `versions/<version>-<loader>`, built by `build.<loader>.gradle.kts`.
+
+```
+./gradlew buildAndCollect
+```
+
+builds every node and copies the jars to `build/libs/<mod version>/`. One node alone: `./gradlew :26.3-neoforge:build`.
+
+The sources are written for the active node (`stonecutter active` in `stonecutter.gradle.kts`, kept on the newest Fabric node). Code for other versions or loaders sits in `//? if` comments that Stonecutter swaps in when it builds that node:
+
+*   A Minecraft call that only changed its name or arguments gets an `//? if >=26.3 { ... } else { ... }` right where it is called.
+*   Anything that differs between loaders goes through `platform/Platform` or a loader's entrypoint in the `fabric`, `neoforge` and `forge` packages, never inline in feature code.
+
+### Adding the next Minecraft version
+
+1.  In `settings.gradle.kts`, add `mc("<version>", "fabric", "neoforge", "forge")` above the current newest line, with only the loaders that have a release for it.
+2.  In `stonecutter.properties.toml`, add a `["<version>"]` block and one `[<loader>."<version>"]` block per loader with its dependency versions. Copy the newest blocks and bump the numbers. Forge needs `mod.pack_format` from the Forge MDK's `pack.mcmeta`.
+3.  Set `vcsVersion` in `settings.gradle.kts` to `<version>-fabric` and run `./gradlew "Set active project to <version>-fabric"`, which rewrites the sources and `stonecutter.gradle.kts` for the new node. Fix the compile errors on the new version; every fix that breaks an older node gets an `//? if` with the old code in the `else` branch.
+4.  Run `./gradlew buildAndCollect` and make sure every node still builds.
