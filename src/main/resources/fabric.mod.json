@@ -35,7 +35,7 @@
 	"accessWidener": "mbf.accesswidener",
 
 	"depends": {
-		"minecraft": "26.3.x"
+		"minecraft": "${minecraft}"
 	},
 	"suggests": {
 		"trinkets": "*",
