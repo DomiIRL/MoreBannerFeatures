@@ -2,19 +2,23 @@ package dev.svrt.domiirl.mbf.mixin.banner;
 
 import dev.svrt.domiirl.mbf.accessor.HangingBanner;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
-import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >=1.21.5 {
+import net.minecraft.core.component.DataComponentGetter;
+//?}
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -24,7 +28,7 @@ import net.minecraft.nbt.CompoundTag;
 *///?}
 
 @Mixin(BannerBlockEntity.class)
-public class BannerBlockEntityMixin implements HangingBanner {
+public abstract class BannerBlockEntityMixin extends BlockEntity implements HangingBanner {
 
   @Unique
   private static final String VALUE_NAME = "mbf$max_layers";
@@ -40,6 +44,10 @@ public class BannerBlockEntityMixin implements HangingBanner {
 
   @Unique
   private boolean hangingKnown = false;
+
+  protected BannerBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+  }
 
   @Override
   public boolean mbf$isHanging() {
@@ -98,16 +106,27 @@ public class BannerBlockEntityMixin implements HangingBanner {
 
   @Inject(method = "loadAdditional", at = @At("TAIL"))
   private void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+    //? if >=1.21.5 {
     tag.getInt(VALUE_NAME).ifPresent(value -> {
       this.maxLayers = value;
     });
-    this.hangingKnown = tag.contains(HANGING_NAME);
     this.hanging = tag.getBooleanOr(HANGING_NAME, false);
+    //?} else {
+    /^if (tag.contains(VALUE_NAME)) {
+      this.maxLayers = tag.getInt(VALUE_NAME);
+    }
+    this.hanging = tag.getBoolean(HANGING_NAME);
+    ^///?}
+    this.hangingKnown = tag.contains(HANGING_NAME);
   }
   *///?}
 
   @Inject(method = "applyImplicitComponents", at = @At("TAIL"))
+  //? if >=1.21.5 {
   private void applyImplicitComponents(DataComponentGetter dataComponentGetter, CallbackInfo ci) {
+  //?} else {
+  /*private void applyImplicitComponents(DataComponentInput dataComponentGetter, CallbackInfo ci) {
+  *///?}
     this.maxLayers = dataComponentGetter.getOrDefault(ModDataComponents.MAX_BANNER_LAYERS, 6);
   }
 

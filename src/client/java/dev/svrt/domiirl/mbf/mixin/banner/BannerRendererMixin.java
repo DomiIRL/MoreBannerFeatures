@@ -105,14 +105,22 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 	}
 	//?} else {
 	/*@Inject(
+		//? if >=1.21.5 {
 		method = "render(Lnet/minecraft/world/level/block/entity/BannerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/world/phys/Vec3;)V",
+		//?} else {
+		/^method = "render(Lnet/minecraft/world/level/block/entity/BannerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;II)V",
+		^///?}
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderBanner(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V"
 		),
 		cancellable = true
 	)
+	//? if >=1.21.5 {
 	private void onRender(BannerBlockEntity bannerBlockEntity, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Vec3 cameraPos, CallbackInfo ci) {
+	//?} else {
+	/^private void onRender(BannerBlockEntity bannerBlockEntity, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, CallbackInfo ci) {
+	^///?}
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}

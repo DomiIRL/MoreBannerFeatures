@@ -4,6 +4,9 @@ import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.gui.BannerSlot;
+//? if <1.21.5 {
+/*import dev.svrt.domiirl.mbf.gui.EquipmentSlotContainer;
+*///?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -33,7 +36,11 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	private void init(int syncId, Inventory playerInventory, Container inventory, AbstractHorse entity, int j, CallbackInfo ci) {
 		if (entity instanceof Bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {
+			//? if >=1.21.5 {
 			Container container2 = entity.createEquipmentSlotContainer(EquipmentSlot.CHEST);
+			//?} else {
+			/*Container container2 = new EquipmentSlotContainer(entity, EquipmentSlot.CHEST);
+			*///?}
 			this.addSlot(new BannerSlot(entity, container2, 0, 8, 54, SLOT_ICON));
 		}
 	}

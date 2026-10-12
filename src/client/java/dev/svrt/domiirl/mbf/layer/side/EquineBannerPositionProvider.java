@@ -25,13 +25,18 @@ public class EquineBannerPositionProvider implements BannerPositionProvider {
     float width = 1F;
 
     if (state instanceof EquineRenderState equineRenderState) {
+      //? if >=1.21.5 {
+      boolean saddled = !equineRenderState.saddle.isEmpty();
+      //?} else {
+      /*boolean saddled = equineRenderState.isSaddled;
+      *///?}
 
       if (state instanceof DonkeyRenderState donkeyState) {
         xOffset = donkeyState.hasChest ? -20 : -11.25F;
         yOffset = -35F;
         zOffset = -5F;
 
-        if (!equineRenderState.saddle.isEmpty() && !donkeyState.hasChest) {
+        if (saddled && !donkeyState.hasChest) {
           yOffset += 0.7F;
           zOffset += 0.8F;
         }
@@ -40,7 +45,7 @@ public class EquineBannerPositionProvider implements BannerPositionProvider {
         yOffset = -30.8F;
         zOffset = -3.8F;
 
-        if (!equineRenderState.saddle.isEmpty()) {
+        if (saddled) {
           zOffset += 0.7F;
           yOffset += 0.8F;
         }
@@ -49,7 +54,7 @@ public class EquineBannerPositionProvider implements BannerPositionProvider {
         yOffset = -27.7F;
         zOffset = -3F;
 
-        if (!equineRenderState.saddle.isEmpty()) {
+        if (saddled) {
           zOffset += 0.7F;
           yOffset += 0.8F;
         }

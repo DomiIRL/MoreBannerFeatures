@@ -82,7 +82,7 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 	*///?}
 
 	@Override
-	protected void dropEquipment(ServerLevel serverLevel) {
+	public void dropEquipment(ServerLevel serverLevel) {
 		if (!mbf$getBannerItem().isEmpty()) spawnAtLocation(serverLevel, mbf$getBannerItem());
 		super.dropEquipment(serverLevel);
 	}

@@ -42,7 +42,11 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
     ItemStack itemStack = MBFUtils.getHeadItem(livingEntity);
     if (itemStack.getItem() instanceof BannerItem || itemStack.has(DataComponents.BANNER_PATTERNS) && itemStack.has(ModDataComponents.BANNER_BASE_COLOR)) {
+      //? if >=1.21.5 {
       this.itemModelResolver.updateForLiving(state.headItem, itemStack, ItemDisplayContext.HEAD, livingEntity);
+      //?} else {
+      /*this.itemModelResolver.updateForLiving(state.headItem, itemStack, ItemDisplayContext.HEAD, false, livingEntity);
+      *///?}
     }
   }
 

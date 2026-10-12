@@ -20,7 +20,11 @@ public class ErrorSystemManager {
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
 				MutableComponent text = Component.translatable("mbf.message.error");
+				//? if >=1.21.5 {
 				Style style = text.getStyle().withClickEvent(new ClickEvent.OpenUrl(URI.create("https://discord.gg/7BSqZa9r3P")));
+				//?} else {
+				/*Style style = text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/7BSqZa9r3P"));
+				*///?}
 				text.setStyle(style);
 				//? if >=26.1 {
 				player.sendSystemMessage(text);
