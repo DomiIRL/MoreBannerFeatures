@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.strider;
 
+//? if >=1.21.2 {
 import dev.svrt.domiirl.mbf.accessor.StriderBannerable;
 import net.minecraft.client.renderer.entity.state.StriderRenderState;
 import net.minecraft.world.item.ItemStack;
@@ -20,3 +21,4 @@ public class StriderRenderStateMixin implements StriderBannerable {
     this.bannerItem = stack;
   }
 }
+//?}

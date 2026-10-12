@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
+//? if >=1.21.4 {
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import dev.svrt.domiirl.mbf.utils.MBFUtils;
 import net.minecraft.client.model.EntityModel;
@@ -51,3 +52,4 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
   }
 
 }
+//?}

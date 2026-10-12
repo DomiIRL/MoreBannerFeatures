@@ -84,12 +84,19 @@ One branch builds every Minecraft version and mod loader with [Stonecutter](http
 
 builds every node and copies the jars to `build/libs/<mod version>/`. One node alone: `./gradlew :26.3-neoforge:build`.
 
-The oldest version here is 1.21.10; its Fabric jar also accepts 1.21.9. Older versions render without the `SubmitNodeCollector` pipeline the banner renderers are built on, so they stay on their own branches.
-
 The sources are written for the active node (`stonecutter active` in `stonecutter.gradle.kts`, kept on the newest Fabric node). Code for other versions or loaders sits in `//? if` comments that Stonecutter swaps in when it builds that node:
 
 *   A Minecraft call that only changed its name or arguments gets an `//? if >=26.3 { ... } else { ... }` right where it is called.
 *   Anything that differs between loaders goes through `platform/Platform` or a loader's entrypoint in the `fabric`, `neoforge` and `forge` packages, never inline in feature code.
+*   A class Mojang only renamed or moved is mapped once in the `replacements` block of `stonecutter.gradle.kts`, and the sources keep the newest name.
+
+The oldest version is 1.21.1. Banner rendering comes in three generations, each in `//? if` blocks next to the newest code:
+
+*   From 1.21.9, layers submit to a `SubmitNodeCollector`.
+*   Before 1.21.9, they render into a `MultiBufferSource`. A Stonecutter replacement swaps the type, so only the drawing calls differ.
+*   Before 1.21.2 there are no render states, so the 1.21.1 layers read the entity directly. Banner models only became classes in 1.21.4, so the `legacy` package has stand-ins for older versions.
+
+A mixin whose target class only exists on some versions is added by `MixinPlugin` instead of the mixin JSON, which Stonecutter can't version.
 
 ### Adding the next Minecraft version
 

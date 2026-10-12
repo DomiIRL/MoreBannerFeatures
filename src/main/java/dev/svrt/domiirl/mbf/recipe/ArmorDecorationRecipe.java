@@ -11,7 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+//? if >=1.21.2 {
 import net.minecraft.world.item.equipment.Equippable;
+//?} else {
+/*import net.minecraft.world.item.Equipable;
+*///?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +28,9 @@ import net.minecraft.network.codec.StreamCodec;
 /*import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 *///?}
+//? if <1.21.2 {
+/*import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+*///?}
 
 public class ArmorDecorationRecipe extends CustomRecipe {
 
@@ -35,8 +42,14 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     public ArmorDecorationRecipe() {
         super();
     }
-    //?} else {
+    //?} else if >=1.21.2 {
     /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new CustomRecipe.Serializer<>(ArmorDecorationRecipe::new);
+
+    public ArmorDecorationRecipe(CraftingBookCategory category) {
+        super(category);
+    }
+    *///?} else {
+    /*public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(ArmorDecorationRecipe::new);
 
     public ArmorDecorationRecipe(CraftingBookCategory category) {
         super(category);
@@ -47,6 +60,13 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return ModRecipeSerializers.ARMOR_DECORATION;
     }
+
+    //? if <1.21.2 {
+    /*@Override
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 2;
+    }
+    *///?}
 
     @Override
     public boolean matches(CraftingInput craftingInput, Level level) {
@@ -107,7 +127,12 @@ public class ArmorDecorationRecipe extends CustomRecipe {
     }
 
     public boolean isValidArmor(ItemStack itemStack) {
+        //? if >=1.21.2 {
         Equippable equippable = itemStack.get(DataComponents.EQUIPPABLE);
         return equippable != null && (equippable.slot() == EquipmentSlot.CHEST || equippable.slot() == EquipmentSlot.HEAD);
+        //?} else {
+        /*Equipable equipable = Equipable.get(itemStack);
+        return equipable != null && (equipable.getEquipmentSlot() == EquipmentSlot.CHEST || equipable.getEquipmentSlot() == EquipmentSlot.HEAD);
+        *///?}
     }
 }

@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.horse;
 
+//? if >=1.21.2 {
 import dev.svrt.domiirl.mbf.accessor.HorseBannerable;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -22,3 +23,4 @@ public class AbstractHorseRenderStateMixin extends LivingEntityRenderState imple
     return this.bannerItem;
   }
 }
+//?}

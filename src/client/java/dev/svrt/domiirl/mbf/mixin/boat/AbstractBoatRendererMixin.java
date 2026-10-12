@@ -7,10 +7,8 @@ import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
@@ -23,14 +21,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 //?}
+//? if >=1.21.2 {
+import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
+import net.minecraft.client.renderer.entity.state.BoatRenderState;
+//?} else {
+/*import net.minecraft.client.renderer.entity.BoatRenderer;
+*///?}
 
+//? if >=1.21.2 {
 @Mixin(AbstractBoatRenderer.class)
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
+//?} else {
+/*@Mixin(BoatRenderer.class)
+public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat> {
+*///?}
 
 	protected AbstractBoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
+	//? if >=1.21.2 {
 	@Inject(
 		method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/boat/AbstractBoat;Lnet/minecraft/client/renderer/entity/state/BoatRenderState;F)V",
 		at = @At("TAIL")
@@ -40,7 +50,9 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
 		}
 	}
+	//?}
 
+	//? if >=1.21.2 {
 	//? if >=1.21.9 {
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
@@ -62,6 +74,17 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 		)
 	)
 	private void onSubmitTypeAdditions(BoatRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
+	*///?}
+	//?} else {
+	/*@Inject(
+		method = "render(Lnet/minecraft/world/entity/vehicle/boat/AbstractBoat;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/model/ListModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V",
+			shift = At.Shift.AFTER
+		)
+	)
+	private void onSubmitTypeAdditions(AbstractBoat state, float yaw, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
 	*///?}
 		poseStack.pushPose();
 		try {

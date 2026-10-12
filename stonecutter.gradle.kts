@@ -73,14 +73,12 @@ stonecutter parameters {
                 )
             }
         }
-        moved("net.minecraft.client.model.object.banner", "net.minecraft.client.model", "BannerFlagModel", "BannerModel")
         moved("net.minecraft.client.model.animal.fox", "net.minecraft.client.model", "FoxModel")
         moved("net.minecraft.client.model.animal.ghast", "net.minecraft.client.model", "HappyGhastModel")
         moved("net.minecraft.client.model.animal.equine", "net.minecraft.client.model", "HorseModel")
         moved("net.minecraft.client.model.monster.strider", "net.minecraft.client.model", "StriderModel")
         moved("net.minecraft.client.model.player", "net.minecraft.client.model", "PlayerModel")
         moved("net.minecraft.client.renderer.rendertype", "net.minecraft.client.renderer", "RenderType")
-        moved("net.minecraft.world.entity.vehicle.boat", "net.minecraft.world.entity.vehicle", "AbstractBoat")
         moved("net.minecraft.world.entity.vehicle.minecart", "net.minecraft.world.entity.vehicle",
             "AbstractMinecart", "AbstractMinecartContainer", "Minecart", "MinecartChest", "MinecartFurnace")
         moved("net.minecraft.world.entity.animal.equine", "net.minecraft.world.entity.animal.horse", "AbstractHorse")
@@ -113,6 +111,52 @@ stonecutter parameters {
         }
         regex(before1_21_9) {
             replace("(?<![./\\w])Avatar\\b", "AbstractClientPlayer", "(?<![./\\w])AbstractClientPlayer\\b", "Avatar")
+        }
+
+        // 1.21.2 passed the ServerLevel into entity drops and split Boat into AbstractBoat and its subclasses
+        val before1_21_2 = current.parsed < "1.21.2"
+        regex(before1_21_2) {
+            replace("\\bspawnAtLocation\\(serverLevel, ", "spawnAtLocation(", "\\bspawnAtLocation\\((?!serverLevel)", "spawnAtLocation(serverLevel, ")
+        }
+        regex(before1_21_2) {
+            replace("\\bvoid dropEquipment\\(ServerLevel serverLevel\\)", "void dropEquipment()", "\\bvoid dropEquipment\\(\\)", "void dropEquipment(ServerLevel serverLevel)")
+        }
+        regex(before1_21_2) {
+            replace("\\bdropEquipment\\(serverLevel\\)", "dropEquipment()", "\\bsuper\\.dropEquipment\\(\\)", "super.dropEquipment(serverLevel)")
+        }
+        // Replacements don't chain, so AbstractBoat gets one rule per version range instead of moved()
+        regex(before1_21_11 && !before1_21_2) {
+            replace("vehicle([./])boat\\1AbstractBoat\\b", "vehicle$1AbstractBoat", "vehicle([./])AbstractBoat\\b", "vehicle$1boat$1AbstractBoat")
+        }
+        regex(before1_21_2) {
+            replace("vehicle([./])boat\\1AbstractBoat\\b", "vehicle$1Boat", "vehicle([./])Boat\\b", "vehicle$1boat$1AbstractBoat")
+        }
+        regex(before1_21_2) {
+            replace("(?<![./\\w])AbstractBoat\\b", "Boat", "(?<![./\\w])Boat\\b", "AbstractBoat")
+        }
+        regex(before1_21_2) {
+            replace(
+                "net([./])minecraft\\1util\\1ARGB\\b", "net$1minecraft$1util$1FastColor$1ARGB32",
+                "net([./])minecraft\\1util\\1FastColor\\1ARGB32\\b", "net$1minecraft$1util$1ARGB",
+            )
+        }
+        regex(before1_21_2) {
+            replace("(?<![./\\w])ARGB\\b", "ARGB32", "(?<![./\\w])ARGB32\\b", "ARGB")
+        }
+
+        // Banner models only became classes in 1.21.4; before that MBF brings its own with the same API
+        val before1_21_4 = current.parsed < "1.21.4"
+        regex(before1_21_11 && !before1_21_4) {
+            replace(
+                "client([./])model\\1object\\1banner\\1(BannerModel|BannerFlagModel)\\b", "client$1model$1$2",
+                "client([./])model\\1(BannerModel|BannerFlagModel)\\b", "client$1model$1object$1banner$1$2",
+            )
+        }
+        regex(before1_21_4) {
+            replace(
+                "net([./])minecraft\\1client\\1model\\1object\\1banner\\1(BannerModel|BannerFlagModel)\\b", "dev$1svrt$1domiirl$1mbf$1legacy$1$2",
+                "dev([./])svrt\\1domiirl\\1mbf\\1legacy\\1(BannerModel|BannerFlagModel)\\b", "net$1minecraft$1client$1model$1object$1banner$1$2",
+            )
         }
     }
 }

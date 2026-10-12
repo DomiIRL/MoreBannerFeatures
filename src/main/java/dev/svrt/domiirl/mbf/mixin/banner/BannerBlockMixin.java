@@ -8,7 +8,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
+//? if >=1.21.2 {
 import net.minecraft.world.level.ScheduledTickAccess;
+//?} else {
+/*import net.minecraft.world.level.LevelAccessor;
+*///?}
 import net.minecraft.world.level.block.AbstractBannerBlock;
 import net.minecraft.world.level.block.BannerBlock;
 import net.minecraft.world.level.block.Block;
@@ -58,12 +62,20 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	// Vanilla only rechecks on a DOWN update, a hanging banner loses its support above
 	@Inject(method = "updateShape", at = @At(value = "HEAD"), cancellable = true)
+	//? if >=1.21.2 {
 	private void getStateForNeighborUpdate(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource randomSource, CallbackInfoReturnable<BlockState> cir) {
+	//?} else {
+	/*private void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
+	*///?}
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue() || !mbf$isHanging(world, pos)) {
 			return;
 		}
 		cir.setReturnValue(direction == Direction.UP && !state.canSurvive(world, pos)
 			? Blocks.AIR.defaultBlockState()
+			//? if >=1.21.2 {
 			: super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, randomSource));
+			//?} else {
+			/*: super.updateShape(state, direction, neighborState, world, pos, neighborPos));
+			*///?}
 	}
 }

@@ -36,7 +36,9 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 /*public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity> {
 *///?}
 
+	//? if >=1.21.4 {
 	@Shadow @Final private BannerFlagModel standingFlagModel;
+	//?}
 
 	//? if >=1.21.9 {
 	@Inject(
@@ -110,10 +112,15 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 		//?} else {
 		/^method = "render(Lnet/minecraft/world/level/block/entity/BannerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;II)V",
 		^///?}
+		//? if >=1.21.4 {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderBanner(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V"
 		),
+		//?} else {
+		/^// 1.21.1's render draws the banner inline, so take over from its start
+		at = @At("HEAD"),
+		^///?}
 		cancellable = true
 	)
 	//? if >=1.21.5 {
@@ -137,7 +144,11 @@ public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerB
 				overlay,
 				angle,
 				RendererUtils.BANNER_BAR,
+				//? if >=1.21.4 {
 				this.standingFlagModel,
+				//?} else {
+				/^RendererUtils.STANDING_FLAG_BANNER,
+				^///?}
 				phase,
 				bannerBlockEntity.getBaseColor(),
 				bannerBlockEntity.getPatterns()

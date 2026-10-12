@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.common;
 
+//? if >=1.21.4 {
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ClientItem;
@@ -103,3 +104,4 @@ public abstract class ItemModelResolverMixin {
     }
   }
 }
+//?}

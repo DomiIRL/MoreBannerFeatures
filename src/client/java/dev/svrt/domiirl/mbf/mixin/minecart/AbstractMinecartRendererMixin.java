@@ -5,13 +5,10 @@ import com.mojang.math.Axis;
 import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
-import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.MinecartRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.item.BannerItem;
@@ -26,13 +23,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 //?}
 
+//? if >=1.21.2 {
+import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
+import net.minecraft.client.renderer.entity.state.MinecartRenderState;
+import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
+//?} else {
+/*import net.minecraft.client.renderer.entity.MinecartRenderer;
+*///?}
+
+//? if >=1.21.2 {
 @Mixin(AbstractMinecartRenderer.class)
 public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, S extends MinecartRenderState> extends EntityRenderer<T, S> {
+//?} else {
+/*@Mixin(MinecartRenderer.class)
+public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart> extends EntityRenderer<T> {
+*///?}
 
 	protected AbstractMinecartRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
+	//? if >=1.21.2 {
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/minecart/AbstractMinecart;Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;F)V", at = @At("HEAD"), cancellable = true)
 	private void extractRenderState(T minecart, S state, float f, CallbackInfo ci) {
 		if (state instanceof Bannerable bannerRenderState && minecart instanceof Bannerable bannerable) {
@@ -42,7 +53,9 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 			customState.setVelocity(minecart.getDeltaMovement());
 		}
 	}
+	//?}
 
+	//? if >=1.21.2 {
 	//? if >=1.21.9 {
 	@Inject(
 		method = "submit(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
@@ -63,6 +76,13 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 	)
 	private void render(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
 	*///?}
+	//?} else {
+	/*@Inject(
+		method = "render(Lnet/minecraft/world/entity/vehicle/minecart/AbstractMinecart;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", shift = At.Shift.AFTER)
+	)
+	private void render(T state, float yaw, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, CallbackInfo ci) {
+	*///?}
 		poseStack.pushPose();
 		try {
 			if (state instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
@@ -71,12 +91,12 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 					Poses.rotateDegrees(poseStack, Axis.XP, 180);
 					Poses.rotateDegrees(poseStack, Axis.YP, 90);
 
-					boolean inverted = false;
-
-					if (state instanceof BannerableMinecartRenderState minecartState) {
-						Vec3 velocity = minecartState.getVelocity();
-						inverted = velocity.x < 0 || velocity.z < 0;
-					}
+					//? if >=1.21.2 {
+					Vec3 velocity = state instanceof BannerableMinecartRenderState minecartState ? minecartState.getVelocity() : Vec3.ZERO;
+					//?} else {
+					/*Vec3 velocity = state.getDeltaMovement();
+					*///?}
+					boolean inverted = velocity.x < 0 || velocity.z < 0;
 
 					if (!inverted) {
 						Poses.rotateDegrees(poseStack, Axis.YP, 180);

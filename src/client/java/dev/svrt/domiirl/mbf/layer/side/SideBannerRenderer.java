@@ -6,13 +6,14 @@ import dev.svrt.domiirl.mbf.Poses;
 import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.object.banner.BannerFlagModel;
 import net.minecraft.client.model.object.banner.BannerModel;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+//? if >=1.21.2 {
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+//?} else {
+/*import net.minecraft.world.entity.LivingEntity;
+*///?}
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
@@ -29,21 +30,20 @@ public class SideBannerRenderer {
   public SideBannerRenderer(BannerPositionProvider positionProvider) {
     this.positionProvider = positionProvider;
 
-    this.bannerBar = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
-    this.bannerFlag = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
-
-    // Hide the pole part of the banner
-    ModelPart part = bannerBar.root();
-    if (part.hasChild("pole")) {
-      part.getChild("pole").visible = false;
-    }
+    this.bannerBar = RendererUtils.createBannerBar();
+    this.bannerFlag = RendererUtils.createFlag();
   }
 
   /**
    * Renders side banners for an entity.
    */
+  //? if >=1.21.2 {
   public void renderSideBanners(PoseStack stack, SubmitNodeCollector submitNodeCollector, int light,
                                 LivingEntityRenderState state) {
+  //?} else {
+  /*public void renderSideBanners(PoseStack stack, SubmitNodeCollector submitNodeCollector, int light,
+                                LivingEntity state) {
+  *///?}
     if (!(state instanceof Bannerable bannerable) || !bannerable.mbf$isEnabled()) {
       return;
     }
@@ -70,13 +70,22 @@ public class SideBannerRenderer {
     stack.popPose();
   }
 
+  //? if >=1.21.2 {
   private void renderBanner(PoseStack matrices, SubmitNodeCollector submitNodeCollector, int light,
                             LivingEntityRenderState entity, ItemStack itemStack, float rotationY, float scale, float x, float y, float z) {
+  //?} else {
+  /*private void renderBanner(PoseStack matrices, SubmitNodeCollector submitNodeCollector, int light,
+                            LivingEntity entity, ItemStack itemStack, float rotationY, float scale, float x, float y, float z) {
+  *///?}
     matrices.pushPose();
 
     // Safety try catch to avoid crashes!
     try {
+      //? if >=1.21.2 {
       int overlay = entity.hasRedOverlay ? OverlayTexture.RED_OVERLAY_V : OverlayTexture.NO_OVERLAY;
+      //?} else {
+      /*int overlay = entity.hurtTime > 0 || entity.deathTime > 0 ? OverlayTexture.RED_OVERLAY_V : OverlayTexture.NO_OVERLAY;
+      *///?}
 
       matrices.translate(0.5F, 0.0F, 0.5F);
       Poses.rotateDegrees(matrices, Axis.YP, rotationY);

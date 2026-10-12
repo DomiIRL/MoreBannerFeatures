@@ -19,6 +19,9 @@ import net.minecraft.network.codec.StreamCodec;
 /*import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 *///?}
+//? if <1.21.2 {
+/*import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+*///?}
 
 public class UseBannerThreadsRecipe extends CustomRecipe {
 
@@ -32,8 +35,14 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     public UseBannerThreadsRecipe() {
         super();
     }
-    //?} else {
+    //?} else if >=1.21.2 {
     /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new CustomRecipe.Serializer<>(UseBannerThreadsRecipe::new);
+
+    public UseBannerThreadsRecipe(CraftingBookCategory category) {
+        super(category);
+    }
+    *///?} else {
+    /*public static final RecipeSerializer<UseBannerThreadsRecipe> SERIALIZER = new SimpleCraftingRecipeSerializer<>(UseBannerThreadsRecipe::new);
 
     public UseBannerThreadsRecipe(CraftingBookCategory category) {
         super(category);
@@ -44,6 +53,13 @@ public class UseBannerThreadsRecipe extends CustomRecipe {
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return ModRecipeSerializers.USE_BANNER_THREADS;
     }
+
+    //? if <1.21.2 {
+    /*@Override
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 2;
+    }
+    *///?}
 
     @Override
     public boolean matches(CraftingInput craftingInput, Level level) {

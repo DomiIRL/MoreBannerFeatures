@@ -31,6 +31,19 @@ public abstract class MixinPlugin implements IMixinConfigPlugin {
 			//? if >=1.21.9 {
 			mixins.add("banner.BannerRenderStateMixin");
 			//?}
+			//? if >=1.21.2 {
+			mixins.add("boat.BoatRenderStateMixin");
+			mixins.add("horse.AbstractHorseRenderStateMixin");
+			mixins.add("minecart.MinecartRenderStateMixin");
+			mixins.add("player.PlayerRenderStateMixin");
+			mixins.add("strider.StriderRenderStateMixin");
+			//?}
+			//? if >=1.21.4 {
+			mixins.add("common.ItemModelResolverMixin");
+			mixins.add("common.LivingEntityRendererMixin");
+			//?} else {
+			/*mixins.add("common.CustomHeadLayerMixin");
+			*///?}
 			//? if >=1.21.6 {
 			mixins.add("ghast.HappyGhastRendererMixin");
 			mixins.add("ghast.HappyGhastRenderStateMixin");

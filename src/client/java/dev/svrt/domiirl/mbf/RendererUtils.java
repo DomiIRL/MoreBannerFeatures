@@ -11,7 +11,11 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
+//? if >=1.21.2 {
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+//?} else {
+/*import net.minecraft.world.entity.Entity;
+*///?}
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -31,22 +35,47 @@ import net.minecraft.util.Unit;
 
 public class RendererUtils {
 
-	public static final BannerModel STANDING_BANNER = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
-	public static final BannerModel BANNER_BAR = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
-	public static final BannerFlagModel STANDING_FLAG_BANNER = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
+	public static final BannerModel STANDING_BANNER = createStandingBanner();
+	public static final BannerModel BANNER_BAR = createBannerBar();
+	public static final BannerFlagModel STANDING_FLAG_BANNER = createFlag();
 
+	//? if >=1.21.2 {
 	private static final DeltaTracker deltaTracker = Minecraft.getInstance().getDeltaTracker();
+	//?} else {
+	/*private static final DeltaTracker deltaTracker = Minecraft.getInstance().getTimer();
+	*///?}
 
-	static {
-		ModelPart part = BANNER_BAR.root();
-		if (part.hasChild("pole")) {
-			part.getChild("pole").visible = false;
-		}
+	public static BannerModel createStandingBanner() {
+		//? if >=1.21.4 {
+		return new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
+		//?} else {
+		/*return new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.BANNER));
+		*///?}
 	}
 
+	public static BannerModel createBannerBar() {
+		BannerModel bannerBar = createStandingBanner();
+		bannerBar.root().getChild("pole").visible = false;
+		return bannerBar;
+	}
+
+	public static BannerFlagModel createFlag() {
+		//? if >=1.21.4 {
+		return new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
+		//?} else {
+		/*return new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.BANNER));
+		*///?}
+	}
+
+	//? if >=1.21.2 {
 	public static float createBannerSwing(EntityRenderState entityRenderState) {
 		return ((float)Math.floorMod((long)(entityRenderState.x * 7 + entityRenderState.y * 9 + entityRenderState.z * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
 	}
+	//?} else {
+	/*public static float createBannerSwing(Entity entity) {
+		return ((float)Math.floorMod((long)(entity.getX() * 7 + entity.getY() * 9 + entity.getZ() * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
+	}
+	*///?}
 
 	public static void renderBanner(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);

@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.minecart;
 
+//? if >=1.21.2 {
 import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
 import dev.svrt.domiirl.mbf.accessor.MinecartBannerable;
 import net.minecraft.world.item.ItemStack;
@@ -32,4 +33,4 @@ public class MinecartRenderStateMixin implements MinecartBannerable, BannerableM
     this.velocity = velocity;
   }
 }
-
+//?}

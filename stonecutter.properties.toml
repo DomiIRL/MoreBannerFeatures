@@ -141,3 +141,20 @@ deps.neoforge = "21.4.158"
 mod.mc_compat = "[1.21.4, 1.21.5)"
 deps.forge = "54.1.18"
 mod.pack_format = "61"
+
+["1.21.1"]
+mod.mc_releases = ["1.21", "1.21.1"]
+
+[fabric."1.21.1"]
+mod.mc_compat = ">=1.21 <1.21.2"
+deps.fabric_api = "0.116.17+1.21.1"
+deps.modmenu = "11.0.5"
+
+[neoforge."1.21.1"]
+mod.mc_compat = "[1.21.1, 1.21.2)"
+deps.neoforge = "21.1.259"
+
+[forge."1.21.1"]
+mod.mc_compat = "[1.21.1, 1.21.2)"
+deps.forge = "52.1.16"
+mod.pack_format = "48"

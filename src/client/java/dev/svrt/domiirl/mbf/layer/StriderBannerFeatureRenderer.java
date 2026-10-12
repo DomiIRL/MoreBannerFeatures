@@ -10,19 +10,36 @@ import net.minecraft.client.model.monster.strider.StriderModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.StriderRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 
-public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState, StriderModel> {
+//? if >=1.21.2 {
+import net.minecraft.client.renderer.entity.state.StriderRenderState;
+//?} else {
+/*import net.minecraft.world.entity.monster.Strider;
+*///?}
 
+//? if >=1.21.2 {
+public class StriderBannerFeatureRenderer extends RenderLayer<StriderRenderState, StriderModel> {
+//?} else {
+/*public class StriderBannerFeatureRenderer extends RenderLayer<Strider, StriderModel<Strider>> {
+*///?}
+
+	//? if >=1.21.2 {
 	public StriderBannerFeatureRenderer(RenderLayerParent<StriderRenderState, StriderModel> context) {
+	//?} else {
+	/*public StriderBannerFeatureRenderer(RenderLayerParent<Strider, StriderModel<Strider>> context) {
+	*///?}
 		super(context);
 	}
 
 	@Override
+	//? if >=1.21.2 {
 	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, StriderRenderState entity, float limbAngles, float limbDistance) {
+	//?} else {
+	/*public void render(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, Strider entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+	*///?}
 		poseStack.pushPose();
 
 		try {

@@ -29,6 +29,7 @@ import static net.minecraft.world.entity.EntityTypes.*;
 public class BannerableEntity {
 
   public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = new ArrayList<>(List.of(
+    //? if >=1.21.2 {
     ACACIA_BOAT,
     BIRCH_BOAT,
     DARK_OAK_BOAT,
@@ -43,6 +44,10 @@ public class BannerableEntity {
     OAK_CHEST_BOAT,
     SPRUCE_CHEST_BOAT,
     CHERRY_CHEST_BOAT,
+    //?} else {
+    /*BOAT,
+    CHEST_BOAT,
+    *///?}
     STRIDER,
     HORSE,
     DONKEY,

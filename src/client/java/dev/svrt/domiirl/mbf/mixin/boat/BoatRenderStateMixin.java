@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.boat;
 
+//? if >=1.21.2 {
 import dev.svrt.domiirl.mbf.accessor.BoatBannerable;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.world.item.ItemStack;
@@ -20,3 +21,4 @@ public class BoatRenderStateMixin implements BoatBannerable {
     this.bannerItem = stack;
   }
 }
+//?}

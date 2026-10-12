@@ -38,6 +38,8 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
+	// Before 1.21.2 armor slots ask getEquipmentSlotForItem only
+	//? if >=1.21.2 {
 	@Inject(method = "isEquippableInSlot", at = @At(value = "HEAD"), cancellable = true)
 	private void isEquippableInSlot(ItemStack itemStack, EquipmentSlot equipmentSlot, CallbackInfoReturnable<Boolean> cir) {
 		if (!(this instanceof Bannerable)) return;
@@ -47,6 +49,7 @@ public abstract class LivingEntityMixin extends Entity {
 			cir.setReturnValue(equipmentSlot == EquipmentSlot.CHEST || equipmentSlot == EquipmentSlot.HEAD);
 		}
 	}
+	//?}
 
 
 }

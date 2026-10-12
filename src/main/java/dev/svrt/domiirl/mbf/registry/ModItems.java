@@ -20,7 +20,11 @@ public class ModItems {
 
   public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties properties) {
     Identifier itemId = Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, name);
+    //? if >=1.21.2 {
     Item item = itemFactory.apply(properties.setId(keyOfItem(name)));
+    //?} else {
+    /*Item item = itemFactory.apply(properties);
+    *///?}
     Registry.register(BuiltInRegistries.ITEM, itemId, item);
     return item;
   }

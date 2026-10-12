@@ -7,21 +7,14 @@
   "client": [
     "banner.BannerRendererMixin",
     "boat.AbstractBoatRendererMixin",
-    "boat.BoatRenderStateMixin",
-    "common.ItemModelResolverMixin",
-    "common.LivingEntityRendererMixin",
     "common.WingsLayerMixin",
     "fox.FoxHeldItemLayerMixin",
     "horse.AbstractHorseRendererMixin",
-    "horse.AbstractHorseRenderStateMixin",
     "horse.AbstractMountInventoryScreenMixin",
     "minecart.AbstractMinecartRendererMixin",
-    "minecart.MinecartRenderStateMixin",
     "player.CapeLayerMixin",
     "player.PlayerRendererMixin",
-    "player.PlayerRenderStateMixin",
     "strider.StriderEntityRendererMixin",
-    "strider.StriderRenderStateMixin",
     "threads.LoomScreenMixin"
   ],
   "injectors": {
