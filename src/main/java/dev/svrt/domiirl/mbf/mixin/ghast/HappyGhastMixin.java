@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.ghast;
 
+//? if >=1.21.6 {
 import dev.svrt.domiirl.mbf.accessor.GhastBannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -74,3 +75,4 @@ public abstract class HappyGhastMixin extends Animal implements GhastBannerable 
 	}
 
 }
+//?}

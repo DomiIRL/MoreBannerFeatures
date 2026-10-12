@@ -11,8 +11,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Strider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import dev.svrt.domiirl.mbf.utils.BannerSaveData;
+import net.minecraft.nbt.CompoundTag;
+*///?}
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -48,6 +53,7 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 		builder.define(BANNER, ItemStack.EMPTY);
 	}
 
+	//? if >=1.21.6 {
 	@Override
 	protected void readAdditionalSaveData(ValueInput input) {
 		super.readAdditionalSaveData(input);
@@ -61,6 +67,19 @@ public abstract class StriderMixin extends Animal implements StriderBannerable {
 			output.storeNullable("Banner", ItemStack.CODEC, mbf$getBannerItem());
 		}
 	}
+	//?} else {
+	/*@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		BannerSaveData.read(tag, this.registryAccess()).ifPresent(this::mbf$setBannerItem);
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		BannerSaveData.write(tag, this.registryAccess(), mbf$getBannerItem());
+	}
+	*///?}
 
 	@Override
 	protected void dropEquipment(ServerLevel serverLevel) {

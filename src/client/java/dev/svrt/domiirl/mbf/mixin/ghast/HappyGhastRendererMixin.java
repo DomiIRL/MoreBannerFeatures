@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.ghast;
 
+//? if >=1.21.6 {
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.HappyGhastBannerFeatureRenderer;
 import net.minecraft.client.model.animal.ghast.HappyGhastModel;
@@ -33,3 +34,4 @@ public abstract class HappyGhastRendererMixin extends AgeableMobRenderer<HappyGh
   }
 
 }
+//?}

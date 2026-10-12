@@ -9,13 +9,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+//? if >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+*///?}
 
 @Mixin(BannerBlockEntity.class)
 public class BannerBlockEntityMixin implements HangingBanner {
@@ -61,6 +67,7 @@ public class BannerBlockEntityMixin implements HangingBanner {
     this.hangingKnown = true;
   }
 
+  //? if >=1.21.6 {
   @Inject(method = "saveAdditional", at = @At("TAIL"))
   private void saveAdditional(ValueOutput valueOutput, CallbackInfo ci) {
     valueOutput.putInt(VALUE_NAME, this.maxLayers);
@@ -79,6 +86,25 @@ public class BannerBlockEntityMixin implements HangingBanner {
     this.hangingKnown = valueInput.getBooleanOr(HANGING_NAME, false) == valueInput.getBooleanOr(HANGING_NAME, true);
     this.hanging = valueInput.getBooleanOr(HANGING_NAME, false);
   }
+  //?} else {
+  /*@Inject(method = "saveAdditional", at = @At("TAIL"))
+  private void saveAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+    tag.putInt(VALUE_NAME, this.maxLayers);
+    // An unknown value would reach the client as a known one and stop it deriving
+    if (this.hangingKnown) {
+      tag.putBoolean(HANGING_NAME, this.hanging);
+    }
+  }
+
+  @Inject(method = "loadAdditional", at = @At("TAIL"))
+  private void loadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+    tag.getInt(VALUE_NAME).ifPresent(value -> {
+      this.maxLayers = value;
+    });
+    this.hangingKnown = tag.contains(HANGING_NAME);
+    this.hanging = tag.getBooleanOr(HANGING_NAME, false);
+  }
+  *///?}
 
   @Inject(method = "applyImplicitComponents", at = @At("TAIL"))
   private void applyImplicitComponents(DataComponentGetter dataComponentGetter, CallbackInfo ci) {
@@ -92,9 +118,16 @@ public class BannerBlockEntityMixin implements HangingBanner {
   }
 
   @Inject(method = "removeComponentsFromTag", at = @At("TAIL"))
+  //? if >=1.21.6 {
   private void removeComponentsFromTag(ValueOutput valueOutput, CallbackInfo ci) {
     valueOutput.discard(VALUE_NAME);
     valueOutput.discard(HANGING_NAME);
   }
+  //?} else {
+  /*private void removeComponentsFromTag(CompoundTag tag, CallbackInfo ci) {
+    tag.remove(VALUE_NAME);
+    tag.remove(HANGING_NAME);
+  }
+  *///?}
 
 }

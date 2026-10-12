@@ -23,30 +23,37 @@ public class MoreBannerFeaturesForge {
 	public MoreBannerFeaturesForge(FMLJavaModLoadingContext context) {
 		MBFConfigManager.load();
 
-		// Vanilla registries only accept entries while their RegisterEvent runs
-		RegisterEvent.getBus(context.getModBusGroup()).addListener(event -> {
-			if (event.getRegistryKey().equals(Registries.DATA_COMPONENT_TYPE)) {
-				ModDataComponents.init();
-			} else if (event.getRegistryKey().equals(Registries.ITEM)) {
-				ModItems.init();
-			} else if (event.getRegistryKey().equals(Registries.RECIPE_SERIALIZER)) {
-				ModRecipeSerializers.init();
-			}
-		});
-
 		//? if >=1.21.9 {
-		BuildCreativeModeTabContentsEvent.BUS.addListener(event -> {
-		//?} else {
-		/^BuildCreativeModeTabContentsEvent.getBus(context.getModBusGroup()).addListener(event -> {
+		RegisterEvent.getBus(context.getModBusGroup()).addListener(MoreBannerFeaturesForge::onRegister);
+		BuildCreativeModeTabContentsEvent.BUS.addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
+		//?} else if >=1.21.6 {
+		/^RegisterEvent.getBus(context.getModBusGroup()).addListener(MoreBannerFeaturesForge::onRegister);
+		BuildCreativeModeTabContentsEvent.getBus(context.getModBusGroup()).addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
+		^///?} else {
+		/^context.getModEventBus().addListener(MoreBannerFeaturesForge::onRegister);
+		context.getModEventBus().addListener(MoreBannerFeaturesForge::onBuildCreativeTab);
 		^///?}
-			if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS)) {
-				event.accept(new ItemStack(ModItems.BANNER_THREAD), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-			}
-		});
 
 		// Forge has no client-only mod entrypoint; the call is only linked on the client, so the server never loads the screen classes
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			MoreBannerFeaturesForgeClient.init(context);
+		}
+	}
+
+	// Vanilla registries only accept entries while their RegisterEvent runs
+	private static void onRegister(RegisterEvent event) {
+		if (event.getRegistryKey().equals(Registries.DATA_COMPONENT_TYPE)) {
+			ModDataComponents.init();
+		} else if (event.getRegistryKey().equals(Registries.ITEM)) {
+			ModItems.init();
+		} else if (event.getRegistryKey().equals(Registries.RECIPE_SERIALIZER)) {
+			ModRecipeSerializers.init();
+		}
+	}
+
+	private static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS)) {
+			event.accept(new ItemStack(ModItems.BANNER_THREAD), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 		}
 	}
 

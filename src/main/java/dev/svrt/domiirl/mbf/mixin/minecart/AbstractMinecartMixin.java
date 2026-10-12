@@ -10,8 +10,13 @@ import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import dev.svrt.domiirl.mbf.utils.BannerSaveData;
+import net.minecraft.nbt.CompoundTag;
+*///?}
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,6 +50,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements Min
 		builder.define(BANNER, ItemStack.EMPTY);
 	}
 
+	//? if >=1.21.6 {
 	@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
 	private void readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
 		input.read("Banner", ItemStack.CODEC).ifPresent(this::mbf$setBannerItem);
@@ -56,6 +62,17 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements Min
 			output.storeNullable("Banner", ItemStack.CODEC, mbf$getBannerItem());
 		}
 	}
+	//?} else {
+	/*@Inject(method = "readAdditionalSaveData", at = @At(value = "TAIL"))
+	private void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+		BannerSaveData.read(tag, this.registryAccess()).ifPresent(this::mbf$setBannerItem);
+	}
+
+	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
+	private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+		BannerSaveData.write(tag, this.registryAccess(), mbf$getBannerItem());
+	}
+	*///?}
 
 	@Override
 	public void remove(RemovalReason removalReason) {

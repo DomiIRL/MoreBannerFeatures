@@ -93,7 +93,9 @@ public abstract class ItemModelResolverMixin {
       Identifier resourceLocation = mbf$bannerModel(dyeColor);
 
       if (resourceLocation != null) {
+        //? if >=1.21.6 {
         itemStackRenderState.setOversizedInGui(this.getItemProperties(resourceLocation).oversizedInGui());
+        //?}
         this.getItemModel(resourceLocation)
           .update(itemStackRenderState, itemStack, (ItemModelResolver) (Object) this, itemDisplayContext, level instanceof ClientLevel clientLevel ? clientLevel : null, itemOwner, i);
         ci.cancel();

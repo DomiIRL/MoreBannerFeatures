@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "dev.svrt.domiirl.mbf.mixin",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.svrt.domiirl.mbf.MixinPlugin$Common",
   "mixins": [
     "banner.BannerBlockEntityMixin",
     "banner.BannerBlockMixin",
@@ -12,7 +13,6 @@
     "boat.AbstractBoatMixin",
     "common.EntityMixin",
     "common.LivingEntityMixin",
-    "ghast.HappyGhastMixin",
     "horse.AbstractHorseMixin",
     "horse.AbstractMountInventoryMenuMixin",
     "horse.HorseInventoryMenuMixin",

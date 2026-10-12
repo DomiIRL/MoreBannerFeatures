@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "dev.svrt.domiirl.mbf.mixin",
   "compatibilityLevel": "JAVA_21",
-  "plugin": "dev.svrt.domiirl.mbf.ClientMixinPlugin",
+  "plugin": "dev.svrt.domiirl.mbf.MixinPlugin$Client",
   "client": [
     "banner.BannerRendererMixin",
     "boat.AbstractBoatRendererMixin",
@@ -12,8 +12,6 @@
     "common.LivingEntityRendererMixin",
     "common.WingsLayerMixin",
     "fox.FoxHeldItemLayerMixin",
-    "ghast.HappyGhastRendererMixin",
-    "ghast.HappyGhastRenderStateMixin",
     "horse.AbstractHorseRendererMixin",
     "horse.AbstractHorseRenderStateMixin",
     "horse.AbstractMountInventoryScreenMixin",

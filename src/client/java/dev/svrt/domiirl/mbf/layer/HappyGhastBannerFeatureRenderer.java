@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.layer;
 
+//? if >=1.21.6 {
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.side.GhastBannerPositionProvider;
@@ -26,3 +27,4 @@ public class HappyGhastBannerFeatureRenderer extends RenderLayer<HappyGhastRende
     }
   }
 }
+//?}

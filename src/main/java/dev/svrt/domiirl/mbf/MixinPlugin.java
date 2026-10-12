@@ -8,16 +8,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-// Adds the client mixins whose targets only exist on some Minecraft versions, a mixin json can't be versioned
-public class ClientMixinPlugin implements IMixinConfigPlugin {
+// Adds the mixins whose targets only exist on some Minecraft versions, a mixin json can't be versioned
+public abstract class MixinPlugin implements IMixinConfigPlugin {
 
-	@Override
-	public List<String> getMixins() {
-		List<String> mixins = new ArrayList<>();
-		//? if >=1.21.9 {
-		mixins.add("banner.BannerRenderStateMixin");
-		//?}
-		return mixins;
+	public static final class Common extends MixinPlugin {
+
+		@Override
+		public List<String> getMixins() {
+			List<String> mixins = new ArrayList<>();
+			//? if >=1.21.6 {
+			mixins.add("ghast.HappyGhastMixin");
+			//?}
+			return mixins;
+		}
+	}
+
+	public static final class Client extends MixinPlugin {
+
+		@Override
+		public List<String> getMixins() {
+			List<String> mixins = new ArrayList<>();
+			//? if >=1.21.9 {
+			mixins.add("banner.BannerRenderStateMixin");
+			//?}
+			//? if >=1.21.6 {
+			mixins.add("ghast.HappyGhastRendererMixin");
+			mixins.add("ghast.HappyGhastRenderStateMixin");
+			//?}
+			return mixins;
+		}
 	}
 
 	@Override

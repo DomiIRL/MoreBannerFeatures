@@ -56,7 +56,9 @@ public class BannerableEntity {
     FURNACE_MINECART,
     COMMAND_BLOCK_MINECART,
     HOPPER_MINECART,
+    //? if >=1.21.6 {
     HAPPY_GHAST,
+    //?}
     VILLAGER
   ));
 
@@ -89,10 +91,7 @@ public class BannerableEntity {
       entity.level().playSound(null, entity, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
 
       if (!bannerable.mbf$getBannerItem().isEmpty()) {
-        if (entity.level() instanceof ServerLevel serverLevel) {
-          Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
-          entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
-        }
+        dropBanner(entity, bannerable);
       }
 
       ItemStack copy = itemStack.copy();
@@ -112,13 +111,23 @@ public class BannerableEntity {
       EquipmentSlot equipmentSlot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
       itemStack.hurtAndBreak(1, player, equipmentSlot);
 
-      if (entity.level() instanceof ServerLevel serverLevel) {
-        Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
-        entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
-      }
+      dropBanner(entity, bannerable);
       bannerable.mbf$setBannerItem(ItemStack.EMPTY);
       cir.setReturnValue(InteractionResult.SUCCESS);
       cir.cancel();
     }
+  }
+
+  private static void dropBanner(Entity entity, Bannerable bannerable) {
+    if (!(entity.level() instanceof ServerLevel serverLevel)) {
+      return;
+    }
+    //? if >=1.21.6 {
+    Vec3 vec3 = entity.getType().getDimensions().attachments().getAverage(EntityAttachment.PASSENGER);
+    entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), vec3);
+    //?} else {
+    /*Vec3 vec3 = entity.getType().getDimensions().attachments().get(EntityAttachment.PASSENGER, 0, 0.0F);
+    entity.spawnAtLocation(serverLevel, bannerable.mbf$getBannerItem(), (float) vec3.y);
+    *///?}
   }
 }

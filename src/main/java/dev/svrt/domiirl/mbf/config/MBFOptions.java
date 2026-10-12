@@ -24,8 +24,13 @@ public class MBFOptions {
 		BOAT_BANNERS = new BooleanOption("boat_banners", true);
 		MINECART_BANNERS = new BooleanOption("minecart_banners", false);
 		STRIDER_BANNERS = new BooleanOption("strider_banners", true);
+		//? if >=1.21.6 {
 		HAPPY_GHAST_BANNERS = new BooleanOption("happy_ghast_banners", true);
 		ALTERNATE_HAPPY_GHAST = new BooleanOption("alternate_happy_ghast_banners", false);
+		//?} else {
+		/*HAPPY_GHAST_BANNERS = new BooleanOption("happy_ghast_banners", true).display(false);
+		ALTERNATE_HAPPY_GHAST = new BooleanOption("alternate_happy_ghast_banners", false).display(false);
+		*///?}
 		HANGING_BANNERS = new BooleanOption("hanging_banners", true);
 		VILLAGER_BANNERS = new BooleanOption("villager_banners", true);
 		ELYTRA_CAPES = new BooleanOption("elytra_capes", true);

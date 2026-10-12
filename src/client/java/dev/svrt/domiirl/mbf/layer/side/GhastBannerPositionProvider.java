@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.layer.side;
 
+//? if >=1.21.6 {
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
@@ -25,4 +26,4 @@ public class GhastBannerPositionProvider implements BannerPositionProvider {
         return new BannerPosition(xOffset, yOffset, zOffset, width, scale);
     }
 }
-
+//?}

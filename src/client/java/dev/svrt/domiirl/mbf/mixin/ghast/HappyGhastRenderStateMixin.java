@@ -1,5 +1,6 @@
 package dev.svrt.domiirl.mbf.mixin.ghast;
 
+//? if >=1.21.6 {
 import dev.svrt.domiirl.mbf.accessor.GhastBannerable;
 import net.minecraft.client.renderer.entity.state.HappyGhastRenderState;
 import net.minecraft.world.item.ItemStack;
@@ -20,3 +21,4 @@ public class HappyGhastRenderStateMixin implements GhastBannerable {
     this.bannerItem = stack;
   }
 }
+//?}
