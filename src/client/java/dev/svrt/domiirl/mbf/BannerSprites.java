@@ -1,6 +1,9 @@
 package dev.svrt.domiirl.mbf;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -13,6 +16,15 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 public final class BannerSprites {
 
 	private BannerSprites() {
+	}
+
+	// The same atlas EntityRendererProvider.Context.getSprites() hands out
+	public static SpriteGetter atlas() {
+		return Minecraft.getInstance().getAtlasManager();
+	}
+
+	public static TextureAtlasSprite sprite(SpriteId spriteId) {
+		return atlas().get(spriteId);
 	}
 
 	public static SpriteId cloth() {

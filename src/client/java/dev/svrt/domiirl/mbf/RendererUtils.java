@@ -13,7 +13,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BannerItem;
@@ -46,70 +45,70 @@ public class RendererUtils {
 		return ((float)Math.floorMod((long)(entityRenderState.x * 7 + entityRenderState.y * 9 + entityRenderState.z * 13) + Minecraft.getInstance().level.getGameTime(), 100L) + deltaTracker.getGameTimeDeltaPartialTick(false)) / 100.0F;
 	}
 
-	public static void renderBanner(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
+	public static void renderBanner(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
-		renderBanner(sprites, poseStack, submitNodeCollector, light, overlay, angle, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+		renderBanner(poseStack, submitNodeCollector, light, overlay, angle, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 	}
 
-	public static void renderBanner(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
+	public static void renderBanner(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, float angle, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
 		Poses.rotateDegrees(poseStack, Axis.YP, angle);
 		poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
 
-		renderBannerDirect(sprites, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+		renderBannerDirect(poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 
 		poseStack.popPose();
 	}
 
-	public static void renderBannerDirect(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
+	public static void renderBannerDirect(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, ItemStack itemStack) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers bannerPatternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
-		renderBannerDirect(sprites, poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+		renderBannerDirect(poseStack, submitNodeCollector, i, j, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 	}
 
-	public static void renderBannerDirect(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
+	public static void renderBannerDirect(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int j, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers) {
 		if (bannerModel != null) {
-			submitBase(sprites, poseStack, submitNodeCollector, i, j, bannerModel, Unit.INSTANCE);
+			submitBase(poseStack, submitNodeCollector, i, j, bannerModel, Unit.INSTANCE);
 		}
 
 		if (bannerFlagModel != null) {
-			submitCanvas(sprites, poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
+			submitCanvas(poseStack, submitNodeCollector, i, j, bannerFlagModel, phase, dyeColor, bannerPatternLayers);
 		}
 	}
 
-	public static <S> void renderCanvasFromItem(SpriteGetter sprites, ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {
+	public static <S> void renderCanvasFromItem(ItemStack itemStack, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S object) {
 		DyeColor dyeColor = itemStack.getItem() instanceof BannerItem bannerItem ? bannerItem.getColor() : itemStack.getOrDefault(ModDataComponents.BANNER_BASE_COLOR, DyeColor.WHITE);
 		BannerPatternLayers patternLayers = itemStack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
-		submitCanvas(sprites, poseStack, submitNodeCollector, light, overlay, model, object, dyeColor, patternLayers);
+		submitCanvas(poseStack, submitNodeCollector, light, overlay, model, object, dyeColor, patternLayers);
 	}
 
-	private static <S> void submitCanvas(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state, DyeColor dyeColor, BannerPatternLayers patternLayers) {
+	private static <S> void submitCanvas(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state, DyeColor dyeColor, BannerPatternLayers patternLayers) {
 		//? if >=26.1 {
 		// Solid base pass first, the pattern layers write no depth
-		submitBase(sprites, poseStack, submitNodeCollector, light, overlay, model, state);
+		submitBase(poseStack, submitNodeCollector, light, overlay, model, state);
 
 		// Banner sprites, not shield ones, the shield atlas draws nothing here
 		//? if >=26.3 {
-		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers);
+		BannerRenderer.submitPatterns(BannerSprites.atlas(), poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers);
 		//?} else {
-		/*BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers, null);
+		/*BannerRenderer.submitPatterns(BannerSprites.atlas(), poseStack, submitNodeCollector, light, overlay, model, state, true, dyeColor, patternLayers, null);
 		*///?}
 		//?} else {
 		/*// The cloth sprite passed here is drawn as the base, so no separate base pass
-		BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, light, overlay, model, state, BannerSprites.cloth(), true, dyeColor, patternLayers, false, null, 0);
+		BannerRenderer.submitPatterns(BannerSprites.atlas(), poseStack, submitNodeCollector, light, overlay, model, state, BannerSprites.cloth(), true, dyeColor, patternLayers, false, null, 0);
 		*///?}
 	}
 
-	private static <S> void submitBase(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state) {
+	private static <S> void submitBase(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, int overlay, Model<S> model, S state) {
 		//? if >=26.3 {
-		submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), sprites, 0);
+		submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), BannerSprites.atlas(), 0);
 		//?} else if >=26.1 {
-		/*submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), sprites, 0, null);
+		/*submitNodeCollector.submitModel(model, state, poseStack, light, overlay, -1, BannerSprites.cloth(), BannerSprites.atlas(), 0, null);
 		*///?} else {
-		/*submitNodeCollector.submitModel(model, state, poseStack, BannerSprites.cloth().renderType(RenderTypes::entitySolid), light, overlay, -1, sprites.get(BannerSprites.cloth()), 0, null);
+		/*submitNodeCollector.submitModel(model, state, poseStack, BannerSprites.cloth().renderType(RenderTypes::entitySolid), light, overlay, -1, BannerSprites.sprite(BannerSprites.cloth()), 0, null);
 		*///?}
 	}
 

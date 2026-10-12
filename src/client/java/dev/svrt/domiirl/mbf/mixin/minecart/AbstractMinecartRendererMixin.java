@@ -7,7 +7,6 @@ import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.accessor.BannerableMinecartRenderState;
 import dev.svrt.domiirl.mbf.errors.ErrorSystemManager;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -15,13 +14,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.MinecartRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,16 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractMinecartRenderer.class)
 public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, S extends MinecartRenderState> extends EntityRenderer<T, S> {
 
-	@Unique
-  private SpriteGetter sprites;
-
 	protected AbstractMinecartRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
-	}
-
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(EntityRendererProvider.Context context, ModelLayerLocation modelLayerLocation, CallbackInfo ci) {
-		this.sprites = context.getSprites();
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/minecart/AbstractMinecart;Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;F)V", at = @At("HEAD"), cancellable = true)
@@ -83,7 +72,6 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 
 					poseStack.translate(-0.5, 0.3, -1.06);
 					RendererUtils.renderBanner(
-						this.sprites,
 						poseStack,
 						submitNodeCollector,
 						state.lightCoords,

@@ -1,6 +1,5 @@
 package dev.svrt.domiirl.mbf.mixin.player;
 
-import dev.svrt.domiirl.mbf.api.BannerCapeApi;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.layer.BannerCapeFeatureRenderer;
 import net.minecraft.client.model.player.PlayerModel;
@@ -23,8 +22,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<Avatar, A
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context ctx, boolean slim, CallbackInfo ci) {
-		BannerCapeApi.init(ctx.getSprites());
-		addLayer(new BannerCapeFeatureRenderer(this, ctx.getSprites(), ctx.getEquipmentAssets()));
+		addLayer(new BannerCapeFeatureRenderer(this, ctx.getEquipmentAssets()));
 	}
 
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("HEAD"))

@@ -11,15 +11,14 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 
 public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, HorseModel> {
 
 	private final SideBannerRenderer bannerRenderer;
 
-	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent, SpriteGetter materials, boolean undead) {
+	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent, boolean undead) {
 		super(renderLayerParent);
-		this.bannerRenderer = new SideBannerRenderer(new EquineBannerPositionProvider(undead), materials);
+		this.bannerRenderer = new SideBannerRenderer(new EquineBannerPositionProvider(undead));
 	}
 
 	@Override

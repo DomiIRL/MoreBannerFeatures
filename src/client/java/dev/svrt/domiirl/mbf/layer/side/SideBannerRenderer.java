@@ -14,7 +14,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 
@@ -26,11 +25,9 @@ public class SideBannerRenderer {
   private final BannerModel bannerBar;
   private final BannerFlagModel bannerFlag;
   private final BannerPositionProvider positionProvider;
-  private final SpriteGetter sprites;
 
-  public SideBannerRenderer(BannerPositionProvider positionProvider, SpriteGetter materialSet) {
+  public SideBannerRenderer(BannerPositionProvider positionProvider) {
     this.positionProvider = positionProvider;
-    this.sprites = materialSet;
 
     this.bannerBar = new BannerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER));
     this.bannerFlag = new BannerFlagModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.STANDING_BANNER_FLAG));
@@ -90,7 +87,6 @@ public class SideBannerRenderer {
       matrices.scale(scale, scale, scale);
 
       RendererUtils.renderBannerDirect(
-        this.sprites,
         matrices,
         submitNodeCollector,
         light,

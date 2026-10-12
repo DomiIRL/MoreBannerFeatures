@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 //?}
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -31,8 +30,6 @@ public final class BannerCapeApi {
 	public static final int TEXTURE_WIDTH = 34;
 	public static final int TEXTURE_HEIGHT = 27;
 
-	private static SpriteGetter sprites;
-
 	private BannerCapeApi() {
 	}
 
@@ -44,11 +41,6 @@ public final class BannerCapeApi {
 		}
 	}
 
-	// Called while the player renderer is built
-	public static void init(SpriteGetter spriteGetter) {
-		sprites = spriteGetter;
-	}
-
 	public static boolean hasBannerCape(LivingEntity entity) {
 		return entity instanceof Bannerable bannerable
 			&& bannerable.mbf$isEnabled()
@@ -57,7 +49,7 @@ public final class BannerCapeApi {
 
 	// In draw order, empty without a banner cape
 	public static List<Pass> capePasses(LivingEntity entity) {
-		if (sprites == null || !hasBannerCape(entity)) {
+		if (!hasBannerCape(entity)) {
 			return List.of();
 		}
 
@@ -85,7 +77,7 @@ public final class BannerCapeApi {
 	}
 
 	private static Pass pass(SpriteId spriteId, Function<Identifier, RenderType> renderType, int tint) {
-		return new Pass(spriteId.renderType(renderType), sprites.get(spriteId), tint);
+		return new Pass(spriteId.renderType(renderType), BannerSprites.sprite(spriteId), tint);
 	}
 
 	private static int tint(DyeColor dyeColor) {

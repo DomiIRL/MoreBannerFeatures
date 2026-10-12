@@ -13,13 +13,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,20 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractBoatRenderer.class)
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
 
-	@Unique
-  private SpriteGetter sprites;
-
 	protected AbstractBoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
-	}
-
-	@Inject(method = "<init>", at = @At("TAIL"))
-	//? if >=26.1 {
-	private void init(EntityRendererProvider.Context context, Identifier texture, CallbackInfo ci) {
-	//?} else {
-	/*private void init(EntityRendererProvider.Context context, CallbackInfo ci) {
-	*///?}
-		this.sprites = context.getSprites();
 	}
 
 	@Inject(
@@ -73,7 +58,6 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 					poseStack.translate(-0.5, 0, -1.44);
 
 					RendererUtils.renderBanner(
-						this.sprites,
 						poseStack,
 						submitNodeCollector,
 						state.lightCoords,

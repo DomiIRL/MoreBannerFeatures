@@ -9,15 +9,14 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HappyGhastRenderState;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 
 public class HappyGhastBannerFeatureRenderer extends RenderLayer<HappyGhastRenderState, HappyGhastModel> {
 
   private final SideBannerRenderer bannerRenderer;
 
-  public HappyGhastBannerFeatureRenderer(RenderLayerParent<HappyGhastRenderState, HappyGhastModel> renderLayerParent, SpriteGetter materials) {
+  public HappyGhastBannerFeatureRenderer(RenderLayerParent<HappyGhastRenderState, HappyGhastModel> renderLayerParent) {
     super(renderLayerParent);
-    this.bannerRenderer = new SideBannerRenderer(new GhastBannerPositionProvider(), materials);
+    this.bannerRenderer = new SideBannerRenderer(new GhastBannerPositionProvider());
   }
 
   @Override
