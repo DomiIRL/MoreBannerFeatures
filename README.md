@@ -84,6 +84,8 @@ One branch builds every Minecraft version and mod loader with [Stonecutter](http
 
 builds every node and copies the jars to `build/libs/<mod version>/`. One node alone: `./gradlew :26.3-neoforge:build`.
 
+The oldest version here is 1.21.10; its Fabric jar also accepts 1.21.9. Older versions render without the `SubmitNodeCollector` pipeline the banner renderers are built on, so they stay on their own branches.
+
 The sources are written for the active node (`stonecutter active` in `stonecutter.gradle.kts`, kept on the newest Fabric node). Code for other versions or loaders sits in `//? if` comments that Stonecutter swaps in when it builds that node:
 
 *   A Minecraft call that only changed its name or arguments gets an `//? if >=26.3 { ... } else { ... }` right where it is called.
