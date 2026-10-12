@@ -6,7 +6,9 @@ import dev.svrt.domiirl.mbf.RendererUtils;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
 import dev.svrt.domiirl.mbf.registry.ModDataComponents;
 import net.minecraft.client.renderer.rendertype.RenderType;
+//? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+//?}
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;

@@ -14,7 +14,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.ModelPart.Cube;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.renderer.rendertype.RenderType;
+//? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+//?}
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;

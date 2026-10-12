@@ -56,9 +56,11 @@ record BannerVertexConsumer(VertexConsumer delegate, TextureAtlasSprite sprite, 
 		return this;
 	}
 
+	//? if >=1.21.11 {
 	@Override
 	public VertexConsumer setLineWidth(float width) {
 		this.delegate.setLineWidth(width);
 		return this;
 	}
+	//?}
 }

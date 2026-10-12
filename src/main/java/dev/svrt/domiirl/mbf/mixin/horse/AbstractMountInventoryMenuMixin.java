@@ -4,7 +4,11 @@ import dev.svrt.domiirl.mbf.gui.BannerSlot;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+//? if >=1.21.11 {
 import net.minecraft.world.inventory.AbstractMountInventoryMenu;
+//?} else {
+/*import net.minecraft.world.inventory.HorseInventoryMenu;
+*///?}
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -16,10 +20,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//? if >=1.21.11 {
 @Mixin(AbstractMountInventoryMenu.class)
+//?} else {
+/*@Mixin(HorseInventoryMenu.class)
+*///?}
 public abstract class AbstractMountInventoryMenuMixin extends AbstractContainerMenu {
 
+	//? if >=1.21.11 {
 	@Shadow @Final protected Container mountContainer;
+	//?} else {
+	/*@Shadow @Final private Container horseContainer;
+	*///?}
 
 	protected AbstractMountInventoryMenuMixin(@Nullable MenuType<?> type, int syncId) {
 		super(type, syncId);
@@ -40,7 +52,12 @@ public abstract class AbstractMountInventoryMenuMixin extends AbstractContainerM
 			ItemStack original = itemStack.copy();
 
 			if (index == bannerSlotIndex) {
-				if (!this.moveItemStackTo(itemStack, 2 + this.mountContainer.getContainerSize(), bannerSlotIndex, true)) {
+				//? if >=1.21.11 {
+				int mountSlots = this.mountContainer.getContainerSize();
+				//?} else {
+				/*int mountSlots = this.horseContainer.getContainerSize();
+				*///?}
+				if (!this.moveItemStackTo(itemStack, 2 + mountSlots, bannerSlotIndex, true)) {
 					cir.setReturnValue(ItemStack.EMPTY);
 					return;
 				}

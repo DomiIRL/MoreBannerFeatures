@@ -21,8 +21,10 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
-//? if <26.1 {
+//? if >=1.21.11 && <26.1 {
 /*import net.minecraft.client.renderer.rendertype.RenderTypes;
+*///?} else if <1.21.11 {
+/*import net.minecraft.client.renderer.rendertype.RenderType;
 *///?}
 
 public class RendererUtils {
