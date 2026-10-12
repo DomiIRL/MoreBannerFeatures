@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "More Banner Features resources",
+    "min_format": ${pack_format},
+    "max_format": ${pack_format}
+  }
+}

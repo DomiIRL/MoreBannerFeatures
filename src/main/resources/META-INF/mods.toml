@@ -1,0 +1,20 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "ARR"
+issueTrackerURL = "https://github.com/DomiIRL/MoreBannerFeatures/issues"
+
+[[mods]]
+modId = "mbf"
+version = "${version}"
+displayName = "More Banner Features"
+authors = "KxmischesDomi"
+description = "Adds plenty of new cool Banner Features"
+logoFile = "assets/mbf/icon.png"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/more-banner-features"
+
+[[dependencies.mbf]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft}"
+ordering = "NONE"
+side = "BOTH"

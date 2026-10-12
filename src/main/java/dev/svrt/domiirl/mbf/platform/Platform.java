@@ -4,9 +4,12 @@ import java.nio.file.Path;
 
 //? if fabric {
 import net.fabricmc.loader.api.FabricLoader;
-//?} else {
+//?} else if neoforge {
 /*import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLPaths;
+*///?} else {
+/*import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLPaths;
 *///?}
 
 public final class Platform {
@@ -17,8 +20,10 @@ public final class Platform {
 	public static boolean isModLoaded(String modId) {
 		//? if fabric {
 		return FabricLoader.getInstance().isModLoaded(modId);
-		//?} else {
+		//?} else if neoforge {
 		/*return ModList.get().isLoaded(modId);
+		*///?} else {
+		/*return ModList.isLoaded(modId);
 		*///?}
 	}
 

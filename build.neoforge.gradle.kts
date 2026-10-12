@@ -59,7 +59,7 @@ tasks {
         )
         inputs.properties(props)
         filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
-        exclude("fabric.mod.json", "mbf.accesswidener", "META-INF/mods.toml")
+        exclude("fabric.mod.json", "mbf.accesswidener", "META-INF/mods.toml", "pack.mcmeta")
     }
 
     named("createMinecraftArtifacts") {

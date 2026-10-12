@@ -9,20 +9,19 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.DyeColor;
 
-import java.util.function.UnaryOperator;
-
 public class ModDataComponents {
 
-  public static DataComponentType<Integer> MAX_BANNER_LAYERS;
-  public static DataComponentType<DyeColor> BANNER_BASE_COLOR;
+  // Built before registration because Forge fires the item RegisterEvent first and the banner thread item already needs them
+  public static final DataComponentType<Integer> MAX_BANNER_LAYERS = DataComponentType.<Integer>builder().persistent(ExtraCodecs.intRange(1, 99)).networkSynchronized(ByteBufCodecs.VAR_INT).build();
+  public static final DataComponentType<DyeColor> BANNER_BASE_COLOR = DataComponentType.<DyeColor>builder().persistent(DyeColor.CODEC).networkSynchronized(DyeColor.STREAM_CODEC).build();
 
   public static void init() {
-    MAX_BANNER_LAYERS = register("max_banner_layers", (builder) -> builder.persistent(ExtraCodecs.intRange(1, 99)).networkSynchronized(ByteBufCodecs.VAR_INT));
-    BANNER_BASE_COLOR = register("base_color", (builder) -> builder.persistent(DyeColor.CODEC).networkSynchronized(DyeColor.STREAM_CODEC));
+    register("max_banner_layers", MAX_BANNER_LAYERS);
+    register("base_color", BANNER_BASE_COLOR);
   }
 
-  private static <T> DataComponentType<T> register(String id, UnaryOperator<DataComponentType.Builder<T>> unaryOperator) {
-    return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), unaryOperator.apply(DataComponentType.builder()).build());
+  private static void register(String id, DataComponentType<?> type) {
+    Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MoreBannerFeatures.MOD_ID, id), type);
   }
 
 }

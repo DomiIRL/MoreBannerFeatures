@@ -21,7 +21,7 @@ public class MoreBannerFeaturesNeoForge {
 	public MoreBannerFeaturesNeoForge(IEventBus modBus) {
 		MBFConfigManager.load();
 
-		// Vanilla registries only accept entries while their RegisterEvent runs; NeoForge fires data components before items
+		// Vanilla registries only accept entries while their RegisterEvent runs
 		modBus.addListener(RegisterEvent.class, event -> {
 			if (event.getRegistryKey().equals(Registries.DATA_COMPONENT_TYPE)) {
 				ModDataComponents.init();

@@ -64,7 +64,7 @@ tasks {
         )
         inputs.properties(props)
         filesMatching("fabric.mod.json") { expand(props) }
-        exclude("META-INF/neoforge.mods.toml", "META-INF/mods.toml")
+        exclude("META-INF/neoforge.mods.toml", "META-INF/mods.toml", "pack.mcmeta")
     }
 
     withType<Jar> {

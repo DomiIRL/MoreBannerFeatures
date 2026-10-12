@@ -17,3 +17,8 @@ deps.modmenu = "21.0.0-beta.1"
 [neoforge."26.3"]
 mod.mc_compat = "[26.3, 26.4)"
 deps.neoforge = "26.3.0.76"
+
+[forge."26.3"]
+mod.mc_compat = "[26.3, 26.4)"
+deps.forge = "66.0.10"
+mod.pack_format = "121"
