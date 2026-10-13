@@ -90,13 +90,17 @@ The sources are written for the active node (`stonecutter active` in `stonecutte
 *   Anything that differs between loaders goes through `platform/Platform` or a loader's entrypoint in the `fabric`, `neoforge` and `forge` packages, never inline in feature code.
 *   A class Mojang only renamed or moved is mapped once in the `replacements` block of `stonecutter.gradle.kts`, and the sources keep the newest name.
 
-The oldest version is 1.21.1. Banner rendering comes in three generations, each in `//? if` blocks next to the newest code:
+The oldest version is 1.18.2. Banner rendering comes in three generations, each in `//? if` blocks next to the newest code:
 
 *   From 1.21.9, layers submit to a `SubmitNodeCollector`.
 *   Before 1.21.9, they render into a `MultiBufferSource`. A Stonecutter replacement swaps the type, so only the drawing calls differ.
-*   Before 1.21.2 there are no render states, so the 1.21.1 layers read the entity directly. Banner models only became classes in 1.21.4, so the `legacy` package has stand-ins for older versions.
+*   Before 1.21.2 there are no render states, so the layers read the entity directly. Banner models only became classes in 1.21.4, so the `legacy` package has stand-ins for older versions.
+
+Everything MBF stores on items goes through `utils/BannerItems`: data components from 1.20.5, NBT in vanilla's own layout before that, with `legacy/BannerPatternLayers` standing in for the pattern component.
 
 A mixin whose target class only exists on some versions is added by `MixinPlugin` instead of the mixin JSON, which Stonecutter can't version.
+
+Forge up to 1.20.1 runs on SRG names, so those nodes use `build.legacyforge.gradle.kts` (ModDevGradle's legacy plugin), which reobfuscates the jar and writes the mixin refmap. Forge 1.20.2 to 1.20.4 has no toolchain that runs on this Gradle version, so 1.20.4 ships for Fabric and NeoForge only. NeoForge 1.20.1 loads the Forge jar.
 
 ### Adding the next Minecraft version
 
