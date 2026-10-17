@@ -2,6 +2,7 @@ package dev.svrt.domiirl.mbf.mixin.horse;
 
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
 import dev.svrt.domiirl.mbf.accessor.Bannerable;
+import dev.svrt.domiirl.mbf.accessor.HorseBannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import dev.svrt.domiirl.mbf.gui.BannerSlot;
 //? if <1.21.5 {
@@ -9,7 +10,6 @@ import dev.svrt.domiirl.mbf.gui.BannerSlot;
 *///?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -34,12 +34,16 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
 
 	// TAIL so the banner slot lands after the player inventory
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
+	//? if >=1.21 {
 	private void init(int syncId, Inventory playerInventory, Container inventory, AbstractHorse entity, int j, CallbackInfo ci) {
+	//?} else {
+	/*private void init(int syncId, Inventory playerInventory, Container inventory, AbstractHorse entity, CallbackInfo ci) {
+	*///?}
 		if (entity instanceof Bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {
 			//? if >=1.21.5 {
-			Container container2 = entity.createEquipmentSlotContainer(EquipmentSlot.CHEST);
+			Container container2 = entity.createEquipmentSlotContainer(HorseBannerable.BANNER_SLOT);
 			//?} else {
-			/*Container container2 = new EquipmentSlotContainer(entity, EquipmentSlot.CHEST);
+			/*Container container2 = new EquipmentSlotContainer(entity, HorseBannerable.BANNER_SLOT);
 			*///?}
 			this.addSlot(new BannerSlot(entity, container2, 0, 8, 54, SLOT_ICON));
 		}

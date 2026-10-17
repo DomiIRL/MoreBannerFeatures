@@ -16,6 +16,10 @@ import net.minecraft.world.inventory.AbstractMountInventoryMenu;
 /*import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.world.inventory.HorseInventoryMenu;
 *///?}
+//? if >=1.20 && <1.21.4 {
+/*import net.minecraft.resources.Identifier;
+import org.spongepowered.asm.mixin.Final;
+*///?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,8 +36,12 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 
 	//? if >=26.1 {
 	@Shadow protected abstract void extractSlot(GuiGraphicsExtractor guiGraphics, int i, int j);
-	//?} else if >=1.20 {
+	//?} else if >=1.21.4 {
 	/*@Shadow protected abstract void drawSlot(GuiGraphicsExtractor guiGraphics, int i, int j);
+	*///?} else if >=1.20.2 {
+	/*@Shadow @Final private static Identifier SADDLE_SLOT_SPRITE;
+	*///?} else if >=1.20 {
+	/*@Shadow @Final private static Identifier HORSE_INVENTORY_LOCATION;
 	*///?}
 
 	//? if >=1.21.11 {
@@ -60,8 +68,13 @@ public abstract class AbstractMountInventoryScreenMixin extends AbstractContaine
 
 			//? if >=26.1 {
 			extractSlot(guiGraphics, localI + 7, localJ + 53);
-			//?} else if >=1.20 {
+			//?} else if >=1.21.4 {
 			/*drawSlot(guiGraphics, localI + 7, localJ + 53);
+			*///?} else if >=1.20.2 {
+			/*// The saddle slot is a plain slot frame, drawSlot only arrived in 1.21.4
+			guiGraphics.blitSprite(SADDLE_SLOT_SPRITE, localI + 7, localJ + 53, 18, 18);
+			*///?} else if >=1.20 {
+			/*guiGraphics.blit(HORSE_INVENTORY_LOCATION, localI + 7, localJ + 53, 18, this.imageHeight + 54, 18, 18);
 			*///?} else {
 			/*// The empty frame vanilla draws for the saddle slot, the horse texture is still bound here
 			this.blit(poseStack, localI + 7, localJ + 53, 18, this.imageHeight + 54, 18, 18);

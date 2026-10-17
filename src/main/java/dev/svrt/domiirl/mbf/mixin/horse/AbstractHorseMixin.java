@@ -3,7 +3,6 @@ package dev.svrt.domiirl.mbf.mixin.horse;
 import dev.svrt.domiirl.mbf.accessor.HorseBannerable;
 import dev.svrt.domiirl.mbf.config.MBFOptions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.item.ItemStack;
@@ -20,12 +19,12 @@ public abstract class AbstractHorseMixin extends Animal implements HorseBannerab
 
 	@Override
 	public @NotNull ItemStack mbf$getBannerItem() {
-		return this.getItemBySlot(EquipmentSlot.CHEST);
+		return this.getItemBySlot(BANNER_SLOT);
 	}
 
 	@Override
 	public void mbf$setBannerItem(@NotNull ItemStack stack) {
-		this.setItemSlot(EquipmentSlot.CHEST, stack);
+		this.setItemSlot(BANNER_SLOT, stack);
 	}
 
 	@Override
