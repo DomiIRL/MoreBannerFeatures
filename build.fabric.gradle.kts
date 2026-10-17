@@ -48,6 +48,8 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${prop("deps.modmenu")}") { isTransitive = false }
 }
 
+waveyCapes("modCompileOnly", sc.properties.getOrNull<String>("deps.waveycapes"), sc.properties.getOrNull<String>("deps.transition"))
+
 java {
     withSourcesJar()
     targetCompatibility = requiredJava

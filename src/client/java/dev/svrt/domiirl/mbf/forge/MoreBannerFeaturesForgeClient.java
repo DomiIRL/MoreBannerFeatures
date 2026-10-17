@@ -1,6 +1,9 @@
 //? if forge {
 /*package dev.svrt.domiirl.mbf.forge;
 
+//? if <1.21.11 {
+/^import dev.svrt.domiirl.mbf.compat.WaveyCapesSupport;
+^///?}
 import dev.svrt.domiirl.mbf.screen.MBFOptionsScreen;
 //? if >=1.19 {
 import net.minecraftforge.client.ConfigScreenHandler;
@@ -16,6 +19,9 @@ public final class MoreBannerFeaturesForgeClient {
 	}
 
 	static void init(FMLJavaModLoadingContext context) {
+		//? if <1.21.11 {
+		/^WaveyCapesSupport.register();
+		^///?}
 		//? if >=1.19 {
 		context.getContainer().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
 			() -> new ConfigScreenHandler.ConfigScreenFactory(MBFOptionsScreen::new));

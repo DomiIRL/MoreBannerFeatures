@@ -21,6 +21,9 @@
 		"main": [
 			"dev.svrt.domiirl.mbf.fabric.MoreBannerFeaturesFabric"
 		],
+		"client": [
+			"dev.svrt.domiirl.mbf.fabric.MoreBannerFeaturesFabricClient"
+		],
 		"modmenu": [
 			"dev.svrt.domiirl.mbf.fabric.MoreBannerFeaturesModMenu"
 		]

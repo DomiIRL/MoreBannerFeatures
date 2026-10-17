@@ -44,6 +44,8 @@ neoForge {
     }
 }
 
+waveyCapes("compileOnly", sc.properties.getOrNull<String>("deps.waveycapes"), sc.properties.getOrNull<String>("deps.transition"))
+
 java {
     withSourcesJar()
     targetCompatibility = requiredJava

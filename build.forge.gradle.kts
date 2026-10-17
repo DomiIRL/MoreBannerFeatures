@@ -33,6 +33,8 @@ repositories {
     mavenCentral()
 }
 
+waveyCapes("compileOnly", sc.properties.getOrNull<String>("deps.waveycapes"), sc.properties.getOrNull<String>("deps.transition"))
+
 dependencies {
     implementation(minecraft.dependency("net.minecraftforge:forge:${sc.current.version}-${prop("deps.forge")}"))
 }

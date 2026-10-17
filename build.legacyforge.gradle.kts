@@ -56,6 +56,8 @@ dependencies {
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
+waveyCapes("compileOnly", sc.properties.getOrNull<String>("deps.waveycapes"), sc.properties.getOrNull<String>("deps.transition"))
+
 java {
     withSourcesJar()
     targetCompatibility = requiredJava
