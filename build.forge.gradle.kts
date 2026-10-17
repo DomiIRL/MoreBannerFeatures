@@ -20,6 +20,10 @@ val client: SourceSet by sourceSets.creating
 sourceSets.main {
     java.source(client.java)
     resources.source(client.resources)
+    // Dev runs only find the mod when its classes sit next to its mods.toml, as in Forge's MDK
+    val output = layout.buildDirectory.dir("sourcesSets/main")
+    this.output.setResourcesDir(output)
+    java.destinationDirectory = output
 }
 
 repositories {
