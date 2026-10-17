@@ -80,7 +80,12 @@ record BannerVertexConsumer(VertexConsumer delegate, TextureAtlasSprite sprite, 
 
 	@Override
 	public VertexConsumer uv(float u, float v) {
+		//? if >=1.20.2 {
 		this.delegate.uv(this.sprite.getU(u), this.sprite.getV(v));
+		//?} else {
+		/^// Sprites took uvs in pixels of a 16 wide texture until 1.20.2
+		this.delegate.uv(this.sprite.getU(u * 16.0F), this.sprite.getV(v * 16.0F));
+		^///?}
 		return this;
 	}
 
