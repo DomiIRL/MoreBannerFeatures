@@ -61,6 +61,7 @@ java {
 
 tasks {
     processResources {
+        legacyData { sc.current.parsed < it }
         val props = mapOf(
             "version" to prop("mod.version"),
             "minecraft" to prop("mod.mc_compat"),
