@@ -1,0 +1,67 @@
+# Publishing a GitHub release uploads every node's jar to Modrinth and CurseForge and attaches it to the release.
+# The tag must be "v" + mod.version from stonecutter.properties.toml; "alpha" or "beta" in the version marks the upload.
+
+name: publish
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  nodes:
+    runs-on: ubuntu-24.04
+    outputs:
+      nodes: ${{ steps.list.outputs.nodes }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: check tag against mod.version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python3 - <<'EOF'
+          import os, tomllib
+          version = tomllib.load(open("stonecutter.properties.toml", "rb"))["mod"]["version"]
+          tag = os.environ["TAG"]
+          if tag != "v" + version:
+              raise SystemExit(f"tag {tag} does not match mod.version {version}, expected v{version}")
+          EOF
+      - name: list nodes
+        id: list
+        run: |
+          python3 - >> "$GITHUB_OUTPUT" <<'EOF'
+          import json, re
+          settings = open("settings.gradle.kts").read()
+          nodes = [f"{version}-{loader}"
+                   for version, loaders in re.findall(r'^\s*mc\("([^"]+)",\s*(.+)\)\s*$', settings, re.M)
+                   for loader in re.findall(r'"([^"]+)"', loaders)]
+          assert nodes, "no mc(...) nodes found in settings.gradle.kts"
+          print("nodes=" + json.dumps(nodes))
+          EOF
+
+  publish:
+    needs: nodes
+    runs-on: ubuntu-24.04
+    strategy:
+      # A failed node can be re-run alone; the others are already uploaded
+      fail-fast: false
+      matrix:
+        node: ${{ fromJson(needs.nodes.outputs.nodes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: upload to Modrinth and CurseForge
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          RELEASE_CHANGELOG: ${{ github.event.release.body }}
+        run: ./gradlew ":${{ matrix.node }}:publishMods" ":${{ matrix.node }}:buildAndCollect"
+      - name: attach to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" build/libs/*/MoreBannerFeatures-*.jar --clobber

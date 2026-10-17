@@ -87,3 +87,5 @@ tasks {
         into(rootProject.layout.buildDirectory.dir("libs/${prop("mod.version")}"))
     }
 }
+
+publishToModSites(tasks.jar.flatMap { it.archiveFile }, "neoforge", listOf(sc.current.version), requiredJava, sc.properties.getOrNull<String>("deps.waveycapes") != null)

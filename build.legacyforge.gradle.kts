@@ -97,3 +97,5 @@ tasks {
         into(rootProject.layout.buildDirectory.dir("libs/${prop("mod.version")}"))
     }
 }
+
+publishToModSites(tasks.named<Jar>("reobfJar").flatMap { it.archiveFile }, "forge", listOf(sc.current.version), requiredJava, sc.properties.getOrNull<String>("deps.waveycapes") != null)

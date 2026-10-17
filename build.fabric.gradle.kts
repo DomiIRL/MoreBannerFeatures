@@ -79,3 +79,5 @@ tasks {
         into(rootProject.layout.buildDirectory.dir("libs/${prop("mod.version")}"))
     }
 }
+
+publishToModSites(loomx.modJar.flatMap { it.archiveFile }, "fabric", (sc.properties.raw("mod", "mc_releases") as List<*>).map { it.toString() }, requiredJava, sc.properties.getOrNull<String>("deps.waveycapes") != null)
