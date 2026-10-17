@@ -28,8 +28,10 @@
 
 ## Compatibilities
 
-*   Trinkets / Trinkets Canary
+*   Trinkets / Trinkets Canary / Trinkets Continued / Trinkets Updated
 *   Accessories
+*   Curios (banners go in the back and head slots)
+*   WaveyCapes
 
 ***
 

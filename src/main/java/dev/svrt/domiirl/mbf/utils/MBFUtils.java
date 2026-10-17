@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Optional;
 
 public class MBFUtils {
 
@@ -36,6 +37,16 @@ public class MBFUtils {
 	private static Method getItemMethodAccessories;
 	private static boolean accessoriesReflectionInitialized = false;
 	private static boolean accessoriesReflectionFailed = false;
+
+	// Curios reflection
+	private static Object curiosLookupTarget;
+	private static Method getCuriosInventoryMethod;
+	private static Method resolveLazyOptionalMethod;
+	private static Method getStacksHandlerMethod;
+	private static Method getStacksMethod;
+	private static Method getStackInSlotMethod;
+	private static boolean curiosReflectionInitialized = false;
+	private static boolean curiosReflectionFailed = false;
 
 	private static void initTrinketsReflection() {
 		if (trinketsReflectionInitialized || trinketsReflectionFailed) return;
@@ -75,6 +86,37 @@ public class MBFUtils {
 			accessoriesReflectionInitialized = true;
 		} catch (Exception e) {
 			accessoriesReflectionFailed = true;
+		}
+	}
+
+	private static void initCuriosReflection() {
+		if (curiosReflectionInitialized || curiosReflectionFailed) return;
+		try {
+			Class<?> apiClass = Class.forName("top.theillusivec4.curios.api.CuriosApi");
+			try {
+				getCuriosInventoryMethod = apiClass.getMethod("getCuriosInventory", LivingEntity.class);
+			} catch (NoSuchMethodException e) {
+				// Curios before 1.20 reaches the inventory through its helper
+				curiosLookupTarget = apiClass.getMethod("getCuriosHelper").invoke(null);
+				getCuriosInventoryMethod = Class.forName("top.theillusivec4.curios.api.type.util.ICuriosHelper").getMethod("getCuriosHandler", LivingEntity.class);
+			}
+			// Forge hands out a LazyOptional, NeoForge a plain Optional
+			if (getCuriosInventoryMethod.getReturnType() != Optional.class) {
+				resolveLazyOptionalMethod = getCuriosInventoryMethod.getReturnType().getMethod("resolve");
+			}
+
+			Class<?> handlerClass = Class.forName("top.theillusivec4.curios.api.type.capability.ICuriosItemHandler");
+			getStacksHandlerMethod = handlerClass.getMethod("getStacksHandler", String.class);
+
+			Class<?> stacksHandlerClass = Class.forName("top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler");
+			getStacksMethod = stacksHandlerClass.getMethod("getStacks");
+
+			Class<?> stackHandlerClass = Class.forName("top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler");
+			getStackInSlotMethod = stackHandlerClass.getMethod("getStackInSlot", int.class);
+
+			curiosReflectionInitialized = true;
+		} catch (Exception e) {
+			curiosReflectionFailed = true;
 		}
 	}
 
@@ -163,6 +205,24 @@ public class MBFUtils {
 		return ItemStack.EMPTY;
 	}
 
+	public static ItemStack getCuriosItem(LivingEntity entity, String slotId) {
+		if (!MoreBannerFeatures.isCuriosInstalled()) return ItemStack.EMPTY;
+		initCuriosReflection();
+		if (curiosReflectionInitialized) {
+			try {
+				Object inventory = getCuriosInventoryMethod.invoke(curiosLookupTarget, entity);
+				Optional<?> handler = (Optional<?>) (resolveLazyOptionalMethod == null ? inventory : resolveLazyOptionalMethod.invoke(inventory));
+				if (handler.isEmpty()) return ItemStack.EMPTY;
+				Optional<?> stacksHandler = (Optional<?>) getStacksHandlerMethod.invoke(handler.get(), slotId);
+				if (stacksHandler.isEmpty()) return ItemStack.EMPTY;
+				ItemStack stack = (ItemStack) getStackInSlotMethod.invoke(getStacksMethod.invoke(stacksHandler.get()), 0);
+				return stack == null ? ItemStack.EMPTY : stack;
+			} catch (Exception ignored) {
+			}
+		}
+		return ItemStack.EMPTY;
+	}
+
 	public static ItemStack getCloakItem(LivingEntity entity) {
 		ItemStack trinketCape = getTrinketSlotItem(entity, "chest", "cape");
 		if (!trinketCape.isEmpty()) {
@@ -176,6 +236,11 @@ public class MBFUtils {
 		if (!accessoriesCape.isEmpty()) {
 			return accessoriesCape;
 		}
+		// Curios has no cape slot, capes go on the back
+		ItemStack curiosCape = getCuriosItem(entity, "back");
+		if (!curiosCape.isEmpty()) {
+			return curiosCape;
+		}
 		return entity.getItemBySlot(EquipmentSlot.CHEST);
 	}
 
@@ -188,6 +253,10 @@ public class MBFUtils {
 		ItemStack accessoriesBanner = getAccessoriesItem(entity, "hat");
 		if (!accessoriesBanner.isEmpty()) {
 			return accessoriesBanner;
+		}
+		ItemStack curiosBanner = getCuriosItem(entity, "head");
+		if (!curiosBanner.isEmpty()) {
+			return curiosBanner;
 		}
 		return entity.getItemBySlot(EquipmentSlot.HEAD);
 	}

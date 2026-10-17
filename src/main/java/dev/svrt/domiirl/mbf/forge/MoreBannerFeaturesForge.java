@@ -20,6 +20,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 //?}
 import net.minecraftforge.api.distmarker.Dist;
+//? if <1.20 {
+/^import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+^///?}
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -61,6 +65,10 @@ public class MoreBannerFeaturesForge {
 		context.getModEventBus().addGenericListener(RecipeSerializer.class, (RegistryEvent.Register<RecipeSerializer<?>> event) -> ModRecipeSerializers.init());
 		^///?}
 
+		//? if <1.20 {
+		/^context.getModEventBus().addListener(MoreBannerFeaturesForge::requestCuriosSlots);
+		^///?}
+
 		// Forge has no client-only mod entrypoint; the call is only linked on the client, so the server never loads the screen classes
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			MoreBannerFeaturesForgeClient.init(context);
@@ -83,6 +91,29 @@ public class MoreBannerFeaturesForge {
 		}
 	}
 	//?}
+
+	//? if <1.20 {
+	/^// Curios before 1.20 has no slot datapacks, mods ask for its preset slots over IMC instead
+	private static void requestCuriosSlots(InterModEnqueueEvent event) {
+		if (!MoreBannerFeatures.isCuriosInstalled()) {
+			return;
+		}
+		for (String preset : new String[] {"BACK", "HEAD"}) {
+			InterModComms.sendTo("curios", "register_type", () -> curiosPresetMessage(preset));
+		}
+	}
+
+	// SlotTypePreset.<preset>.getMessageBuilder().build(), without compiling against Curios
+	private static Object curiosPresetMessage(String preset) {
+		try {
+			Class<?> presets = Class.forName("top.theillusivec4.curios.api.SlotTypePreset");
+			Object builder = presets.getMethod("getMessageBuilder").invoke(presets.getField(preset).get(null));
+			return builder.getClass().getMethod("build").invoke(builder);
+		} catch (ReflectiveOperationException e) {
+			throw new IllegalStateException("Curios slot preset " + preset, e);
+		}
+	}
+	^///?}
 
 	//? if >=1.19.3 {
 	private static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event) {

@@ -17,6 +17,7 @@ public class MoreBannerFeatures {
 
 	public static Boolean trinketsInstalled = null;
 	public static Boolean accessoriesInstalled = null;
+	public static Boolean curiosInstalled = null;
 
 	public static boolean isTrinketsInstalled() {
 		if (trinketsInstalled == null) {
@@ -31,6 +32,13 @@ public class MoreBannerFeatures {
 			accessoriesInstalled = Platform.isModLoaded("accessories");
 		}
 		return accessoriesInstalled;
+	}
+
+	public static boolean isCuriosInstalled() {
+		if (curiosInstalled == null) {
+			curiosInstalled = Platform.isModLoaded("curios");
+		}
+		return curiosInstalled;
 	}
 
 
