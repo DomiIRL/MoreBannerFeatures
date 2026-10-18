@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
@@ -28,28 +29,8 @@ import static net.minecraft.world.entity.EntityTypes.*;
 
 public class BannerableEntity {
 
+  // Boats and rafts are matched by class, 1.21.2 gave every wood its own entity type
   public static final List<EntityType<?>> BANNERABLE_ENTITY_TYPES = new ArrayList<>(List.of(
-    //? if >=1.21.2 {
-    ACACIA_BOAT,
-    BIRCH_BOAT,
-    DARK_OAK_BOAT,
-    JUNGLE_BOAT,
-    OAK_BOAT,
-    SPRUCE_BOAT,
-    CHERRY_BOAT,
-    ACACIA_CHEST_BOAT,
-    BIRCH_CHEST_BOAT,
-    DARK_OAK_CHEST_BOAT,
-    JUNGLE_CHEST_BOAT,
-    OAK_CHEST_BOAT,
-    SPRUCE_CHEST_BOAT,
-    CHERRY_CHEST_BOAT,
-    //?} else if >=1.19 {
-    /*BOAT,
-    CHEST_BOAT,
-    *///?} else {
-    /*BOAT,
-    *///?}
     STRIDER,
     HORSE,
     DONKEY,
@@ -70,7 +51,7 @@ public class BannerableEntity {
   ));
 
   public static void handleInteract(Entity entity, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-    if (!(BANNERABLE_ENTITY_TYPES.contains(entity.getType()))) {
+    if (!(entity instanceof AbstractBoat) && !BANNERABLE_ENTITY_TYPES.contains(entity.getType())) {
       return;
     }
 

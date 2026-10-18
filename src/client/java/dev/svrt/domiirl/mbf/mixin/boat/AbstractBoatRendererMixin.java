@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 //?}
 //? if >=1.21.2 {
 import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
+import net.minecraft.client.renderer.entity.RaftRenderer;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 //?} else {
 /*import net.minecraft.client.renderer.entity.BoatRenderer;
@@ -35,6 +36,10 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 /*@Mixin(BoatRenderer.class)
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat> {
 *///?}
+
+	// Along the boat towards its stern; a raft has no hull, so its banner stands further in
+	private static final double BOAT_BANNER_Z = -1.44;
+	private static final double RAFT_BANNER_Z = -0.65;
 
 	protected AbstractBoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
@@ -101,7 +106,14 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 					Poses.rotateDegrees(poseStack, Axis.XP, 180);
 					Poses.rotateDegrees(poseStack, Axis.YP, 90);
 
-					poseStack.translate(-0.5, 0, -1.44);
+					//? if >=1.21.2 {
+					boolean raft = (Object) this instanceof RaftRenderer;
+					//?} else if >=1.20 {
+					/*boolean raft = state.getVariant() == AbstractBoat.Type.BAMBOO;
+					*///?} else {
+					/*boolean raft = false;
+					*///?}
+					poseStack.translate(-0.5, 0, raft ? RAFT_BANNER_Z : BOAT_BANNER_Z);
 
 					RendererUtils.renderBanner(
 						poseStack,
