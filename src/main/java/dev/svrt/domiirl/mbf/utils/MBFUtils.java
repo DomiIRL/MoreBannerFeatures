@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class MBFUtils {
 	private static Method getContainersMethod;
 	private static Class<?> accessoriesContainerClass;
 	private static Method getAccessoriesMethod;
+	private static Method shouldRenderAccessoryMethod;
 	private static boolean accessoriesReflectionInitialized = false;
 	private static boolean accessoriesReflectionFailed = false;
 
@@ -44,6 +46,7 @@ public class MBFUtils {
 	private static Method resolveLazyOptionalMethod;
 	private static Method getStacksHandlerMethod;
 	private static Method getStacksMethod;
+	private static Method getRendersMethod;
 	private static Method getStackInSlotMethod;
 	private static boolean curiosReflectionInitialized = false;
 	private static boolean curiosReflectionFailed = false;
@@ -76,6 +79,11 @@ public class MBFUtils {
 
 			accessoriesContainerClass = Class.forName("io.wispforest.accessories.api.AccessoriesContainer");
 			getAccessoriesMethod = accessoriesContainerClass.getMethod("getAccessories");
+			try {
+				shouldRenderAccessoryMethod = accessoriesContainerClass.getMethod("shouldRender", int.class);
+			} catch (NoSuchMethodException e) {
+				// Older Accessories releases have no per-slot visibility toggle
+			}
 
 			accessoriesReflectionInitialized = true;
 		} catch (Exception e) {
@@ -104,6 +112,7 @@ public class MBFUtils {
 
 			Class<?> stacksHandlerClass = Class.forName("top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler");
 			getStacksMethod = stacksHandlerClass.getMethod("getStacks");
+			getRendersMethod = stacksHandlerClass.getMethod("getRenders");
 
 			Class<?> stackHandlerClass = Class.forName("top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler");
 			getStackInSlotMethod = stackHandlerClass.getMethod("getStackInSlot", int.class);
@@ -186,6 +195,8 @@ public class MBFUtils {
 				if (containers == null || containers.isEmpty()) return ItemStack.EMPTY;
 				Object container = containers.get(slotName);
 				if (container == null) return ItemStack.EMPTY;
+				// The player hid this slot with its visibility toggle
+				if (shouldRenderAccessoryMethod != null && !(boolean) shouldRenderAccessoryMethod.invoke(container, 0)) return ItemStack.EMPTY;
 				Object accessoriesInventory = getAccessoriesMethod.invoke(container);
 				if (accessoriesInventory == null) return ItemStack.EMPTY;
 				ItemStack stack = ((Container) accessoriesInventory).getItem(0);
@@ -206,6 +217,9 @@ public class MBFUtils {
 				if (handler.isEmpty()) return ItemStack.EMPTY;
 				Optional<?> stacksHandler = (Optional<?>) getStacksHandlerMethod.invoke(handler.get(), slotId);
 				if (stacksHandler.isEmpty()) return ItemStack.EMPTY;
+				// The player hid this slot with its visibility toggle
+				List<?> renders = (List<?>) getRendersMethod.invoke(stacksHandler.get());
+				if (!renders.isEmpty() && Boolean.FALSE.equals(renders.get(0))) return ItemStack.EMPTY;
 				ItemStack stack = (ItemStack) getStackInSlotMethod.invoke(getStacksMethod.invoke(stacksHandler.get()), 0);
 				return stack == null ? ItemStack.EMPTY : stack;
 			} catch (Exception ignored) {
