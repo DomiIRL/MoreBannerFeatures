@@ -31,6 +31,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//? if <1.21 {
+/*import dev.svrt.domiirl.mbf.utils.BannerableEntity;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+*///?}
 
 @Mixin(AbstractBoat.class)
 // Boats only became leashable in 1.21
@@ -95,6 +102,14 @@ public abstract class AbstractBoatMixin extends Entity implements BoatBannerable
 	@Inject(method = "addAdditionalSaveData", at = @At(value = "TAIL"))
 	private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
 		BannerSaveData.write(tag, this, mbf$getBannerItem());
+	}
+	*///?}
+
+	//? if <1.21 {
+	/*// Boats only hand interact on to Entity, where EntityMixin places banners, from 1.21
+	@Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+	private void interact(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+		BannerableEntity.handleInteract(this, player, hand, cir);
 	}
 	*///?}
 
