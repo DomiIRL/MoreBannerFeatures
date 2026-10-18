@@ -58,13 +58,9 @@ public final class BannerCapeApi {
 
 		List<Pass> passes = new ArrayList<>();
 
-		// Solid cloth first, the pattern passes write no depth. No cull, a banner has no back side. Not an armor
-		// render type: those sit slightly nearer the camera and the patterns then fail the depth test behind it
-		//? if >=26.1 {
-		passes.add(pass(BannerSprites.cloth(), RenderTypes::entityCutout, -1));
-		//?} else {
-		/*passes.add(pass(BannerSprites.cloth(), RenderTypes::entityCutoutNoCull, -1));
-		*///?}
+		// Every pass shares one render type on the banner atlas, so the layers are drawn in the order they come in.
+		// From 1.21.9 geometry is grouped by render type, and a cloth of its own type could be drawn over the patterns.
+		passes.add(pass(BannerSprites.cloth(), RenderTypes::entityTranslucent, -1));
 
 		passes.add(pass(BannerSprites.patternBase(), RenderTypes::entityTranslucent, tint(dyeColor)));
 		for (BannerPatternLayers.Layer layer : patternLayers.layers()) {
@@ -74,8 +70,10 @@ public final class BannerCapeApi {
 		return passes;
 	}
 
+	// Not spriteId.renderType(): until 26.1 a material keeps the first render type anyone asked it for, which for
+	// the banner sprites is vanilla's solid cloth and outline-free patterns, not the one passed here
 	private static Pass pass(SpriteId spriteId, Function<Identifier, RenderType> renderType, int tint) {
-		return new Pass(spriteId.renderType(renderType), BannerSprites.sprite(spriteId), tint);
+		return new Pass(renderType.apply(spriteId.atlasLocation()), BannerSprites.sprite(spriteId), tint);
 	}
 
 	private static int tint(DyeColor dyeColor) {
