@@ -24,8 +24,8 @@ public abstract class MixinPlugin implements IMixinConfigPlugin {
 			//? if >=1.20 {
 			mixins.add("minecart.MinecartChestMixin");
 			//?}
-			// From 1.21.2 LivingEntityMixin.isEquippableInSlot lets the helmet slot take a banner
-			//? if <1.21.2 {
+			// From 1.21.5 the armor slots ask LivingEntityMixin.isEquippableInSlot, which lets the helmet slot take a banner
+			//? if <1.21.5 {
 			/*mixins.add("player.HelmetSlotMixin");
 			*///?}
 			return mixins;

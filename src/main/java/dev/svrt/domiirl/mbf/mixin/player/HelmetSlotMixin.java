@@ -1,4 +1,4 @@
-//? if <1.21.2 {
+//? if <1.21.5 {
 /*package dev.svrt.domiirl.mbf.mixin.player;
 
 import net.minecraft.world.Container;
@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.Shadow;
 /^import net.minecraft.world.entity.player.Inventory;
 ^///?}
 
-// The player's armor slots ask which slot an item belongs in, and a banner belongs in the chest slot until
-// 1.21.2 lets an item fit several. This lets the helmet slot take a banner as well.
+// Until 1.21.5 the player's armor slots ask which one slot an item belongs in, and for a banner that is the
+// chest. This lets the helmet slot take a banner as well.
 //? if >=1.21 {
 // ArmorSlot is package-private
 @Mixin(targets = "net.minecraft.world.inventory.ArmorSlot")
