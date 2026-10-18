@@ -1,6 +1,7 @@
 package dev.svrt.domiirl.mbf.utils;
 
 import dev.svrt.domiirl.mbf.MoreBannerFeatures;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -9,6 +10,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Optional;
 
+// The slot mods' inventories are all Minecraft Containers. Their items are read through that type, never by
+// reflecting on getItem: Minecraft's method names are obfuscated outside the dev environment.
 public class MBFUtils {
 
 	// Trinkets reflection
@@ -17,14 +20,12 @@ public class MBFUtils {
 	private static Method isPresentMethod;
 	private static Method getMethod;
 	private static Method getInventoryMethod;
-	private static Method getItemMethod;
 	private static boolean trinketsReflectionInitialized = false;
 	private static boolean trinketsReflectionFailed = false;
 
 	// Trinkets Updated reflection
 	private static Method getAttachmentMethod;
 	private static Method getInventoryBySlotIdMethod;
-	private static Method getItemMethodTrinketsUpdated;
 	private static boolean trinketsUpdatedReflectionInitialized = false;
 	private static boolean trinketsUpdatedReflectionFailed = false;
 
@@ -34,7 +35,6 @@ public class MBFUtils {
 	private static Method getContainersMethod;
 	private static Class<?> accessoriesContainerClass;
 	private static Method getAccessoriesMethod;
-	private static Method getItemMethodAccessories;
 	private static boolean accessoriesReflectionInitialized = false;
 	private static boolean accessoriesReflectionFailed = false;
 
@@ -61,9 +61,6 @@ public class MBFUtils {
 			Class<?> trinketComponentClass = Class.forName("dev.emi.trinkets.api.TrinketComponent");
 			getInventoryMethod = trinketComponentClass.getMethod("getInventory");
 
-			Class<?> trinketInventoryClass = Class.forName("dev.emi.trinkets.api.TrinketInventory");
-			getItemMethod = trinketInventoryClass.getMethod("getItem", int.class);
-
 			trinketsReflectionInitialized = true;
 		} catch (Exception e) {
 			trinketsReflectionFailed = true;
@@ -79,9 +76,6 @@ public class MBFUtils {
 
 			accessoriesContainerClass = Class.forName("io.wispforest.accessories.api.AccessoriesContainer");
 			getAccessoriesMethod = accessoriesContainerClass.getMethod("getAccessories");
-
-			Class<?> accessoriesInventoryClass = Class.forName("io.wispforest.accessories.api.AccessoriesInventory");
-			getItemMethodAccessories = accessoriesInventoryClass.getMethod("getItem", int.class);
 
 			accessoriesReflectionInitialized = true;
 		} catch (Exception e) {
@@ -129,9 +123,6 @@ public class MBFUtils {
 			Class<?> attachmentClass = Class.forName("eu.pb4.trinkets.api.TrinketAttachment");
 			getInventoryBySlotIdMethod = attachmentClass.getMethod("getInventory", String.class);
 
-			Class<?> inventoryClass = Class.forName("eu.pb4.trinkets.api.TrinketInventory");
-			getItemMethodTrinketsUpdated = inventoryClass.getMethod("getItem", int.class);
-
 			trinketsUpdatedReflectionInitialized = true;
 		} catch (Exception e) {
 			trinketsUpdatedReflectionFailed = true;
@@ -148,7 +139,7 @@ public class MBFUtils {
 				if (attachment == null) return ItemStack.EMPTY;
 				Object inventory = getInventoryBySlotIdMethod.invoke(attachment, slotId);
 				if (inventory == null) return ItemStack.EMPTY;
-				ItemStack stack = (ItemStack) getItemMethodTrinketsUpdated.invoke(inventory, 0);
+				ItemStack stack = ((Container) inventory).getItem(0);
 				return stack == null ? ItemStack.EMPTY : stack;
 			} catch (Exception ignored) {
 			}
@@ -170,7 +161,7 @@ public class MBFUtils {
 					if (slotMap != null) {
 						Object trinketInventory = ((Map<?, ?>) slotMap).get(slotName);
 						if (trinketInventory != null) {
-							ItemStack item = (ItemStack) getItemMethod.invoke(trinketInventory, 0);
+							ItemStack item = ((Container) trinketInventory).getItem(0);
 							if (!item.isEmpty()) {
 								return item;
 							}
@@ -197,7 +188,7 @@ public class MBFUtils {
 				if (container == null) return ItemStack.EMPTY;
 				Object accessoriesInventory = getAccessoriesMethod.invoke(container);
 				if (accessoriesInventory == null) return ItemStack.EMPTY;
-				ItemStack stack = (ItemStack) getItemMethodAccessories.invoke(accessoriesInventory, 0);
+				ItemStack stack = ((Container) accessoriesInventory).getItem(0);
 				return stack == null ? ItemStack.EMPTY : stack;
 			} catch (Exception ignored) {
 			}
