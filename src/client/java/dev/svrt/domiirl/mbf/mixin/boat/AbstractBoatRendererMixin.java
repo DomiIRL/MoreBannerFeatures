@@ -24,9 +24,18 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 //? if >=1.21.2 {
 import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.RaftRenderer;
+import dev.svrt.domiirl.mbf.accessor.BoatChestRenderState;
+//? if >=1.21.11 {
+import net.minecraft.world.entity.vehicle.boat.AbstractChestBoat;
+//?} else {
+/*import net.minecraft.world.entity.vehicle.AbstractChestBoat;
+*///?}
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 //?} else {
 /*import net.minecraft.client.renderer.entity.BoatRenderer;
+//? if >=1.20 {
+/^import net.minecraft.world.entity.vehicle.ChestBoat;
+^///?}
 *///?}
 
 //? if >=1.21.2 {
@@ -37,9 +46,11 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractBoat> {
 *///?}
 
-	// Along the boat towards its stern; a raft has no hull, so its banner stands further in
+	// Along the boat towards its stern. A raft has no hull, so its banner stands a little further in, and on a
+	// chest raft the chest takes the stern, so the banner stands in front of it as on a chest boat
 	private static final double BOAT_BANNER_Z = -1.44;
-	private static final double RAFT_BANNER_Z = -0.65;
+	private static final double RAFT_BANNER_Z = -1.3;
+	private static final double CHEST_RAFT_BANNER_Z = -0.65;
 
 	protected AbstractBoatRendererMixin(EntityRendererProvider.Context context) {
 		super(context);
@@ -54,6 +65,7 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 		if (state instanceof Bannerable bannerRenderState && boat instanceof Bannerable bannerable) {
 			bannerRenderState.mbf$setBannerItem(bannerable.mbf$getBannerItem());
 		}
+		((BoatChestRenderState) state).mbf$setHasChest(boat instanceof AbstractChestBoat);
 	}
 	//?}
 
@@ -108,12 +120,15 @@ public abstract class AbstractBoatRendererMixin extends EntityRenderer<AbstractB
 
 					//? if >=1.21.2 {
 					boolean raft = (Object) this instanceof RaftRenderer;
+					boolean chest = ((BoatChestRenderState) state).mbf$hasChest();
 					//?} else if >=1.20 {
 					/*boolean raft = state.getVariant() == AbstractBoat.Type.BAMBOO;
+					boolean chest = state instanceof ChestBoat;
 					*///?} else {
 					/*boolean raft = false;
+					boolean chest = false;
 					*///?}
-					poseStack.translate(-0.5, 0, raft ? RAFT_BANNER_Z : BOAT_BANNER_Z);
+					poseStack.translate(-0.5, 0, !raft ? BOAT_BANNER_Z : chest ? CHEST_RAFT_BANNER_Z : RAFT_BANNER_Z);
 
 					RendererUtils.renderBanner(
 						poseStack,
