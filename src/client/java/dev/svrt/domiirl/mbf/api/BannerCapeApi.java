@@ -58,11 +58,12 @@ public final class BannerCapeApi {
 
 		List<Pass> passes = new ArrayList<>();
 
-		// Solid cloth first, the pattern passes write no depth. No cull, a banner has no back side
+		// Solid cloth first, the pattern passes write no depth. No cull, a banner has no back side. Not an armor
+		// render type: those sit slightly nearer the camera and the patterns then fail the depth test behind it
 		//? if >=26.1 {
 		passes.add(pass(BannerSprites.cloth(), RenderTypes::entityCutout, -1));
 		//?} else {
-		/*passes.add(pass(BannerSprites.cloth(), RenderTypes::armorCutoutNoCull, -1));
+		/*passes.add(pass(BannerSprites.cloth(), RenderTypes::entityCutoutNoCull, -1));
 		*///?}
 
 		passes.add(pass(BannerSprites.patternBase(), RenderTypes::entityTranslucent, tint(dyeColor)));
