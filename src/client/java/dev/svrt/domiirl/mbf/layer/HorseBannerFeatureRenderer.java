@@ -24,14 +24,20 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 *///?}
 
 	private final SideBannerRenderer bannerRenderer;
+	//? if <1.21.2 {
+	/*private final float rendererScale;
+	*///?}
 
 	//? if >=1.21.2 {
 	public HorseBannerFeatureRenderer(RenderLayerParent<EquineRenderState, HorseModel> renderLayerParent, boolean undead) {
 	//?} else {
-	/*public HorseBannerFeatureRenderer(RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>> renderLayerParent, boolean undead) {
+	/*public HorseBannerFeatureRenderer(RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>> renderLayerParent, boolean undead, float rendererScale) {
 	*///?}
 		super(renderLayerParent);
 		this.bannerRenderer = new SideBannerRenderer(new EquineBannerPositionProvider(undead));
+		//? if <1.21.2 {
+		/*this.rendererScale = rendererScale;
+		*///?}
 	}
 
 	@Override
@@ -44,6 +50,14 @@ public class HorseBannerFeatureRenderer extends RenderLayer<EquineRenderState, H
 	*///?}
 		if (entityRenderState instanceof Bannerable bannerable && bannerable.mbf$isEnabled()) {
 			poseStack.pushPose();
+
+			//? if <1.21.2 {
+			/*// The renderer scales the whole pose until 1.21.2, which scales the model mesh instead.
+			// The banner offsets are set for the unscaled pose, so undo it around the feet like the renderer applied it
+			poseStack.translate(0.0F, 1.501F, 0.0F);
+			poseStack.scale(1.0F / this.rendererScale, 1.0F / this.rendererScale, 1.0F / this.rendererScale);
+			poseStack.translate(0.0F, -1.501F, 0.0F);
+			*///?}
 
 			// Apply stand animation rotation
 			if (standAnimation > 0) {

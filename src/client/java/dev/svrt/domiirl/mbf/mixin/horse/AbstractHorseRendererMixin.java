@@ -20,6 +20,8 @@ import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
 //?} else {
 /*import net.minecraft.client.renderer.entity.MobRenderer;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Shadow;
 *///?}
 
 @Mixin(AbstractHorseRenderer.class)
@@ -44,13 +46,15 @@ public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, S exte
 //?} else {
 /*public abstract class AbstractHorseRendererMixin<T extends AbstractHorse, M extends HorseModel<T>> extends MobRenderer<T, M> {
 
+	@Shadow @Final private float scale;
+
 	public AbstractHorseRendererMixin(Context context, M model, float shadowRadius) {
 		super(context, model, shadowRadius);
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, HorseModel model, float shadowRadius, CallbackInfo ci) {
-		addLayer((RenderLayer<T, M>) (Object) new HorseBannerFeatureRenderer((RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>>) (Object) this, ((Object) this) instanceof UndeadHorseRenderer));
+		addLayer((RenderLayer<T, M>) (Object) new HorseBannerFeatureRenderer((RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>>) (Object) this, ((Object) this) instanceof UndeadHorseRenderer, this.scale));
 	}
 *///?}
 
