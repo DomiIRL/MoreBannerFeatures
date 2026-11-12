@@ -1,14 +1,24 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
+# Builds every node on each push to a branch and on pull requests, one job per loader.
+# Each job configures only its own nodes; configuring all of them makes ForgeGradle set up every Forge version.
 
 name: build
-on: [pull_request, push]
+on:
+  pull_request:
+  push:
+    branches: ['**']
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        loader: [fabric, neoforge, forge]
+    name: build ${{ matrix.loader }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
@@ -19,12 +29,13 @@ jobs:
         with:
           java-version: '25'
           distribution: 'microsoft'
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
+      - uses: gradle/actions/setup-gradle@v4
       - name: build
-        run: ./gradlew build
+        run: |
+          tasks=$(for n in $(python3 .github/nodes.py ${{ matrix.loader }}); do echo ":$n:build :$n:buildAndCollect"; done)
+          ./gradlew --configure-on-demand --no-configuration-cache $tasks
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
+          name: Artifacts-${{ matrix.loader }}
           path: build/libs/

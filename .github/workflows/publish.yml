@@ -29,16 +29,7 @@ jobs:
           EOF
       - name: list nodes
         id: list
-        run: |
-          python3 - >> "$GITHUB_OUTPUT" <<'EOF'
-          import json, re
-          settings = open("settings.gradle.kts").read()
-          nodes = [f"{version}-{loader}"
-                   for version, loaders in re.findall(r'^\s*mc\("([^"]+)",\s*(.+)\)\s*$', settings, re.M)
-                   for loader in re.findall(r'"([^"]+)"', loaders)]
-          assert nodes, "no mc(...) nodes found in settings.gradle.kts"
-          print("nodes=" + json.dumps(nodes))
-          EOF
+        run: echo "nodes=$(python3 .github/nodes.py)" >> "$GITHUB_OUTPUT"
 
   publish:
     needs: nodes
@@ -50,6 +41,9 @@ jobs:
         node: ${{ fromJson(needs.nodes.outputs.nodes) }}
         platform: [Modrinth, Curseforge]
     name: ${{ matrix.node }} to ${{ matrix.platform }}
+    env:
+      # Only this node is configured; configuring all of them sets up every Forge version and one flaky one fails the job
+      GRADLE_ARGS: --configure-on-demand --no-configuration-cache
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -58,7 +52,7 @@ jobs:
           distribution: 'microsoft'
       - uses: gradle/actions/setup-gradle@v4
       - name: build
-        run: ./gradlew ":${{ matrix.node }}:buildAndCollect"
+        run: ./gradlew $GRADLE_ARGS ":${{ matrix.node }}:buildAndCollect"
       - name: attach to the GitHub release
         if: matrix.platform == 'Modrinth'
         env:
@@ -69,4 +63,4 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           RELEASE_CHANGELOG: ${{ github.event.release.body }}
-        run: ./gradlew ":${{ matrix.node }}:publish${{ matrix.platform }}"
+        run: ./gradlew $GRADLE_ARGS ":${{ matrix.node }}:publish${{ matrix.platform }}"
