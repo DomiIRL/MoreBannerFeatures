@@ -1,6 +1,7 @@
 //? if neoforge {
 /*package dev.svrt.domiirl.mbf.neoforge;
 
+import dev.svrt.domiirl.mbf.compat.AccessoriesSupport;
 import dev.svrt.domiirl.mbf.compat.WaveyCapesSupport;
 import dev.svrt.domiirl.mbf.screen.MBFOptionsScreen;
 //? if >=1.20.5 {
@@ -21,6 +22,7 @@ public class MoreBannerFeaturesNeoForgeClient {
 	public MoreBannerFeaturesNeoForgeClient(ModContainer container) {
 		container.registerExtensionPoint(IConfigScreenFactory.class, (modContainer, parent) -> new MBFOptionsScreen(parent));
 		WaveyCapesSupport.register();
+		AccessoriesSupport.register();
 	}
 
 }
@@ -35,6 +37,7 @@ public final class MoreBannerFeaturesNeoForgeClient {
 		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
 			() -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, parent) -> new MBFOptionsScreen(parent)));
 		WaveyCapesSupport.register();
+		AccessoriesSupport.register();
 	}
 
 }
