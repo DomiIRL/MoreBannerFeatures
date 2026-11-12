@@ -1,24 +1,36 @@
 # Publishing a GitHub release uploads every node's jar to Modrinth and CurseForge and attaches it to the release.
 # The tag must be "v" + mod.version from stonecutter.properties.toml; "alpha" or "beta" in the version marks the upload.
+# Run manually with a tag and a list of node:platform pairs to upload only those, e.g. after a failed job.
 
 name: publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: release tag to build and upload, e.g. v2.4.1
+        required: true
+      only:
+        description: space-separated node:platform pairs, e.g. "1.21.5-fabric:Modrinth 1.21.8-fabric:Curseforge"
+        required: true
 
 permissions:
   contents: write
+
+env:
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
 jobs:
   nodes:
     runs-on: ubuntu-24.04
     outputs:
-      nodes: ${{ steps.list.outputs.nodes }}
+      jobs: ${{ steps.list.outputs.jobs }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
       - name: check tag against mod.version
-        env:
-          TAG: ${{ github.event.release.tag_name }}
         run: |
           python3 - <<'EOF'
           import os, tomllib
@@ -27,9 +39,20 @@ jobs:
           if tag != "v" + version:
               raise SystemExit(f"tag {tag} does not match mod.version {version}, expected v{version}")
           EOF
-      - name: list nodes
+      - name: list jobs
         id: list
-        run: echo "nodes=$(python3 .github/nodes.py)" >> "$GITHUB_OUTPUT"
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          python3 - >> "$GITHUB_OUTPUT" <<'EOF'
+          import json, os, subprocess
+          if os.environ["ONLY"]:
+              pairs = [p.split(":") for p in os.environ["ONLY"].split()]
+          else:
+              nodes = json.loads(subprocess.check_output(["python3", ".github/nodes.py"]))
+              pairs = [(n, p) for n in nodes for p in ("Modrinth", "Curseforge")]
+          print("jobs=" + json.dumps([{"node": n, "platform": p} for n, p in pairs]))
+          EOF
 
   publish:
     needs: nodes
@@ -38,14 +61,16 @@ jobs:
       # One upload per job, as its last step: "Re-run failed jobs" then never uploads a file twice
       fail-fast: false
       matrix:
-        node: ${{ fromJson(needs.nodes.outputs.nodes) }}
-        platform: [Modrinth, Curseforge]
+        include: ${{ fromJson(needs.nodes.outputs.jobs) }}
     name: ${{ matrix.node }} to ${{ matrix.platform }}
     env:
       # Only this node is configured; configuring all of them sets up every Forge version and one flaky one fails the job
       GRADLE_ARGS: --configure-on-demand --no-configuration-cache
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
       - uses: actions/setup-java@v4
         with:
           java-version: '25'
@@ -55,12 +80,11 @@ jobs:
         run: ./gradlew $GRADLE_ARGS ":${{ matrix.node }}:buildAndCollect"
       - name: attach to the GitHub release
         if: matrix.platform == 'Modrinth'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" build/libs/*/MoreBannerFeatures-*.jar --clobber
+        run: gh release upload "$TAG" build/libs/*/MoreBannerFeatures-*.jar --clobber
       - name: upload
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-          RELEASE_CHANGELOG: ${{ github.event.release.body }}
-        run: ./gradlew $GRADLE_ARGS ":${{ matrix.node }}:publish${{ matrix.platform }}"
+        run: |
+          export RELEASE_CHANGELOG="$(gh release view "$TAG" --json body -q .body)"
+          ./gradlew $GRADLE_ARGS ":${{ matrix.node }}:publish${{ matrix.platform }}"
